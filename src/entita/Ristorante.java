@@ -55,14 +55,9 @@ public class Ristorante {
         try (Scanner leggiRiga = new Scanner(riga)) {
             leggiRiga.useDelimiter(",");
             while (leggiRiga.hasNext()) {
-                if (leggiRiga.next().startsWith("\"") && leggiRiga.next().contains(",")) {
-                    while(leggiRiga.has)
-                    rigaSpezzata.add()
-                } else {
                     rigaSpezzata.add(leggiRiga.next());
                 }
             }
-        }
         return rigaSpezzata;
     }
 }
