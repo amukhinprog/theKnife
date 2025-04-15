@@ -10,5 +10,5 @@ package entita;
  * @author armuh
  */
 public class Gestore extends Utente{
-    
+    int a;
 }
