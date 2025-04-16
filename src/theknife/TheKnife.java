@@ -6,7 +6,7 @@ package theknife;
  */
 import entita.Ristorante;
 import java.io.FileNotFoundException;
-
+import gestioneFile.FileRistorante;
 /**
  *
  * @author armuh
@@ -18,12 +18,9 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Ristorante r = new Ristorante();
-        try {
-            r.aggiuntaDeiCampi();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        FileRistorante r = new FileRistorante();
+            r.scritturaSuFile();
+        
         System.out.println("Benvenuto su The Knife");
     }
 
