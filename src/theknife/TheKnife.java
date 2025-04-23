@@ -19,7 +19,7 @@ public class TheKnife {
     public static void main(String[] args) {
         // TODO code application logic here
         FileRistorante r = new FileRistorante();
-            r.scritturaSuFile();
+        r.scritturaSuFile();
         
         System.out.println("Benvenuto su The Knife");
     }
