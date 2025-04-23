@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class FileRistorante {
 
-    private List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
+    private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
 
         int posizioneCampoPrezzo = 3;
         int posizioneCampoDelivery = 8;
@@ -51,7 +51,7 @@ public class FileRistorante {
         return frasi;
     }
 
-    public List<List<String>> letturaCsv() throws FileNotFoundException {
+    public static List<List<String>> letturaCsv() throws FileNotFoundException {
         List<List<String>> frasi = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File("..\\theKnife\\data\\michelin_my_maps.csv"))) {
             while (scanner.hasNext()) {
@@ -59,11 +59,11 @@ public class FileRistorante {
 //                System.out.println(frasi.getLast());
             }
         }
-        frasi = aggiungiEliminaCampi(frasi);
+//        frasi = aggiungiEliminaCampi(frasi);
         return frasi;
     }
 
-    protected List<String> leggiRiga(String riga) {
+    protected static List<String> leggiRiga(String riga) {
         List<String> rigaSpezzata = new ArrayList<>();
         String campo;
         String parole;
@@ -83,13 +83,16 @@ public class FileRistorante {
         return rigaSpezzata;
     }
 
-    public void scritturaSuFile() {
+    public static void scritturaSuFile() {
         File file = new File("..\\theKnife\\data\\michelin_my_maps2.csv");
-        List<List<String>> frasi;
+        List<List<String>> frasi = new ArrayList<>();
         try {
             frasi = letturaCsv();
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("..\\theKnife\\data\\michelin_my_maps2.csv"))) {
-            for(List<String> riga : frasi){
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("..\\theKnife\\data\\michelin_my_maps2.csv"))) {
+            for (List<String> riga : frasi) {
                 String linea = String.join(",", riga);
                 writer.write(linea);
                 writer.newLine();
@@ -97,9 +100,5 @@ public class FileRistorante {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
     }
 }

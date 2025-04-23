@@ -1,7 +1,3 @@
-creare il file usando le tecnologie nuove per il ristorante nome, descrz. ...
-
-altro??????
-m
-
-prima di operare sulla classe gestore/utente, realizzare un file csv con i campi suggeriti dalla prof sulle  slide.
-Realizzarlo con chatgpt...
+23/04
+Niko: crea Utenti e il suo database
+Artur: crea Ristoranti e il suo database
