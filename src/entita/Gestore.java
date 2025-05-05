@@ -1,7 +1,6 @@
 package entita;
 import java.time.LocalDate;
-
-
+import java.util.*;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -27,12 +26,11 @@ public class Gestore extends Utente{
      this.cognome=cognome;
      this.username=username;
      this.password=password;
-     this.data=dataDiNascita;
-     this.luogodimicilio=luogodomicilio;
+     this.dataDiNascita=data;
+     this.luogodomicilio=luogodomicilio;
  }  
     void aggiungiRistorante(Ristorante r) {
         ristoranti.add(r);
     }
 }
  
-}

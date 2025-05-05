@@ -30,6 +30,7 @@ public class Ristorante {
 
     private static List<List<String>> cercaRistorantePerLocazione() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Inserire il nome della citta': ");
         String locazione = scanner.next();
         List<List<String>> ristoranti = new ArrayList<>();
         int posizioneLocazioneInCsv = 2;

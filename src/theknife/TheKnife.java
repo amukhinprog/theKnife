@@ -30,7 +30,7 @@ public class TheKnife {
 //            Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        System.out.println(lista.getLast());
-        System.out.println();
+        System.out.println("Inserire numero (1) per ricerca ristoranti per nome:");
         lista = Ristorante.cercaRistorante(scanner.nextInt());
         System.out.println(lista);
         System.out.println("Benvenuto su The Knife");
