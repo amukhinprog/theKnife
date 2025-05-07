@@ -18,12 +18,22 @@ public class Ristorante {
     public Ristorante() {
     }
 
-    public static List<List<String>> cercaRistorante(int a) {
-        switch (a) {
+    public static void cercaRistorante() {
+        int scelta = -1 ;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. Cerca ristorante per locazione");
+        try {
+            scelta = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.out.println(e.getMessage());
+        }
+        switch (scelta) {
             case 1:
                 cercaRistorantePerLocazione();
+                break;
+            default:System.out.println("Input non valido, riprovare");
+            break;
         }
-        return new ArrayList<>();
     }
 
     private static void cercaRistorantePerLocazione() {

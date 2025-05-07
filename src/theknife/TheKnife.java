@@ -22,9 +22,7 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Benvenuto su The Knife");
-
-
+        GestioneMenu menu = new GestioneMenu();
 //        List<String> lista = new ArrayList<>();
 //        lista.add("marco");
 //        lista.add("gamba");
@@ -40,8 +38,6 @@ public class TheKnife {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Inserire numero (1) per ricerca ristoranti per nome:");
-        Ristorante.cercaRistorante(scanner.nextInt());
     }
 
 }
