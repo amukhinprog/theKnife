@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -42,7 +41,8 @@ public class Utente {
 
     public void registrazione() {
         Scanner scanner = new Scanner(System.in);
-
+        String dataProvvisoria;
+        
         System.out.println("Nome: ");
         setNome(scanner.next());
 
@@ -55,9 +55,9 @@ public class Utente {
         System.out.println("Password: ");
         this.password = scanner.next();
 
-        System.out.println("Data di nascita: ");
-        //sistemare input per data
-//        this.dataNascita = new LocalDate(1990, 12, 30);
+        System.out.println("Data di nascita (YYYY-MM-DD): ");
+        dataProvvisoria = scanner.next();
+        this.dataNascita = LocalDate.parse(dataProvvisoria);
         
         System.out.println("Domicilio: ");
         this.luogoDomicilio = scanner.next();
@@ -66,12 +66,21 @@ public class Utente {
         this.ruolo = scanner.next();
         
         /*Scrivere il nuovo utente in file csv usando gli opportuni metodi*/
-//        Utente utente;
-//        if(this.ruolo.compareTo("gestore") == 0){
-//            utente = Gestore(this.nome, this.cognome, this.username, this.password, this.dataNascita, this.luogoDomicilio, this.ruolo);
-//        }else if(this.ruolo.compareTo("cliente") == 0){
-//            utente = Cliente(this.nome, this.cognome, this.username, this.password, this.dataNascita, this.luogoDomicilio, this.ruolo);
-//        }
+        Utente utente;
+        if(this.ruolo.compareTo("gestore") == 0){
+            utente = new Gestore(this.nome, this.cognome, this.username, this.password, this.dataNascita, this.luogoDomicilio, this.ruolo);
+        }else if(this.ruolo.compareTo("cliente") == 0){
+            utente = new Cliente(this.nome, this.cognome, this.username, this.password, this.dataNascita, this.luogoDomicilio, this.ruolo);
+        }
+        List<String> utenteStringa = new ArrayList<>();
+        utenteStringa.add(getNome());
+        utenteStringa.add(getCognome());
+        utenteStringa.add(getUsername());
+        utenteStringa.add(getPassword());
+        utenteStringa.add(getDataNascita().toString());
+        utenteStringa.add(getLuogodomicilio());
+        utenteStringa.add(getRuolo());
+        FileUtenti.scritturaSuFile(FileUtenti.getPercorsoFile(), utenteStringa);
     }
 
     public static Utente login() {

@@ -4,10 +4,3 @@ Artur: crea Ristoranti e il suo database
 07/05/25
 file utente e file ristorante esistenti
 scrittura su file (semplice) fatta per ristorante e utente (da riguardare)!!!
-realizzare login o entrata come guest.
-
-
-Creare oggetto Utente(Cliente o Gestore) alla fine di registrazione
-Creare oggetto Utente(Cliente o Gestore) alla fine di login successo
-
-Modificare il file Utente.csv di modo che le date degli utenti siano corrispondenti al tipo LocalDate
