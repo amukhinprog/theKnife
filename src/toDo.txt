@@ -1,3 +1,7 @@
 23/04
 Niko: crea Utenti e il suo database
 Artur: crea Ristoranti e il suo database
+07/05/25
+file utente e file ristorante esistenti
+scrittura su file (semplice) fatta per ristorante e utente (da riguardare)!!!
+realizzare login o entrata come guest.

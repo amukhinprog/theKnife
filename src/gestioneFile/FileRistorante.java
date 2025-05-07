@@ -4,22 +4,16 @@
  */
 package gestioneFile;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author armuh
  */
-public class FileRistorante {
+public class FileRistorante extends GestioneFile {
+
+    private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
 
     private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
 
@@ -51,54 +45,12 @@ public class FileRistorante {
         return frasi;
     }
 
-    public static List<List<String>> letturaCsv() throws FileNotFoundException {
-        List<List<String>> frasi = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File("..\\theKnife\\data\\michelin_my_maps.csv"))) {
-            while (scanner.hasNext()) {
-                frasi.add(leggiRiga(scanner.nextLine()));
-//                System.out.println(frasi.getLast());
-            }
-        }
-//        frasi = aggiungiEliminaCampi(frasi);
-        return frasi;
+    public static String getPercorsoFile() {
+        return percorsoFile;
     }
 
-    protected static List<String> leggiRiga(String riga) {
-        List<String> rigaSpezzata = new ArrayList<>();
-        String campo;
-        String parole;
-        try (Scanner leggiRiga = new Scanner(riga)) {
-            leggiRiga.useDelimiter(",");
-            while (leggiRiga.hasNext()) {
-                campo = leggiRiga.next();
-                if (campo.startsWith("\"") && !campo.endsWith("\"")) {
-                    do {
-                        parole = leggiRiga.next();
-                        campo = campo + "," + parole;
-                    } while (!parole.endsWith("\""));
-                }
-                rigaSpezzata.add(campo);
-            }
-        }
-        return rigaSpezzata;
+    private void setPercorsoFile(String percorsoFile) {
+        this.percorsoFile = percorsoFile;
     }
 
-    public static void scritturaSuFile() {
-        File file = new File("..\\theKnife\\data\\michelin_my_maps2.csv");
-        List<List<String>> frasi = new ArrayList<>();
-        try {
-            frasi = letturaCsv();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("..\\theKnife\\data\\michelin_my_maps2.csv"))) {
-            for (List<String> riga : frasi) {
-                String linea = String.join(",", riga);
-                writer.write(linea);
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 }

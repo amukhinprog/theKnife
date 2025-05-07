@@ -5,6 +5,7 @@ package theknife;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 import entita.Ristorante;
+import gestioneFile.*;
 import java.io.FileNotFoundException;
 import gestioneFile.FileRistorante;
 import java.util.*;
@@ -21,19 +22,26 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        FileRistorante.scritturaSuFile();
-        Scanner scanner = new Scanner(System.in);
-        List<List<String>> lista = new ArrayList<>();
-//        try {
-//            lista = FileRistorante.letturaCsv();
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println(lista.getLast());
-        System.out.println("Inserire numero (1) per ricerca ristoranti per nome:");
-        lista = Ristorante.cercaRistorante(scanner.nextInt());
-        System.out.println(lista);
         System.out.println("Benvenuto su The Knife");
+
+
+//        List<String> lista = new ArrayList<>();
+//        lista.add("marco");
+//        lista.add("gamba");
+//        lista.add("mgamba");
+//        lista.add("pippo1");
+//        lista.add("11/5/1995");
+//        lista.add("Dongo");
+//        lista.add("gestore");
+//        FileUtenti.scritturaSuFile(FileUtenti.getPercorsoFile(), lista);
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println(FileUtenti.letturaCsv(FileUtenti.getPercorsoFile()));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Inserire numero (1) per ricerca ristoranti per nome:");
+        Ristorante.cercaRistorante(scanner.nextInt());
     }
 
 }

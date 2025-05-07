@@ -8,6 +8,15 @@ package gestioneFile;
  *
  * @author armuh
  */
-public class FileUtenti {
+public class FileUtenti extends GestioneFile{
+    private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
+
+    public static String getPercorsoFile() {
+        return percorsoFile;
+    }
+
+    private static void setPercorsoFile(String percorsoFile) {
+        FileUtenti.percorsoFile = percorsoFile;
+    }
     
 }
