@@ -20,7 +20,7 @@ public class Gestore extends Utente{
 
    
     
-    void aggiungiRistorante(Ristorante r) {
+    public void aggiungiRistorante(Ristorante r) {
         ristoranti.add(r);
     }
 }

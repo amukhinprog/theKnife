@@ -8,6 +8,7 @@ import entita.Ristorante;
 import entita.Utente;
 import java.util.Scanner;
 import entita.*;
+import gestioneFile.fileGestoreRistorante;
 
 /**
  *
@@ -57,8 +58,10 @@ public class GestioneMenu {
     public void benvenutoUtente(Utente utente) {/*controllo oggetto creato(in reg. o login) se istanza di gestore o cliente*/
         if (utente instanceof Gestore) {
             System.out.println("Benvenuto sig. " + utente.getCognome());
+            benvenutoGestore(utente);
         } else {
             System.out.println("Benvenuto " + utente.getNome());
+            benvenutoCliente(utente);
         }
     }
 
@@ -76,5 +79,29 @@ public class GestioneMenu {
                     break;
             }
         } while (scelta != 0);
+    }
+
+    public void benvenutoGestore(Utente utente) {
+        int scelta;
+        String nomeRistorante = "";
+        Scanner scanner = new Scanner(System.in);
+        do {
+            System.out.println("1. aggiungi ristorante");
+            System.out.println("0. Esci");
+            scelta = scanner.nextInt();
+            switch (scelta) {
+                case 1:
+                    fileGestoreRistorante.associaGestore(utente.getUsername(), nomeRistorante);
+                    break;
+                default:
+                    System.out.println("inserisci il numero corretto");
+                    break;
+            }
+        } while (scelta != 0);
+    }
+    
+    public void benvenutoCliente(Utente utente){
+        
+       
     }
 }

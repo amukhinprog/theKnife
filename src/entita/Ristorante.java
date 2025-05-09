@@ -17,7 +17,7 @@ public class Ristorante {
 
     public Ristorante() {
     }
-
+   
     public static void cercaRistorante() {
         int scelta = -1 ;
         Scanner scanner = new Scanner(System.in);
