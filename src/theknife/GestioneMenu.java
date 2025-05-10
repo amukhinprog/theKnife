@@ -33,14 +33,13 @@ public class GestioneMenu {
             Utente u;
             switch (scelta) {
                 case 1:
-                    u = new Utente();
-                    u.registrazione();
+                    u = Utente.registrazione();
                     benvenutoUtente(u);
                     break;
                 case 2:
-                    Utente utente = Utente.login();
-                    if (utente != null) {
-                        benvenutoUtente(utente);
+                    u = Utente.login();
+                    if (u != null) {
+                        benvenutoUtente(u);
                     }
                     break;
                 case 3:
@@ -99,9 +98,8 @@ public class GestioneMenu {
             }
         } while (scelta != 0);
     }
-    
-    public void benvenutoCliente(Utente utente){
-        
-       
+
+    public void benvenutoCliente(Utente utente) {
+
     }
 }
