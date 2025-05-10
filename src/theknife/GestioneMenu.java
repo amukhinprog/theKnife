@@ -8,7 +8,7 @@ import entita.Ristorante;
 import entita.Utente;
 import java.util.Scanner;
 import entita.*;
-import gestioneFile.fileGestoreRistorante;
+import gestioneFile.FileGestoreRistorante;
 
 /**
  *
@@ -91,7 +91,7 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:
-                    fileGestoreRistorante.associaGestore(utente.getUsername(), nomeRistorante);
+                    FileGestoreRistorante.associaGestore(utente.getUsername(), nomeRistorante);
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");
