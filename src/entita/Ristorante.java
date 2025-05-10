@@ -15,6 +15,8 @@ import gestioneFile.FileRistorante;
  */
 public class Ristorante {
 
+    private static FileRistorante fileRistorante = new FileRistorante();
+    private static HashMap<String, Ristorante> ristoranti = new FileRistorante().ottieniHashMap();
     private String nome;
     private String indirizzo;
     private String locazione;
@@ -45,8 +47,6 @@ public class Ristorante {
         this.descrizione = descrizione;
     }
 
-    
-
     public static void cercaRistorante() {
         int scelta = -1;
         Scanner scanner = new Scanner(System.in);
@@ -70,38 +70,38 @@ public class Ristorante {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Inserire il nome della citta': ");
         String locazione = scanner.next();
+        locazione = locazione.toLowerCase();
+        /////QKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
         List<List<String>> ristoranti = new ArrayList<>();
-        int posizioneLocazioneInCsv = 2;
-        List<List<String>> ristorantiCorrelati = new ArrayList<>();
-        try {
-            ristoranti = FileRistorante.letturaCsv(FileRistorante.getPercorsoFile());
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        }
-        for (int i = 0; i < ristoranti.size(); i++) {
-//            System.out.println(ristoranti.get(i).get(posizioneLocazioneInCsv));
-            String locazioneRistorante = ristoranti.get(i).get(posizioneLocazioneInCsv).replace("\"", "");
+        Ristorante[] ristorantiVett = (Ristorante[]) ristoranti.toArray();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        for (Ristorante ristorante : ristorantiVett) {
+            String locazioneRistorante = ristorante.getLocazione().replace("\"", "");
             if (locazioneRistorante.toLowerCase().startsWith(locazione.toLowerCase())) {
-                ristorantiCorrelati.add(ristoranti.get(i));
+                ristorantiList.add(ristorante);
             }
         }
-        visualizzaRistorante(ristorantiCorrelati);
+        visualizzaRistorante(ristorantiList);
     }
 
-    private static void visualizzaRistorante(List<List<String>> ristoranti) {
+    private static void visualizzaRistorante(List<Ristorante> ristoranti) {
 //        System.out.println(ristoranti);
-        int posizioneLocazioneInCsv = 2;
-        int posizionePrezzoInCsv = 3;
-        int posizioneTipoCucinaInCsv = 4;
-        int posizioneDeliveryInCsv = 8;
-        int posizionePrenotazioneInCsv = 11;
-        for (List<String> ristorante : ristoranti) {
-            System.out.println("Locazione: " + ristorante.get(posizioneLocazioneInCsv));
-            System.out.println("Prezzo: " + ristorante.get(posizionePrezzoInCsv) + " euro");
-            System.out.println("Tipo cucina: " + ristorante.get(posizioneTipoCucinaInCsv));
-            System.out.println("Servizio delivery: " + ristorante.get(posizioneDeliveryInCsv));
-            System.out.println("Servizio prenotazione: " + ristorante.get(posizionePrenotazioneInCsv) + "\n\n");
+
+        for (Ristorante ristorante : ristoranti) {
+            System.out.println("Locazione: " + ristorante.getLocazione());
+            System.out.println("Prezzo: " + ristorante.getPrezzo() + " euro");
+            System.out.println("Tipo cucina: " + ristorante.getCucina());
+            System.out.println("Servizio delivery: " + ristorante.isDelivery());
+            System.out.println("Servizio prenotazione: " + ristorante.isPrenotazione() + "\n\n");
         }
+    }
+
+    public static HashMap<String, Ristorante> getRistoranti() {
+        return ristoranti;
+    }
+
+    public static void setRistoranti(HashMap<String, Ristorante> ristoranti) {
+        Ristorante.ristoranti = ristoranti;
     }
 
     public String getNome() {
@@ -207,5 +207,5 @@ public class Ristorante {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-    
+
 }

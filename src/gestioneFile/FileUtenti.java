@@ -4,19 +4,58 @@
  */
 package gestioneFile;
 
+import entita.Utente;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author armuh
  */
-public class FileUtenti extends GestioneFile{
+public class FileUtenti extends GestioneFile<String, Utente> {
+    
     private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
-
+    
     public static String getPercorsoFile() {
         return percorsoFile;
     }
-
-    private static void setPercorsoFile(String percorsoFile) {
-        FileUtenti.percorsoFile = percorsoFile;
+    
+    public void scritturaSuFile(Utente utente) {
+        List<String> utenteList = new ArrayList<>();
+        utenteList.add(utente.getNome());
+        utenteList.add(utente.getCognome());
+        utenteList.add(utente.getUsername());
+        utenteList.add(utente.getPassword());
+        utenteList.add(utente.getDataNascita().toString());
+        utenteList.add(utente.getLuogodomicilio());
+        utenteList.add(utente.getRuolo());
+        
+        GestioneFile.scritturaSuFile(getPercorsoFile(), utenteList);
+        Utente.setUtenti(new FileUtenti().ottieniHashMap());
+    }
+    
+    @Override
+    public HashMap<String, Utente> ottieniHashMap() {
+        List<List<String>> utentiList = new ArrayList<>();
+        try {
+            utentiList = FileUtenti.letturaCsv(FileUtenti.getPercorsoFile());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileUtenti.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HashMap<String, Utente> utenti = new HashMap<String, Utente>();
+        for (List<String> utenteList : utentiList) {
+            Utente utente = new Utente(utenteList.get(0), utenteList.get(1),
+                    utenteList.get(2), utenteList.get(3),
+                    LocalDate.parse(utenteList.get(4)), utenteList.get(5),
+                    utenteList.get(6));
+            utenti.put(utente.getUsername(), utente);
+        }
+        return utenti;
     }
     
 }

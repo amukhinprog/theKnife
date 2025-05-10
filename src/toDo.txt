@@ -4,3 +4,11 @@ Artur: crea Ristoranti e il suo database
 07/05/25
 file utente e file ristorante esistenti
 scrittura su file (semplice) fatta per ristorante e utente (da riguardare)!!!
+
+10/05/25
+utilizzo di hashmap<String, oggetto>
+
+
+rifare delivery e prenotazione con true e false modificando il codice
+capire cosa fare con l'HashMap di FileGestoreRIstorante
+controllare la ripetizione di nome Ristorante

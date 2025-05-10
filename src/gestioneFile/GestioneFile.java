@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author armuh
  */
-public class GestioneFile {
+public abstract class GestioneFile<K, V> {
 //    public static void scritturaSuFile(String percorsoFile) {
 //        File file = new File(percorsoFile);
 //        List<List<String>> frasi = new ArrayList<>();
@@ -41,7 +42,7 @@ public class GestioneFile {
 //        }
 //    }
 
-    public static void scritturaSuFile(String percorsoFile, List<String> oggetto) {
+    protected static void scritturaSuFile(String percorsoFile, List<String> oggetto) {
         File file = new File(percorsoFile);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile, true))) {
             String linea = String.join(",", oggetto);
@@ -55,6 +56,9 @@ public class GestioneFile {
     public static List<List<String>> letturaCsv(String percorsoFile) throws FileNotFoundException {
         List<List<String>> frasi = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(percorsoFile))) {
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
             while (scanner.hasNext()) {
                 frasi.add(leggiRiga(scanner.nextLine()));
 //                System.out.println(frasi.getLast());
@@ -84,4 +88,7 @@ public class GestioneFile {
         return rigaSpezzata;
     }
 
+    abstract public HashMap<K, V> ottieniHashMap();
+
+    abstract public void scritturaSuFile(V oggetto);
 }
