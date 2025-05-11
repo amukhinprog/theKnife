@@ -72,10 +72,9 @@ public class Ristorante {
         String locazione = scanner.next();
         locazione = locazione.toLowerCase();
         /////QKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
-        List<List<String>> ristoranti = new ArrayList<>();
-        Ristorante[] ristorantiVett = (Ristorante[]) ristoranti.toArray();
+        Collection<Ristorante> ristorantiColl = ristoranti.values();
         List<Ristorante> ristorantiList = new ArrayList<>();
-        for (Ristorante ristorante : ristorantiVett) {
+        for (Ristorante ristorante : ristorantiColl) {
             String locazioneRistorante = ristorante.getLocazione().replace("\"", "");
             if (locazioneRistorante.toLowerCase().startsWith(locazione.toLowerCase())) {
                 ristorantiList.add(ristorante);

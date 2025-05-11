@@ -5,7 +5,11 @@
 package gestioneFile;
 
 import entita.Ristorante;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +21,11 @@ import java.util.logging.Logger;
  * @author armuh
  */
 public class FileRistorante extends GestioneFile<String, Ristorante> {
-    
+
     private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
-    
+
     private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
-        
+
         int posizioneCampoPrezzo = 3;
         int posizioneCampoDelivery = 8;
         int posizioneCampoPrenotazione = 11;
@@ -45,15 +49,46 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
             frasi.get(i).set(3, String.valueOf(prezzoMedio));
 //            System.out.println(frasi.get(i));
         }
-        
+
         System.out.println(frasi.get(0));
         return frasi;
     }
-    
+
+    private static void sostituisciValoriBooleani() {
+        List<List<String>> frasi = new ArrayList<>();
+        try {
+            frasi = FileRistorante.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (List<String> frase : frasi) {
+            if (Integer.parseInt(frase.get(8)) == 0) {
+                frase.set(8, "false");
+            } else if (Integer.parseInt(frase.get(8)) == 1) {
+                frase.set(8, "true");
+            }
+            if (Integer.parseInt(frase.get(11)) == 0) {
+                frase.set(11, "false");
+            } else if (Integer.parseInt(frase.get(11)) == 1) {
+                frase.set(11, "true");
+            }
+        }
+        File file = new File(percorsoFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
+            for (List<String> riga : frasi) {
+                String linea = String.join(",", riga);
+                writer.write(linea);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static String getPercorsoFile() {
         return percorsoFile;
     }
-    
+
     @Override
     public HashMap<String, Ristorante> ottieniHashMap() {
         List<List<String>> ristorantiList = new ArrayList<>();
@@ -75,7 +110,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         }
         return ristoranti;
     }
-    
+
     @Override
     public void scritturaSuFile(Ristorante ristorante) {
         List<String> ristoranteList = new ArrayList<>();
@@ -92,9 +127,9 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         ristoranteList.add(ristorante.getWebSiteUrl());
         ristoranteList.add(Boolean.toString(ristorante.isPrenotazione()));
         ristoranteList.add(ristorante.getDescrizione());
-        
+
         GestioneFile.scritturaSuFile(getPercorsoFile(), ristoranteList);
         Ristorante.setRistoranti(new FileRistorante().ottieniHashMap());
     }
-    
+
 }
