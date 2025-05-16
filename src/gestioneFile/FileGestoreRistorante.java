@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class FileGestoreRistorante<Gestore, Ristorante> extends GestioneFile {
 
-    protected static String percorsoFile = "username_ristoranti.csv";
+    protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
 
     public static void associaGestore(String username, String nomeRistorante) {
         List<List<String>> gestori = new ArrayList<>();
@@ -62,9 +62,9 @@ public class FileGestoreRistorante<Gestore, Ristorante> extends GestioneFile {
     }
 
     @Override
-    public HashMap<Gestore, ListaRistoranti> ottieniHashMap() {
-        HashMap<Gestore, ListaRistoranti> assGestoreRistoranteMap = new HashMap<>();
-        HashMap<String, Utente> utentiMap = new FileUtenti().ottieniHashMap();
+    public HashMap<entita.Gestore, List<entita.Ristorante>> ottieniHashMap() {
+        HashMap<entita.Gestore, List<entita.Ristorante>> assGestoreRistoranteMap = new HashMap<>();
+        HashMap<String, entita.Gestore> gestoriMap = new FileUtenti().ottieniHashMapGestori();
 
         HashMap<String, entita.Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
 
@@ -75,9 +75,9 @@ public class FileGestoreRistorante<Gestore, Ristorante> extends GestioneFile {
             Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (List<String> riga : assGestoreRistoranteList) {
-            Gestore gestore = (Gestore) utentiMap.get(riga.get(0));
+            entita.Gestore gestore =  gestoriMap.get(riga.get(0));
             String[] ristorantiSplittati = riga.get(1).split("\\$");
-            ListaRistoranti l = new ListaRistoranti();
+            List<entita.Ristorante> l = new ArrayList<>();
             for (String nomeRistorante : ristorantiSplittati) {
                 entita.Ristorante ristorante = ristorantiMap.get(nomeRistorante);
                 l.add(ristorante);
