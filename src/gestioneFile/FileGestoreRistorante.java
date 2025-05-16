@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class FileGestoreRistorante extends GestioneFile {
 
-    protected static String percorsoFile = "username_ristoranti.csv";
+    protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
 
     public static void associaGestore(String username, String nomeRistorante) {
         List<List<String>> gestori = new ArrayList<>();
