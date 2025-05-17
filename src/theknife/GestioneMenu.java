@@ -57,10 +57,10 @@ public class GestioneMenu {
     public void benvenutoUtente(Utente utente) {/*controllo oggetto creato(in reg. o login) se istanza di gestore o cliente*/
         if (utente instanceof Gestore) {
             System.out.println("Benvenuto sig. " + utente.getCognome());
-            benvenutoGestore(utente);
+            benvenutoGestore((Gestore) utente);
         } else {
             System.out.println("Benvenuto " + utente.getNome());
-            benvenutoCliente(utente);
+            benvenutoCliente((Cliente) utente);
         }
     }
 
@@ -80,7 +80,7 @@ public class GestioneMenu {
         } while (scelta != 0);
     }
 
-    public void benvenutoGestore(Utente utente) {
+    public void benvenutoGestore(Gestore utente) {
         int scelta;
         String nomeRistorante = "";
         Scanner scanner = new Scanner(System.in);
@@ -89,8 +89,9 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             scelta = scanner.nextInt();
             switch (scelta) {
-                case 1:
-                    FileGestoreRistorante.associaGestore(utente.getUsername(), nomeRistorante);
+                case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
+                    Ristorante r = Ristorante.inserisciNuovoRistorante();
+                    AssGestoreRistoranti.assRistoranteAGestore(utente.getUsername(), r);
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");
@@ -99,7 +100,34 @@ public class GestioneMenu {
         } while (scelta != 0);
     }
 
-    public void benvenutoCliente(Utente utente) {
-
+    public void benvenutoCliente(Cliente utente) {
+        int scelta;
+        String nomeRistorante = "";
+        Scanner scanner = new Scanner(System.in);
+        do {
+            System.out.println("1. Aggiungi ristorante ai preferiti");
+            System.out.println("2. Rimuovi ristorante dai preferiti");
+            System.out.println("3. Visualizza preferiti");
+            System.out.println("4. Aggiungi recensione");
+            System.out.println("5. Modifica recensione");
+            System.out.println("6. Elimina recensione");
+            System.out.println("0. Esci");
+            scelta = scanner.nextInt();
+            switch (scelta) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("inserisci il numero corretto");
+                    break;
+            }
+        } while (scelta != 0);
     }
 }

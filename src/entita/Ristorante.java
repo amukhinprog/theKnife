@@ -95,6 +95,53 @@ public class Ristorante {
         }
     }
 
+    public static Ristorante inserisciNuovoRistorante() {
+        Scanner scanner = new Scanner(System.in);
+        String nome;
+        do {
+            System.out.println("Nome: ");
+            nome = scanner.next();
+        } while (ristoranti.containsKey(nome));
+
+        System.out.println("Indirizzo: ");
+        String indirizzo = scanner.next();
+
+        System.out.println("Locazione: ");
+        String locazione = scanner.next();
+
+        System.out.println("Prezzo: ");
+        float prezzo = scanner.nextFloat();
+
+        System.out.println("Cucina:");
+        String cucina = scanner.next();
+
+        System.out.println("Longitudine: ");
+        float longitudine = scanner.nextFloat();
+
+        System.out.println("Latitudine: ");
+        float latitudine = scanner.nextFloat();
+
+        System.out.println("Numero di telefono: ");
+        String numeroTelefono = scanner.next();
+
+        System.out.println("Delivery: ");
+        boolean delivery = scanner.nextBoolean();
+
+        System.out.println("Url:");
+        String url = scanner.next();
+
+        System.out.println("Website Url:");
+        String webSiteUrl = scanner.next();
+
+        System.out.println("Prenotazione: ");
+        boolean prenotazione = scanner.nextBoolean();
+
+        System.out.println("Descrizione: ");
+        String descrizione = scanner.next();
+
+        return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine, numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione);
+    }
+
     public static HashMap<String, Ristorante> getRistoranti() {
         return ristoranti;
     }

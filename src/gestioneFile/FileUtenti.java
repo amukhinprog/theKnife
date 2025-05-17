@@ -68,7 +68,8 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         }
         return utenti;
     }
-    public HashMap<String, Gestore> ottieniHashMapGestori(){
+
+    public HashMap<String, Gestore> ottieniHashMapGestori() {
         List<List<String>> utentiList = new ArrayList<>();
         try {
             utentiList = FileUtenti.letturaCsv(FileUtenti.getPercorsoFile());
@@ -83,8 +84,10 @@ public class FileUtenti extends GestioneFile<String, Utente> {
                         utenteList.get(2), utenteList.get(3),
                         LocalDate.parse(utenteList.get(4)), utenteList.get(5),
                         utenteList.get(6));
+                
+                
+                gestoriMap.put(gestore.getUsername(), gestore);
             }
-            gestoriMap.put(gestore.getUsername(), gestore);
         }
         return gestoriMap;
     }

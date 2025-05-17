@@ -22,6 +22,8 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        FileGestoreRistorante g = new FileGestoreRistorante();
+        g.ottieniHashMap();
         GestioneMenu menu = new GestioneMenu();
 //        List<String> lista = new ArrayList<>();
 //        lista.add("marco");
