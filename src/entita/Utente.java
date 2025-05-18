@@ -70,7 +70,7 @@ public class Utente {
         String luogoDomicilio = scanner.next();
 
         System.out.println("Ruolo: ");//impreciso
-        String ruolo = scanner.next();
+        String ruolo = inserisciRuolo();
 
         /*Scrivere il nuovo utente in file csv usando gli opportuni metodi*/
         Utente utente = new Utente();
@@ -82,32 +82,25 @@ public class Utente {
         fileUtenti.scritturaSuFile(utente);
         return utente;
     }
-    
-        public static String getRuoloScelto() {
-        Ruolo ruolo = inserisciRuolo(); 
-        return ruolo.toString();
-        }
 
-        public static Ruolo inserisciRuolo() {
+    public static String inserisciRuolo() {
         Scanner scanner = new Scanner(System.in);
         Ruolo ruolo = null;
 
         while (ruolo == null) {
             System.out.println("Inserisci il tuo ruolo (gestore o cliente): ");
-            String input = scanner.next().toLowerCase();
+            String input = scanner.next().toUpperCase();
 
             try {
                 ruolo = Ruolo.valueOf(input);
-		System.out.println("Ruolo selezionato: " + ruolo);
+                System.out.println("Ruolo selezionato: " + ruolo);
             } catch (IllegalArgumentException e) {
                 System.out.println("Ruolo non valido.");
             }
         }
 
-            return ruolo;
-        }
-
-    
+        return ruolo.toString().toLowerCase();
+    }
 
     public static Utente login() {
         Scanner scanner = new Scanner(System.in);
@@ -133,7 +126,6 @@ public class Utente {
         Utente.utenti = utenti;
     }
 
-    
     public String getLuogoDomicilio() {
         return luogoDomicilio;
     }

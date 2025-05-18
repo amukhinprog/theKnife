@@ -23,8 +23,7 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Utente.getRuoloScelto();
-        System.out.println(Utente.getRuoloScelto());
+//        System.out.println(Utente.inserisciRuolo());
         FileGestoreRistorante g = new FileGestoreRistorante();
         g.ottieniHashMap();
         GestioneMenu menu = new GestioneMenu();
