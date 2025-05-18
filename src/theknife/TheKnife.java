@@ -5,6 +5,7 @@ package theknife;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 import entita.Ristorante;
+import entita.Utente;
 import gestioneFile.*;
 import java.io.FileNotFoundException;
 import gestioneFile.FileRistorante;
@@ -22,6 +23,8 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Utente.getRuoloScelto();
+        System.out.println(Utente.getRuoloScelto());
         FileGestoreRistorante g = new FileGestoreRistorante();
         g.ottieniHashMap();
         GestioneMenu menu = new GestioneMenu();

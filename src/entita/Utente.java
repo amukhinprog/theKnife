@@ -82,6 +82,32 @@ public class Utente {
         fileUtenti.scritturaSuFile(utente);
         return utente;
     }
+    
+        public static String getRuoloScelto() {
+        Ruolo ruolo = inserisciRuolo(); 
+        return ruolo.toString();
+        }
+
+        public static Ruolo inserisciRuolo() {
+        Scanner scanner = new Scanner(System.in);
+        Ruolo ruolo = null;
+
+        while (ruolo == null) {
+            System.out.println("Inserisci il tuo ruolo (gestore o cliente): ");
+            String input = scanner.next().toLowerCase();
+
+            try {
+                ruolo = Ruolo.valueOf(input);
+		System.out.println("Ruolo selezionato: " + ruolo);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ruolo non valido.");
+            }
+        }
+
+            return ruolo;
+        }
+
+    
 
     public static Utente login() {
         Scanner scanner = new Scanner(System.in);
