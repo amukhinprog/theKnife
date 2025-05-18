@@ -15,18 +15,32 @@ import java.util.List;
  */
 public class AssGestoreRistoranti {
 
+    private String usernameRistoratore;
     private List<Ristorante> ristorantiList = new ArrayList<>();
-    private static HashMap<String, List<Ristorante>> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
+    
+    private static HashMap<String, AssGestoreRistoranti> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
+
+    public AssGestoreRistoranti(String usernameRistoratore, List<Ristorante> ristorantiList) {
+        this.usernameRistoratore = usernameRistoratore;
+        this.ristorantiList = ristorantiList;
+    }
 
     public static void assRistoranteAGestore(String username, Ristorante ristorante) {
+        FileGestoreRistorante fileAss = new FileGestoreRistorante();
         if (ristorantiMap.containsKey(username)) {
-            List<Ristorante> ristorantiPosseduti = ristorantiMap.get(username);
-            ristorantiPosseduti.add(ristorante);
-            ristorantiMap.replace(username, ristorantiPosseduti);
-        }else{
+            AssGestoreRistoranti g = ristorantiMap.get(username);
+            g.addRistorantiList(ristorante);
+            ristorantiMap.replace(username, g);
+            
+            
+            fileAss.scritturaSuFile(g);
+        } else {
             List<Ristorante> l = new ArrayList<>();
             l.add(ristorante);
-            ristorantiMap.put(username, l);
+            AssGestoreRistoranti assGestore = new AssGestoreRistoranti(username, l);
+            ristorantiMap.put(username, assGestore);
+            
+            fileAss.sovraScriFile(ristorantiMap);
         }
     }
 
@@ -37,5 +51,24 @@ public class AssGestoreRistoranti {
     public void setRistorantiList(List<Ristorante> ristorantiList) {
         this.ristorantiList = ristorantiList;
     }
+    
+    public void addRistorantiList(Ristorante ristorante){
+        this.ristorantiList.add(ristorante);
+    }
 
+    public String getUsernameRistoratore() {
+        return usernameRistoratore;
+    }
+
+    public void setUsernameRistoratore(String usernameRistoratore) {
+        this.usernameRistoratore = usernameRistoratore;
+    }
+
+    public static HashMap<String, AssGestoreRistoranti> getRistorantiMap() {
+        return ristorantiMap;
+    }
+
+    public static void setRistorantiMap(HashMap<String, AssGestoreRistoranti> ristorantiMap) {
+        AssGestoreRistoranti.ristorantiMap = ristorantiMap;
+    }
 }
