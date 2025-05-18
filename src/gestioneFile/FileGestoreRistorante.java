@@ -4,6 +4,8 @@
  */
 package gestioneFile;
 
+import entita.Utente;
+import entita.ListaRistoranti;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FileGestoreRistorante extends GestioneFile {
+public class FileGestoreRistorante<Gestore, Ristorante> extends GestioneFile {
 
     protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
 
@@ -28,8 +30,8 @@ public class FileGestoreRistorante extends GestioneFile {
         }
         for (int i = 1; i < gestori.size(); i++) {
             if (gestori.get(i).get(2).equals(username)) {
-                String campo=gestori.get(i).get(1).concat("$ "+nomeRistorante);
-                 gestori.get(i).set(1, campo);
+                String campo = gestori.get(i).get(1).concat("$ " + nomeRistorante);
+                gestori.get(i).set(1, campo);
                 sovraScriFile(getPercorsoFile(), gestori);
             } else {
                 //aggiungere una riga username, e suo ristorante
@@ -60,8 +62,29 @@ public class FileGestoreRistorante extends GestioneFile {
     }
 
     @Override
-    public HashMap ottieniHashMap() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public HashMap<entita.Gestore, List<entita.Ristorante>> ottieniHashMap() {
+        HashMap<entita.Gestore, List<entita.Ristorante>> assGestoreRistoranteMap = new HashMap<>();
+        HashMap<String, entita.Gestore> gestoriMap = new FileUtenti().ottieniHashMapGestori();
+
+        HashMap<String, entita.Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
+
+        List<List<String>> assGestoreRistoranteList = new ArrayList<>();
+        try {
+            assGestoreRistoranteList = FileGestoreRistorante.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (List<String> riga : assGestoreRistoranteList) {
+            entita.Gestore gestore =  gestoriMap.get(riga.get(0));
+            String[] ristorantiSplittati = riga.get(1).split("\\$");
+            List<entita.Ristorante> l = new ArrayList<>();
+            for (String nomeRistorante : ristorantiSplittati) {
+                entita.Ristorante ristorante = ristorantiMap.get(nomeRistorante);
+                l.add(ristorante);
+            }
+            assGestoreRistoranteMap.put(gestore, l);
+        }
+        return assGestoreRistoranteMap;
     }
 
     @Override
