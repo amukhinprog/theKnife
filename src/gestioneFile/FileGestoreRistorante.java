@@ -46,7 +46,6 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
 //            }
 //        }
 //    }
-
     public static String getPercorsoFile() {
         return percorsoFile;
     }
@@ -69,6 +68,26 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
+        List<List<String>> assGestoreRistoranteList = new ArrayList<>();
+        HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
+        try {
+            assGestoreRistoranteList = FileGestoreRistorante.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
+        for (List<String> riga : assGestoreRistoranteList) {
+
+            String[] ristorantiSplittati = riga.get(1).split("\\$");
+            for (String nomeRistorante : ristorantiSplittati) {
+                Ristorante ristorante = ristorantiMap.get(nomeRistorante);
+                ristorantiPossedutiUtenti.add(ristorante);
+            }
+        }
+        return ristorantiPossedutiUtenti;
     }
 
     @Override

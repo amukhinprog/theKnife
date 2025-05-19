@@ -47,6 +47,14 @@ public class Ristorante {
         this.descrizione = descrizione;
     }
 
+    private Ristorante() {
+
+    }
+
+    public static final Ristorante ristoranteVuoto() {
+        return new Ristorante();
+    }
+
     public static void cercaRistorante() {
         int scelta = -1;
         Scanner scanner = new Scanner(System.in);
@@ -95,7 +103,56 @@ public class Ristorante {
         }
     }
 
-    public static Ristorante inserisciNuovoRistorante() {
+    public static Ristorante inserisciGenericoRistorante() {
+        char scelta = ' ';
+        Scanner scanner = new Scanner(System.in);
+        Ristorante r = null;
+        do {
+            System.out.println("Vuole inserire un ristorante di nuova apertura? (s/n)");
+            System.out.println("0. Esci");
+            scelta = scanner.next().charAt(0);
+            switch (scelta) {
+                case 's':
+                    r = inserisciNuovoRistorante();
+                    break;
+                case 'n':
+                    r = inserisciRistoranteEsistente();
+                    break;
+                default:
+                    System.out.println("Riprovare");
+                    break;
+            }
+        } while (scelta != '0');
+        return r;
+    }
+
+    private static Ristorante inserisciRistoranteEsistente() {
+        Scanner scanner = new Scanner(System.in);
+        String nomeRistorante;
+        Ristorante r = null;
+        do {
+            System.out.println("Inserire il nome del ristorante: ");
+            System.out.println("0.Esci");
+            nomeRistorante = scanner.next();
+            r = ristoranti.get(nomeRistorante);
+            if (AssGestoreRistoranti.ristoranteInPossesso(r)) {
+                System.out.println("Il ristorante inserito ha già un proprietario");
+            } else if (ristoranti.containsKey(nomeRistorante)) {
+                r = ristoranti.get(nomeRistorante);
+            }
+
+        } while (!nomeRistorante.equals("0")
+                && AssGestoreRistoranti.ristoranteInPossesso(r)
+                && !ristoranti.containsKey(nomeRistorante));
+
+        if (nomeRistorante.equals("0")) {
+            return ristoranteVuoto();
+        } else {
+            return ristoranti.get(nomeRistorante);
+        }
+    }
+
+    private static Ristorante inserisciNuovoRistorante() {
         Scanner scanner = new Scanner(System.in);
         String nome;
         do {

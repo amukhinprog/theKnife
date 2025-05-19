@@ -19,7 +19,8 @@ public class AssGestoreRistoranti {
     private List<Ristorante> ristorantiList = new ArrayList<>();
     
     private static HashMap<String, AssGestoreRistoranti> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
-
+    private static List<Ristorante> ristorantiInPossesso = new FileGestoreRistorante().ottieniListaRistorantiPossedutiUtenti();
+    
     public AssGestoreRistoranti(String usernameRistoratore, List<Ristorante> ristorantiList) {
         this.usernameRistoratore = usernameRistoratore;
         this.ristorantiList = ristorantiList;
@@ -44,6 +45,9 @@ public class AssGestoreRistoranti {
         }
     }
 
+    public static boolean ristoranteInPossesso(Ristorante r){
+        return ristorantiInPossesso.contains(r);
+    }
     public List<Ristorante> getRistorantiList() {
         return ristorantiList;
     }

@@ -90,7 +90,7 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
-                    Ristorante r = Ristorante.inserisciNuovoRistorante();
+                    Ristorante r = Ristorante.inserisciGenericoRistorante();
                     AssGestoreRistoranti.assRistoranteAGestore(utente.getUsername(), r);
                     break;
                 default:
