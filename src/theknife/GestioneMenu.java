@@ -85,7 +85,8 @@ public class GestioneMenu {
         String nomeRistorante = "";
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("1. aggiungi ristorante");
+            System.out.println("1. Aggiungi ristorante");
+            System.out.println("2. Ricerca ristoranti");
             System.out.println("0. Esci");
             scelta = scanner.nextInt();
             switch (scelta) {
@@ -93,8 +94,11 @@ public class GestioneMenu {
                     Ristorante r = Ristorante.inserisciGenericoRistorante();
                     AssGestoreRistoranti.assRistoranteAGestore(utente.getUsername(), r);
                     break;
+                case 2:
+                    Ristorante.cercaRistorante();  
+                    break;
                 default:
-                    System.out.println("inserisci il numero corretto");
+                    System.out.println("Inserisci il numero corretto");
                     break;
             }
         } while (scelta != 0);
@@ -111,6 +115,7 @@ public class GestioneMenu {
             System.out.println("4. Aggiungi recensione");
             System.out.println("5. Modifica recensione");
             System.out.println("6. Elimina recensione");
+            System.out.println("7. Ricerca ristoranti");
             System.out.println("0. Esci");
             scelta = scanner.nextInt();
             switch (scelta) {
@@ -123,6 +128,11 @@ public class GestioneMenu {
                 case 4:
                     break;
                 case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    Ristorante.cercaRistorante();
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");

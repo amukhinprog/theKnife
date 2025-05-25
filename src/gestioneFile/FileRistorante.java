@@ -105,7 +105,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
                     Float.parseFloat(ristoranteList.get(6)), ristoranteList.get(7),
                     Boolean.parseBoolean(ristoranteList.get(8))/*rivedere*/, ristoranteList.get(9),
                     ristoranteList.get(10), Boolean.parseBoolean(ristoranteList.get(11))/*rivedere*/,
-                    ristoranteList.get(12));
+                    ristoranteList.get(12)/*, Short.parseShort(ristoranteList.get(13))*/);
             ristoranti.put(ristorante.getNome(), ristorante);
         }
         return ristoranti;
@@ -127,6 +127,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         ristoranteList.add(ristorante.getWebSiteUrl());
         ristoranteList.add(Boolean.toString(ristorante.isPrenotazione()));
         ristoranteList.add(ristorante.getDescrizione());
+        //ristoranteList.add(String.valueOf(ristorante.getStelle()));
 
         GestioneFile.scritturaSuFile(getPercorsoFile(), ristoranteList);
         Ristorante.setRistoranti(new FileRistorante().ottieniHashMap());
