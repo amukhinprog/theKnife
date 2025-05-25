@@ -18,3 +18,5 @@ fare una classe ristoranti preferiti per i clienti, in modo analogo a come fatto
 gestore ristorante
 a riga 93 di gestioneMenu distinguere il caso in cui il gestore vuole inserire 
 un ristorante gia presente enl csv o non presente.
+25/5/25
+problema con la lettura e scrittura con l'intestazione del csv: risolvere

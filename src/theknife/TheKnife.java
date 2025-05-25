@@ -4,6 +4,7 @@ package theknife;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+import entita.AssGestoreRistoranti;
 import entita.Ristorante;
 import entita.Utente;
 import gestioneFile.*;
@@ -36,6 +37,8 @@ public class TheKnife {
 //        lista.add("Dongo");
 //        lista.add("gestore");
 //        FileUtenti.scritturaSuFile(FileUtenti.getPercorsoFile(), lista);
+        HashMap<String, AssGestoreRistoranti> r = new FileGestoreRistorante().ottieniHashMap();
+        System.out.println(r);
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.println(FileUtenti.letturaCsv(FileUtenti.getPercorsoFile()));
