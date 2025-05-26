@@ -4,7 +4,10 @@ package theknife;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+import entita.AssGestoreRistoranti;
 import entita.Ristorante;
+import entita.Utente;
+import gestioneFile.*;
 import java.io.FileNotFoundException;
 import gestioneFile.FileRistorante;
 import java.util.*;
@@ -21,19 +24,27 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        FileRistorante.scritturaSuFile();
+//        System.out.println(Utente.inserisciRuolo());
+        FileGestoreRistorante g = new FileGestoreRistorante();
+        g.ottieniHashMap();
+        GestioneMenu menu = new GestioneMenu();
+//        List<String> lista = new ArrayList<>();
+//        lista.add("marco");
+//        lista.add("gamba");
+//        lista.add("mgamba");
+//        lista.add("pippo1");
+//        lista.add("11/5/1995");
+//        lista.add("Dongo");
+//        lista.add("gestore");
+//        FileUtenti.scritturaSuFile(FileUtenti.getPercorsoFile(), lista);
+        HashMap<String, AssGestoreRistoranti> r = new FileGestoreRistorante().ottieniHashMap();
+        System.out.println(r);
         Scanner scanner = new Scanner(System.in);
-        List<List<String>> lista = new ArrayList<>();
-//        try {
-//            lista = FileRistorante.letturaCsv();
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println(lista.getLast());
-        System.out.println();
-        lista = Ristorante.cercaRistorante(scanner.nextInt());
-        System.out.println(lista);
-        System.out.println("Benvenuto su The Knife");
+        try {
+            System.out.println(FileUtenti.letturaCsv(FileUtenti.getPercorsoFile()));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

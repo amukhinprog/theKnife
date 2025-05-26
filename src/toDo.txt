@@ -1,3 +1,22 @@
 23/04
 Niko: crea Utenti e il suo database
 Artur: crea Ristoranti e il suo database
+07/05/25
+file utente e file ristorante esistenti
+scrittura su file (semplice) fatta per ristorante e utente (da riguardare)!!!
+
+10/05/25
+utilizzo di hashmap<String, oggetto>
+
+
+rifare delivery e prenotazione con true e false modificando il codice
+capire cosa fare con l'HashMap di FileGestoreRIstorante
+controllare la ripetizione di nome Ristorante
+
+18/05/2025
+fare una classe ristoranti preferiti per i clienti, in modo analogo a come fatto per associazione
+gestore ristorante
+a riga 93 di gestioneMenu distinguere il caso in cui il gestore vuole inserire 
+un ristorante gia presente enl csv o non presente.
+25/5/25
+problema con la lettura e scrittura con l'intestazione del csv: risolvere
