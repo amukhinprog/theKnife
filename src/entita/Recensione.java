@@ -17,7 +17,7 @@ public class Recensione {
     private String testo;
     private LocalDate data;
     List<String>recensioni= new ArrayList<>();
-    private static HashMap<String,Recensione>recensioni= new FileRecensioni().ottieniHashMap(); 
+//    private static HashMap<String,Recensione>recensioni= new FileRecensioni().ottieniHashMap(); 
     Ristorante ristoranteRecensito;
 
     public Recensione(int ID, short stelle, String testo, LocalDate data, Ristorante ristoranteRecensito) {

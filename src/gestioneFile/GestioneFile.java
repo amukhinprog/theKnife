@@ -87,6 +87,19 @@ public abstract class GestioneFile<K, V> {
         }
         return rigaSpezzata;
     }
+    
+    public static void sovraScriviFile(String percorsoFile, List<List<String>> oggetti){
+        File file = new File(percorsoFile);
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))){
+            for(List<String> oggetto: oggetti){
+                String riga = String.join(",", oggetto);
+                writer.write(riga);
+                writer.newLine();
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     abstract public HashMap<K, V> ottieniHashMap();
 

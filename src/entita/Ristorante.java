@@ -277,56 +277,52 @@ public class Ristorante {
         return r;
     }
 
-    private static Ristorante inserisciRistoranteEsistente(Gestore utente) {
+    public static Ristorante inserisciRistoranteEsistente(Gestore utente) {
         Scanner scanner = new Scanner(System.in);
         String nomeRistorante;
-        Ristorante r;
 
-        do {
-            System.out.println("Inserire il nome del ristorante: ");
-            System.out.println("0.Esci");
-            nomeRistorante = scanner.next();
-        } while (!nomeRistorante.equals("0")
-                && !ristoranti.containsKey(nomeRistorante));
-        r = ristoranti.get(nomeRistorante);
-        AssGestoreRistoranti.ristoranteInPossesso(r);
-        if(AssGestoreRistoranti.ristoranteInPossesso(r)){
-            System.out.println("si");
-        }
-        
-        while (!nomeRistorante.equals("0")
-                && AssGestoreRistoranti.ristoranteInPossesso(r)) {
-            r = ristoranti.get(nomeRistorante);
+        while (true) {
+            nomeRistorante = chiediNomeRistorante(scanner);
 
-            if (AssGestoreRistoranti.ristoranteInPossesso(r)) {
-
-                HashMap<String, AssGestoreRistoranti> assUtenteRistorante = AssGestoreRistoranti.getRistorantiMap();
-
-                if (assUtenteRistorante.containsKey(utente.getUsername())) {
-                    AssGestoreRistoranti gestoriConRistoranti = assUtenteRistorante.get(utente.getUsername());
-                    List<Ristorante> listaRistorantiUtente = gestoriConRistoranti.getRistorantiList();
-                    if (listaRistorantiUtente.contains(r)) {
-                        System.out.println("Il ristorante è già presente nel vostro elenco");
-                    }
-                } else {
-                    System.out.println("Il ristorante inserito ha già un proprietario");
-                }
+            if (nomeRistorante.equals("0")) {
+                return ristoranteVuoto();
             }
 
-            do {
-                System.out.println("Inserire il nome del ristorante: ");
-                System.out.println("0.Esci");
-                nomeRistorante = scanner.next();
-            } while (!nomeRistorante.equals("0")
-                    && !ristoranti.containsKey(nomeRistorante));
+            if (!ristoranti.containsKey(nomeRistorante)) {
+                System.out.println("Ristorante non trovato.");
+                continue;
+            }
 
-        }
+            Ristorante ristorante = ristoranti.get(nomeRistorante);
 
-        if (nomeRistorante.equals("0")) {
-            return ristoranteVuoto();
-        } else {
-            return ristoranti.get(nomeRistorante);
+            if (ristoranteGiaPossedutoDalGestore(utente, ristorante)) {
+                System.out.println("Il ristorante è già presente nel vostro elenco.");
+                continue;
+            }
+
+            if (ristoranteHaAltroProprietario(utente, ristorante)) {
+                System.out.println("Il ristorante inserito ha già un proprietario.");
+                continue;
+            }
+
+            return ristorante;
         }
+    }
+
+    private static String chiediNomeRistorante(Scanner scanner) {
+        System.out.println("Inserire il nome del ristorante: ");
+        System.out.println("0. Esci");
+        return scanner.next();
+    }
+
+    private static boolean ristoranteGiaPossedutoDalGestore(Gestore utente, Ristorante ristorante) {
+        HashMap<String, AssGestoreRistoranti> mappa = AssGestoreRistoranti.getRistorantiMap();
+        AssGestoreRistoranti gestore = mappa.get(utente.getUsername());
+        return gestore != null && gestore.ristoranteInPossessoDaUtente(ristorante);
+    }
+
+    private static boolean ristoranteHaAltroProprietario(Gestore utente, Ristorante ristorante) {
+        return AssGestoreRistoranti.ristoranteInPossessoDaUtenti(ristorante);
     }
 
     private static Ristorante inserisciNuovoRistorante() {
