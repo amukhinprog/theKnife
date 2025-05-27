@@ -36,6 +36,59 @@ public class PreferitiCliente {
                 preferenze.addRistorantePreferito(ristorante);
                 file.scritturaSuFile(preferenze);
             }
+        }else {
+            List<Ristorante> nuoviPreferiti = new ArrayList<>();
+            nuoviPreferiti.add(ristorante);
+            
+            AssPreferitiCliente nuovaAss = new AssPreferitiCliente(username, nuoviPreferiti);
+            preferitiMap.put(username, nuovaAss);
+            
+            file.scritturaSuFile(nuovaAss);
         }
+    }
+    
+    public static void rimuoviPreferito(String username, Ristorante ristorante){
+        FilePreferitiCliente file = new FilePreferitiCliente();
+        
+        if(preferenze.ristorantiPreferiti.contains(ristorante)){
+            preferenze.ristorantiPreferiti.remove(ristorante);
+            file.scritturaSuFile(preferenze);
+        }
+    }
+    
+    public static List<Ristorante> visualizzaPreferiti(String username){
+        if(preferitiMap.containsKey(username)){
+            return preferitiMap.get(username).getRistorantiPreferiti();
+        }else {
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Ristorante> getRistorantiPreferiti() {
+        return ristorantiPreferiti;
+    }
+        
+    public void setRistorantiPreferiti(List<Ristorante> ristorantiPreferiti) {
+        this.ristorantiPreferiti = ristorantiPreferiti;
+    }
+    
+    public void addRistorantePreferito(Ristorante ristorante) {
+        this.ristorantiPreferiti.add(ristorante);
+    }
+    
+    public String getUsernameCliente() {
+        return usernameCliente;
+    }
+
+    public void setUsernameCliente(String usernameCliente) {
+        this.usernameCliente = usernameCliente;
+    }
+    
+    public static HashMap<String, AssPreferitiCliente> getPreferitiMap() {
+        return preferitiMap;
+    }
+
+    public static void setPreferitiMap(HashMap<String, AssPreferitiCliente> preferitiMap) {
+        AssPreferitiCliente.preferitiMap = preferitiMap;
     }
 }
