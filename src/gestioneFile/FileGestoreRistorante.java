@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistoranti> {
 
     protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
-
+    private final List<String> intestazione = new ArrayList<>(List.of("username", "ristorantiPosseduti"));
 //    public static void associaGestore(String username, String nomeRistorante) {
 //        List<List<String>> gestori = new ArrayList<>();
 //        try {
@@ -46,46 +46,39 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
 //            }
 //        }
 //    }
+
     public static String getPercorsoFile() {
         return percorsoFile;
     }
 
     public void sovraScriFile(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
-        File file = new File(percorsoFile);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
-            List<String> riga = new ArrayList<>();
-            for (String chiave : assRistorantiGestore.keySet()) {
-                List<Ristorante> ristorantiPosseduti = assRistorantiGestore.get(chiave).getRistorantiList();
-                riga.add(assRistorantiGestore.get(chiave).getUsernameRistoratore());
-                for (Ristorante ristorantePosseduto : ristorantiPosseduti) {
-                    riga.add(ristorantePosseduto.getNome() + "$");
-                }
-            }
-            String linea = String.join(",", riga);
-            writer.write(linea);
-            writer.newLine();
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        List<List<String>> assRistorantiGestoreList = new ArrayList<>();
+        assRistorantiGestoreList.add(intestazione);
+
+        List<String> riga = new ArrayList<>();
+        for (String chiave : assRistorantiGestore.keySet()) {
+            List<Ristorante> ristorantiPosseduti = assRistorantiGestore.get(chiave).getRistorantiList();
+            riga.add(assRistorantiGestore.get(chiave).getUsernameRistoratore());
+            String stringaDiRistoranti = "";
+            for (Ristorante ristorantePosseduto : ristorantiPosseduti) {
+                stringaDiRistoranti += ristorantePosseduto.getNome() + "$";
+            }
+            riga.add(stringaDiRistoranti);
+            assRistorantiGestoreList.add(riga);
         }
+        GestioneFile.sovraScriviFile(percorsoFile, assRistorantiGestoreList);
     }
 
     public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
-        List<List<String>> assGestoreRistoranteList = new ArrayList<>();
-        HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
-        try {
-            assGestoreRistoranteList = FileGestoreRistorante.letturaCsv(percorsoFile);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        HashMap<String, AssGestoreRistoranti> assGestoreRistoranteMap = AssGestoreRistoranti.getRistorantiMap();
+        
         List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
-        for (List<String> riga : assGestoreRistoranteList) {
-
-            String[] ristorantiSplittati = riga.get(1).split("\\$");
-            for (String nomeRistorante : ristorantiSplittati) {
-                Ristorante ristorante = ristorantiMap.get(nomeRistorante);
-                ristorantiPossedutiUtenti.add(ristorante);
-            }
+        
+        List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>(); 
+        for(String chiave: assGestoreRistoranteMap.keySet()){
+            ristorantiPossedutiDaUtente = assGestoreRistoranteMap.get(chiave).getRistorantiList();
+            ristorantiPossedutiUtenti.addAll(ristorantiPossedutiDaUtente);
         }
         return ristorantiPossedutiUtenti;
     }

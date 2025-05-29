@@ -5,6 +5,7 @@ package theknife;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 import entita.AssGestoreRistoranti;
+import entita.Gestore;
 import entita.Ristorante;
 import entita.Utente;
 import gestioneFile.*;
@@ -25,26 +26,10 @@ public class TheKnife {
     public static void main(String[] args) {
         // TODO code application logic here
 //        System.out.println(Utente.inserisciRuolo());
-        FileGestoreRistorante g = new FileGestoreRistorante();
-        g.ottieniHashMap();
+        
+//        Ristorante.inserisciRistoranteEsistente((Gestore) Gestore.getUtenti().get("artur1"));
+        
         GestioneMenu menu = new GestioneMenu();
-//        List<String> lista = new ArrayList<>();
-//        lista.add("marco");
-//        lista.add("gamba");
-//        lista.add("mgamba");
-//        lista.add("pippo1");
-//        lista.add("11/5/1995");
-//        lista.add("Dongo");
-//        lista.add("gestore");
-//        FileUtenti.scritturaSuFile(FileUtenti.getPercorsoFile(), lista);
-        HashMap<String, AssGestoreRistoranti> r = new FileGestoreRistorante().ottieniHashMap();
-        System.out.println(r);
-        Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.println(FileUtenti.letturaCsv(FileUtenti.getPercorsoFile()));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TheKnife.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
 }

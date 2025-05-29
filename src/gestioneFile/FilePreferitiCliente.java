@@ -56,4 +56,9 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
 
         return preferitiMap;
     }
+
+    @Override
+    public void scritturaSuFile(PreferitiCliente oggetto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
