@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author filod
@@ -31,14 +33,14 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         HashMap<String, PreferitiCliente> preferitiMap = new HashMap<>();
         HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
 
-        List<List<String>> righe = new ArrayList<>();
+        List<List<String>> preferitiList = new ArrayList<>();
         try {
-            righe = FilePreferitiCliente.letturaCsv(getPercorsoFile());
-        } catch (FileNotFoundException e) {
-            System.out.println("File preferiti non trovato: " + e.getMessage());
+            preferitiList = FilePreferitiCliente.letturaCsv(getPercorsoFile());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FilePreferitiCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        for (List<String> riga : righe) {
+        for (List<String> riga : preferitiList) {
             if (riga.size() < 2) continue;
 
             String usernameCliente = riga.get(0);
@@ -46,8 +48,10 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
 
             List<Ristorante> preferiti = new ArrayList<>();
             for (String nome : nomiRistoranti) {
-                Ristorante r = ristorantiMap.get(nome);
-                if (r != null) preferiti.add(r);
+                if (!nome.isBlank()) {
+                    Ristorante r = ristorantiMap.get(nome);
+                    if (r != null) preferiti.add(r);
+                }
             }
 
             PreferitiCliente pc = new PreferitiCliente(usernameCliente, preferiti);
@@ -58,7 +62,36 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
     }
 
     @Override
-    public void scritturaSuFile(PreferitiCliente oggetto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void scritturaSuFile(PreferitiCliente preferitiCliente) {
+        List<String> preferitiList = new ArrayList<>();
+        preferitiList.add(preferitiCliente.getUsernameCliente());
+
+        StringBuilder ristorantiConcatenati = new StringBuilder();
+        for (Ristorante ristorante : preferitiCliente.getRistorantiPreferiti()) {
+            ristorantiConcatenati.append(ristorante.getNome()).append("$");
+        }
+        preferitiList.add(ristorantiConcatenati.toString());
+
+        GestioneFile.scritturaSuFile(getPercorsoFile(), preferitiList);
+        PreferitiCliente.setPreferitiMap(ottieniHashMap());
+    }
+
+    public void sovraScriFile(HashMap<String, PreferitiCliente> preferitiMap) {
+        List<List<String>> righeDaScrivere = new ArrayList<>();
+
+        for (PreferitiCliente pc : preferitiMap.values()) {
+            List<String> riga = new ArrayList<>();
+            riga.add(pc.getUsernameCliente());
+
+            StringBuilder ristorantiConcatenati = new StringBuilder();
+            for (Ristorante ristorante : pc.getRistorantiPreferiti()) {
+                ristorantiConcatenati.append(ristorante.getNome()).append("$");
+            }
+
+            riga.add(ristorantiConcatenati.toString());
+            righeDaScrivere.add(riga);
+        }
+
+        GestioneFile.sovraScriviFile(getPercorsoFile(), righeDaScrivere);
     }
 }

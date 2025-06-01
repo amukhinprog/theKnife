@@ -47,16 +47,19 @@ public class PreferitiCliente {
         }
     }
     
-   /* public static void rimuoviPreferito(String username, Ristorante ristorante){
-        FilePreferitiCliente file = new FilePreferitiCliente();
-       
-        if(preferenze.ristorantiPreferiti.contains(ristorante)){
-            preferenze.ristorantiPreferiti.remove(ristorante);
+public static void rimuoviPreferito(String username, Ristorante ristorante){
+    FilePreferitiCliente file = new FilePreferitiCliente();
+    
+    if(preferitiMap.containsKey(username)){
+        PreferitiCliente preferenze = preferitiMap.get(username);
+
+        if(preferenze.getRistorantiPreferiti().contains(ristorante)){
+            preferenze.getRistorantiPreferiti().remove(ristorante);
             file.scritturaSuFile(preferenze);
-            
         }
     }
-    */
+}
+
     public static List<Ristorante> visualizzaPreferiti(String username){
         if(preferitiMap.containsKey(username)){
             return preferitiMap.get(username).getRistorantiPreferiti();
