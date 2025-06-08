@@ -27,6 +27,30 @@ public class Recensione {
         this.data = data;
         this.ristoranteRecensito=ristoranteRecensito;
     }
+    public int getID(){
+        return ID;}
+    
+    public short getstelle(){
+      return stelle;}
+    public LocalDate getdata(){
+        return data;
+    }
+    public Ristorante getristoranteRecensito(){
+        return ristoranteRecensito;
+    }
+    
+    public void setID(int ID){
+        this.ID=ID;
+    }
+    public void setstelle(short stelle){
+        this.stelle=stelle;
+    }
+    public void setdata(LocalDate data){
+        this.data=data;
+    }
+    public void setristoranteRecensito(Ristorante ristoranteRecensito){
+        this.ristoranteRecensito=ristoranteRecensito;
+    }
     public void aggiungiRecensione(String testo,Utente utente){
       
         
