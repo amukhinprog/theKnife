@@ -4,8 +4,11 @@
  */
 package gestioneFile;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import entita.Recensione;
 import entita.Ristorante;
+import static gestioneFile.FileRistorante.getPercorsoFile;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
@@ -15,39 +18,45 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Utente
+ * @author Nikoro02
  */
-public abstract class FileRecensioni extends GestioneFile {
-    private static String percorsofile = "..\\theKnife\\data\\recensioni.csv";
-
+public abstract class FileRecensioni extends GestioneFile <String,Recensione> {
+    private static String percorsofile = "..\\theKnife\\data\\recensioni_ristoranti.csv";
+ 
+    private static final Logger logger=Logger.getLogger(FileRecensioni.class.getName());
     @Override
     public HashMap ottieniHashMap() { // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        List<List<String>> ristorantiList = new ArrayList<>();
-        try {
-            ristorantiList = FileRistorante.letturaCsv(FileRistorante.getPercorsoFile());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        HashMap<String, Ristorante> ristoranti = new HashMap<String, Ristorante>();
-        for (List<String> ristoranteList : ristorantiList) {
-            Ristorante ristorante = new Ristorante(ristoranteList.get(0), ristoranteList.get(1),
-                    ristoranteList.get(2), Float.parseFloat(ristoranteList.get(3)),
-                    ristoranteList.get(4), Float.parseFloat(ristoranteList.get(5)),
-                    Float.parseFloat(ristoranteList.get(6)), ristoranteList.get(7),
-                    Boolean.parseBoolean(ristoranteList.get(8))/*rivedere*/, ristoranteList.get(9),
-                    ristoranteList.get(10), Boolean.parseBoolean(ristoranteList.get(11))/*rivedere*/,
-                    ristoranteList.get(12)/*, Short.parseShort(ristoranteList.get(13))*/);
-            ristoranti.put(ristorante.getNome(), ristorante);
-        }
-        return ristoranti;
-    }
+        List<List<String>> recensioniList = new ArrayList<>();
+        HashMap<String, Recensione> recension = new HashMap<String, Recensione>();
+         try (FileInputStream fis = new FileInputStream(percorsofile)){
+             recensioniList=FileRecensioni.letturaCsv(FileRecensioni.getPercorsoFile());
+             }catch(FileNotFoundException e){
+                   logger.log(Level.WARNING, "Errore durante la lettura del file: " + percorsofile, e);
+             }catch(IOException ex){
+                 logger.log(Level.SEVERE, "Errore durante la chiusura del file: " + percorsofile, ex);
+             }
+         for(List<String>campo : recensioniList){
+             Recensione recensione1= new Recensione((recensioniList.get(0), recensioniList.get(1),
+                    Integer.parseInt( recensioniList.get(2),recensioniList.get(3)));
+              recension.put(String.valueOf(recensione1.getID()), recensione1);
+         }
+         return recension;
+           }
 
 
     
-
-    @Override
-    public void scritturaSuFile(Object oggetto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void scritturaSuFileRecensioni(Recensione recensione){
+        List<String>RecensioniLista= new ArrayList<>();
+        RecensioniLista.add(String.valueOf(recensione.getID()));
+        RecensioniLista.add(String.valueOf(recensione.getstelle()));
+        RecensioniLista.add(recensione.gettesto());
+        RecensioniLista.add(String.valueOf(recensione.getdata()));
+        GestioneFile.scritturaSuFile(getPercorsoFile(), RecensioniLista);
+        Recensione.setRecensione(new FileRecensioni().ottieniHashMap());
+        
+      
     }
-    
+    public static String getPercorsoFile(){
+        return percorsofile;
+    }
 }
