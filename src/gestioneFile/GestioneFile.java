@@ -90,6 +90,13 @@ public abstract class GestioneFile<K, V> {
     
     public static void sovraScriviFile(String percorsoFile, List<List<String>> oggetti){
         File file = new File(percorsoFile);
+        List<String> intestazione = null;
+        try {
+            intestazione = letturaCsv(percorsoFile).get(0);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        oggetti.addFirst(intestazione);
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))){
             for(List<String> oggetto: oggetti){
                 String riga = String.join(",", oggetto);
