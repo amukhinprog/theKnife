@@ -24,7 +24,7 @@ import repository.RistoranteService;
 public class FileRistorante extends GestioneFile<String, Ristorante> {
 
     private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
-    private RistoranteService ristoranteServ = new RistoranteService();
+//    private RistoranteService ristoranteServ = new RistoranteService();
 
     private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
 
@@ -116,6 +116,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
     @Override
     public void scritturaSuFile(Ristorante ristorante) {
         List<String> ristoranteList = new ArrayList<>();
+        RistoranteService ristoranteServ = new RistoranteService();
         ristoranteList.add(ristorante.getNome());
         ristoranteList.add(ristorante.getIndirizzo());
         ristoranteList.add(ristorante.getLocazione());

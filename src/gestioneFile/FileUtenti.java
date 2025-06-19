@@ -23,7 +23,7 @@ import repository.UtenteService;
 public class FileUtenti extends GestioneFile<String, Utente> {
 
     private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
-    private UtenteService utenteServ = new UtenteService();
+//    private UtenteService utenteServ = new UtenteService();
     public static String getPercorsoFile() {
         return percorsoFile;
     }
@@ -31,6 +31,7 @@ public class FileUtenti extends GestioneFile<String, Utente> {
     @Override
     public void scritturaSuFile(Utente utente) {
         List<String> utenteList = new ArrayList<>();
+        UtenteService utenteServ = new UtenteService();
         utenteList.add(utente.getNome());
         utenteList.add(utente.getCognome());
         utenteList.add(utente.getUsername());
@@ -38,7 +39,7 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         utenteList.add(utente.getDataNascita().toString());
         utenteList.add(utente.getLuogodomicilio());
         utenteList.add(utente.getRuolo());
-
+        
         GestioneFile.scritturaSuFile(getPercorsoFile(), utenteList);
         utenteServ.setUtenti(new FileUtenti().ottieniHashMap());
     }

@@ -21,10 +21,11 @@ public class UtenteUI {
 
     private static FileUtenti fileUtenti = new FileUtenti();
     private Scanner scanner;
-    private UtenteService utenteServ = new UtenteService();
+    private UtenteService utenteServ;
 
-    public UtenteUI(Scanner scanner) {
+    public UtenteUI(Scanner scanner, UtenteService utenteServ) {
         this.scanner = scanner;
+        this.utenteServ = utenteServ;
     }
 
     public Utente registrazione() {

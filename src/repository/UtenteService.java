@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class UtenteService {
 
-    private static FileUtenti fileUtenti = new FileUtenti();
+    private FileUtenti fileUtenti = new FileUtenti();
     private HashMap<String, Utente> utenti = fileUtenti.ottieniHashMap();
 
     public HashMap<String, Utente> getUtenti() {

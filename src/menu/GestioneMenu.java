@@ -10,6 +10,7 @@ import java.util.Scanner;
 import entita.*;
 import gestioneFile.FileGestoreRistorante;
 import repository.RistoranteService;
+import repository.UtenteService;
 
 /**
  *
@@ -18,9 +19,11 @@ import repository.RistoranteService;
 public class GestioneMenu {
 
     Scanner scanner = new Scanner(System.in);
-    UtenteUI utenteUI = new UtenteUI(scanner);
-    RistoranteUI ristoranteUI = new RistoranteUI(scanner);
     RistoranteService ristoranteServ = new RistoranteService();
+    UtenteService utenteServ = new UtenteService();
+    UtenteUI utenteUI = new UtenteUI(scanner, utenteServ);
+    RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
+    
 
     public GestioneMenu() {
         benvenuto();
@@ -81,7 +84,7 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:
-                    ristoranteServ.cercaRistorante();
+                    ristoranteUI.cercaRistorante();
                     break;
             }
         } while (scelta != 0);
@@ -102,7 +105,7 @@ public class GestioneMenu {
                     AssGestoreRistoranti.assRistoranteAGestore(utente.getUsername(), r);
                     break;
                 case 2:
-                    ristoranteServ.cercaRistorante();
+                    ristoranteUI.cercaRistorante();
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");
@@ -145,7 +148,7 @@ public class GestioneMenu {
                 case 6:
                     break;
                 case 7:
-                    ristoranteServ.cercaRistorante();
+                    ristoranteUI.cercaRistorante();
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");
