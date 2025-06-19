@@ -1,14 +1,6 @@
 package entita;
 
-import gestioneFile.FileUtenti;
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,9 +11,7 @@ import java.util.logging.Logger;
  * @author armuh
  */
 public class Utente {
-
-    private static FileUtenti fileUtenti = new FileUtenti();
-    private static HashMap<String, Utente> utenti = fileUtenti.ottieniHashMap();
+    
     protected String nome;
     protected String cognome;
     protected String username;
@@ -40,90 +30,7 @@ public class Utente {
         this.ruolo = ruolo;
     }
 
-    private Utente() {
-    }
-
-    public static Utente registrazione() {
-        Scanner scanner = new Scanner(System.in);
-        String dataProvvisoria;
-
-        System.out.println("Nome: ");
-        String nome = scanner.next();
-
-        System.out.println("Cognome: ");
-        String cognome = scanner.next();
-
-        String username;
-        do {
-            System.out.println("Username (inesistente): ");
-            username = scanner.next();
-        } while (utenti.containsKey(username));
-
-        System.out.println("Password: ");
-        String password = scanner.next();
-
-        System.out.println("Data di nascita (YYYY-MM-DD): ");
-        dataProvvisoria = scanner.next();
-        LocalDate dataNascita = LocalDate.parse(dataProvvisoria);
-
-        System.out.println("Domicilio: ");
-        String luogoDomicilio = scanner.next();
-
-        System.out.println("Ruolo: ");//impreciso
-        String ruolo = inserisciRuolo();
-
-        /*Scrivere il nuovo utente in file csv usando gli opportuni metodi*/
-        Utente utente = new Utente();
-        if (ruolo.compareTo("gestore") == 0) {
-            utente = new Gestore(nome, cognome, username, password, dataNascita, luogoDomicilio, ruolo);
-        } else if (ruolo.compareTo("cliente") == 0) {
-            utente = new Cliente(nome, cognome, username, password, dataNascita, luogoDomicilio, ruolo);
-        }
-        fileUtenti.scritturaSuFile(utente);
-        return utente;
-    }
-
-    public static String inserisciRuolo() {
-        Scanner scanner = new Scanner(System.in);
-        Ruolo ruolo = null;
-
-        while (ruolo == null) {
-            System.out.println("Inserisci il tuo ruolo (gestore o cliente): ");
-            String input = scanner.next().toUpperCase();
-
-            try {
-                ruolo = Ruolo.valueOf(input);
-                System.out.println("Ruolo selezionato: " + ruolo);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Ruolo non valido.");
-            }
-        }
-
-        return ruolo.toString().toLowerCase();
-    }
-
-    public static Utente login() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Username: ");
-        String username = scanner.next();
-
-        System.out.println("Password: ");
-        String password = scanner.next();
-
-        if ((utenti.get(username) != null & (utenti.get(username).getPassword().compareTo(password)) == 0)) {
-            return utenti.get(username);
-        } else {
-            return null;
-        }
-    }
-
-    public static HashMap<String, Utente> getUtenti() {
-        return utenti;
-    }
-
-    public static void setUtenti(HashMap<String, Utente> utenti) {
-        Utente.utenti = utenti;
+    public Utente() {
     }
 
     public String getLuogoDomicilio() {

@@ -20,3 +20,5 @@ a riga 93 di gestioneMenu distinguere il caso in cui il gestore vuole inserire
 un ristorante gia presente enl csv o non presente.
 25/5/25
 problema con la lettura e scrittura con l'intestazione del csv: risolvere
+19/06/25
+problema della singola responsabilità di ogni classe

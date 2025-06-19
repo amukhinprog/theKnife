@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import repository.RistoranteService;
 
 public class Recensione {
 
@@ -25,7 +26,7 @@ public class Recensione {
     private LocalDate data;
     List<String> recensioni = new ArrayList<>();
     String ristoranteRecensito;
-
+    private RistoranteService ristoranteServ = new RistoranteService(); 
     public Recensione(int ID, String utente, short stelle, String testo, LocalDate data, String ristoranteRecensito) {
         this.ID = ID;
         this.stelle = stelle;
@@ -93,7 +94,7 @@ public class Recensione {
         do {
             System.out.println("Inserire il nome del ristorante: ");
             nomeRistorante = scanner.next();
-        } while (Ristorante.getRistoranti().containsKey(nomeRistorante));
+        } while (ristoranteServ.containsKey(nomeRistorante));
         short nStelle;
         do {
             System.out.println("Inserire il numero di stelle (1-5):");

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import repository.UtenteService;
 
 /**
  *
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 public class FileUtenti extends GestioneFile<String, Utente> {
 
     private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
-
+    private UtenteService utenteServ = new UtenteService();
     public static String getPercorsoFile() {
         return percorsoFile;
     }
@@ -39,7 +40,7 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         utenteList.add(utente.getRuolo());
 
         GestioneFile.scritturaSuFile(getPercorsoFile(), utenteList);
-        Utente.setUtenti(new FileUtenti().ottieniHashMap());
+        utenteServ.setUtenti(new FileUtenti().ottieniHashMap());
     }
 
     @Override

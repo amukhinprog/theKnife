@@ -7,7 +7,6 @@ package gestioneFile;
 import entita.AssGestoreRistoranti;
 import entita.Gestore;
 import entita.Utente;
-import entita.ListaRistoranti;
 import entita.Ristorante;
 import java.io.BufferedWriter;
 import java.io.File;

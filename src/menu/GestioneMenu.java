@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package theknife;
+package menu;
 
 import entita.Ristorante;
 import entita.Utente;
 import java.util.Scanner;
 import entita.*;
 import gestioneFile.FileGestoreRistorante;
+import repository.RistoranteService;
 
 /**
  *
@@ -16,12 +17,18 @@ import gestioneFile.FileGestoreRistorante;
  */
 public class GestioneMenu {
 
+    Scanner scanner = new Scanner(System.in);
+    UtenteUI utenteUI = new UtenteUI(scanner);
+    RistoranteUI ristoranteUI = new RistoranteUI(scanner);
+    RistoranteService ristoranteServ = new RistoranteService();
+
     public GestioneMenu() {
         benvenuto();
     }
 
     public void benvenuto() {
         int scelta;
+
         do {
             System.out.println("Benvenuto su The Knife, scegliere l'opzione");
             System.out.println("1. Registrati");
@@ -33,11 +40,11 @@ public class GestioneMenu {
             Utente u;
             switch (scelta) {
                 case 1:
-                    u = Utente.registrazione();
+                    u = utenteUI.registrazione();
                     benvenutoUtente(u);
                     break;
                 case 2:
-                    u = Utente.login();
+                    u = utenteUI.login();
                     if (u != null) {
                         benvenutoUtente(u);
                     }
@@ -74,7 +81,7 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:
-                    Ristorante.cercaRistorante();
+                    ristoranteServ.cercaRistorante();
                     break;
             }
         } while (scelta != 0);
@@ -91,11 +98,11 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
-                    Ristorante r = Ristorante.inserisciGenericoRistorante(utente);
+                    Ristorante r = ristoranteUI.inserisciGenericoRistorante(utente);
                     AssGestoreRistoranti.assRistoranteAGestore(utente.getUsername(), r);
                     break;
                 case 2:
-                    Ristorante.cercaRistorante();  
+                    ristoranteServ.cercaRistorante();
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");
@@ -117,13 +124,19 @@ public class GestioneMenu {
             System.out.println("6. Elimina recensione");
             System.out.println("7. Ricerca ristoranti");
             System.out.println("0. Esci");
+            Ristorante r;
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:
+                    r = ristoranteUI.chiediInformazioniRistorante();
+                    PreferitiCliente.aggiungiPreferito(nomeRistorante, r);
                     break;
                 case 2:
+                    r = ristoranteUI.chiediInformazioniRistorante();
+                    PreferitiCliente.rimuoviPreferito(nomeRistorante, r);
                     break;
                 case 3:
+                    PreferitiCliente.visualizzaPreferiti(utente.getUsername());
                     break;
                 case 4:
                     break;
@@ -132,7 +145,7 @@ public class GestioneMenu {
                 case 6:
                     break;
                 case 7:
-                    Ristorante.cercaRistorante();
+                    ristoranteServ.cercaRistorante();
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");
@@ -140,4 +153,5 @@ public class GestioneMenu {
             }
         } while (scelta != 0);
     }
+
 }

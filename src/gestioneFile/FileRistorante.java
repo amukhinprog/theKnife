@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import repository.RistoranteService;
 
 /**
  *
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
 public class FileRistorante extends GestioneFile<String, Ristorante> {
 
     private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
+    private RistoranteService ristoranteServ = new RistoranteService();
 
     private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
 
@@ -130,7 +132,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         //ristoranteList.add(String.valueOf(ristorante.getStelle()));
 
         GestioneFile.scritturaSuFile(getPercorsoFile(), ristoranteList);
-        Ristorante.setRistoranti(new FileRistorante().ottieniHashMap());
+        ristoranteServ.setRistoranti(new FileRistorante().ottieniHashMap());
     }
 
 }
