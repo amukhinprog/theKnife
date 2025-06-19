@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.LinkedList;
 /**
  *
  * @author filod
@@ -77,7 +78,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
     }
 
     public void sovraScriFile(HashMap<String, PreferitiCliente> preferitiMap) {
-        List<List<String>> righeDaScrivere = new ArrayList<>();
+        LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
 
         for (PreferitiCliente pc : preferitiMap.values()) {
             List<String> riga = new ArrayList<>();

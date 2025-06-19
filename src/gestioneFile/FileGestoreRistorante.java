@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.LinkedList;
+
 
 public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistoranti> {
 
@@ -52,7 +54,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
 
     public void sovraScriFile(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
 
-        List<List<String>> assRistorantiGestoreList = new ArrayList<>();
+        LinkedList<List<String>> assRistorantiGestoreList = new LinkedList<>();
         assRistorantiGestoreList.add(intestazione);
 
         List<String> riga = new ArrayList<>();

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.util.LinkedList;
 /**
  *
  * @author armuh
@@ -88,7 +88,7 @@ public abstract class GestioneFile<K, V> {
         return rigaSpezzata;
     }
     
-    public static void sovraScriviFile(String percorsoFile, List<List<String>> oggetti){
+    public static void sovraScriviFile(String percorsoFile, LinkedList<List<String>> oggetti){
         File file = new File(percorsoFile);
         List<String> intestazione = null;
         try {
