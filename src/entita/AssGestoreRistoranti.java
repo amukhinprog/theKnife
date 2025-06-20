@@ -18,44 +18,12 @@ public class AssGestoreRistoranti {
     private String usernameRistoratore;
     private List<Ristorante> ristorantiList = new ArrayList<>();
 
-    private static HashMap<String, AssGestoreRistoranti> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
-    private static List<Ristorante> ristorantiInPossesso = new FileGestoreRistorante().ottieniListaRistorantiPossedutiUtenti();
-
     public AssGestoreRistoranti(String usernameRistoratore, List<Ristorante> ristorantiList) {
         this.usernameRistoratore = usernameRistoratore;
         this.ristorantiList = ristorantiList;
     }
 
-    public static void assRistoranteAGestore(String username, Ristorante ristorante) {
-        FileGestoreRistorante fileAss = new FileGestoreRistorante();
-        if (ristorante != null) {
-            if (ristorantiMap.containsKey(username)) {
-                AssGestoreRistoranti g = ristorantiMap.get(username);
-                g.addRistorantiList(ristorante);
-                ristorantiMap.replace(username, g);
-                fileAss.sovraScriFile(ristorantiMap);
-
-            } else {
-                List<Ristorante> l = new ArrayList<>();
-                l.add(ristorante);
-                AssGestoreRistoranti assGestore = new AssGestoreRistoranti(username, l);
-                ristorantiMap.put(username, assGestore);
-
-                fileAss.scritturaSuFile(assGestore);
-            }
-        }
-    }
-
-    public static boolean ristoranteInPossessoDaUtenti(Ristorante r) {
-        for (Ristorante rPosseduti : ristorantiInPossesso) {
-            if (rPosseduti.getNome().equals(r.getNome())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean ristoranteInPossessoDaUtente(Ristorante r) {
+    public boolean contains(Ristorante r) {
         for (Ristorante rPosseduti : ristorantiList) {
             if (rPosseduti.getNome().equals(r.getNome())) {
                 return true;
@@ -82,13 +50,5 @@ public class AssGestoreRistoranti {
 
     public void setUsernameRistoratore(String usernameRistoratore) {
         this.usernameRistoratore = usernameRistoratore;
-    }
-
-    public static HashMap<String, AssGestoreRistoranti> getRistorantiMap() {
-        return ristorantiMap;
-    }
-
-    public static void setRistorantiMap(HashMap<String, AssGestoreRistoranti> ristorantiMap) {
-        AssGestoreRistoranti.ristorantiMap = ristorantiMap;
     }
 }

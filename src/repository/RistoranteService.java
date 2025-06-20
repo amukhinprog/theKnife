@@ -26,7 +26,7 @@ public class RistoranteService {
     private HashMap<String, Ristorante> ristoranti = new FileRistorante().ottieniHashMap();
     private Scanner scanner = new Scanner(System.in);
 //    private RistoranteUI ristoranteUI = new RistoranteUI(scanner);
-    
+
     public HashMap<String, Ristorante> getRistoranti() {
         return ristoranti;
     }
@@ -46,20 +46,27 @@ public class RistoranteService {
             return null;
         }
     }
-    
-    public Collection<Ristorante> values(){
-        return  ristoranti.values();
+
+    public Collection<Ristorante> values() {
+        return ristoranti.values();
     }
-    
-    
-    
+
     public boolean ristoranteGiaPossedutoDalGestore(Gestore utente, Ristorante ristorante) {
-        HashMap<String, AssGestoreRistoranti> mappa = AssGestoreRistoranti.getRistorantiMap();
+        AssGestoreRistorantiService AGR = new AssGestoreRistorantiService();
+        HashMap<String, AssGestoreRistoranti> mappa = AGR.getRistorantiMap();
         AssGestoreRistoranti gestore = mappa.get(utente.getUsername());
-        return gestore != null && gestore.ristoranteInPossessoDaUtente(ristorante);
+        return gestore != null && gestore.contains(ristorante);
     }
 
     public boolean ristoranteHaAltroProprietario(Gestore utente, Ristorante ristorante) {
-        return AssGestoreRistoranti.ristoranteInPossessoDaUtenti(ristorante);
+        AssGestoreRistorantiService AGRs = new AssGestoreRistorantiService();
+        HashMap<String, AssGestoreRistoranti> AGRsmap = AGRs.getRistorantiMap();
+        for (AssGestoreRistoranti assGestoreRistoranti : AGRsmap.values()) {
+            if (assGestoreRistoranti.contains(ristorante)
+                    && !assGestoreRistoranti.getUsernameRistoratore().equals(utente.getUsername())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

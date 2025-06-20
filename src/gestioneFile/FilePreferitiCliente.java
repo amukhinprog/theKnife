@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.LinkedList;
+import repository.PreferitiClienteService;
 /**
  *
  * @author filod
@@ -65,6 +66,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
     @Override
     public void scritturaSuFile(PreferitiCliente preferitiCliente) {
         List<String> preferitiList = new ArrayList<>();
+        PreferitiClienteService PCS = new PreferitiClienteService();
         preferitiList.add(preferitiCliente.getUsernameCliente());
 
         StringBuilder ristorantiConcatenati = new StringBuilder();
@@ -74,7 +76,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         preferitiList.add(ristorantiConcatenati.toString());
 
         GestioneFile.scritturaSuFile(getPercorsoFile(), preferitiList);
-        PreferitiCliente.setPreferitiMap(ottieniHashMap());
+        PCS.setPreferitiMap(ottieniHashMap());
     }
 
     public void sovraScriFile(HashMap<String, PreferitiCliente> preferitiMap) {

@@ -9,6 +9,8 @@ import entita.Utente;
 import java.util.Scanner;
 import entita.*;
 import gestioneFile.FileGestoreRistorante;
+import repository.AssGestoreRistorantiService;
+import repository.PreferitiClienteService;
 import repository.RistoranteService;
 import repository.UtenteService;
 
@@ -18,12 +20,13 @@ import repository.UtenteService;
  */
 public class GestioneMenu {
 
-    Scanner scanner = new Scanner(System.in);
-    RistoranteService ristoranteServ = new RistoranteService();
-    UtenteService utenteServ = new UtenteService();
-    UtenteUI utenteUI = new UtenteUI(scanner, utenteServ);
-    RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
-    
+    private Scanner scanner = new Scanner(System.in);
+    private RistoranteService ristoranteServ = new RistoranteService();
+    private UtenteService utenteServ = new UtenteService();
+    private PreferitiClienteService prefClienteServ = new PreferitiClienteService();
+    private UtenteUI utenteUI = new UtenteUI(scanner, utenteServ);
+    private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
+    private PreferitiClienteUI preferitiClienteUI = new PreferitiClienteUI();
 
     public GestioneMenu() {
         benvenuto();
@@ -77,7 +80,6 @@ public class GestioneMenu {
     public void benvenutoGuest() {
         int scelta;
         do {
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("1. Visualizza ristoranti");
             System.out.println("0. Esci");
@@ -93,7 +95,6 @@ public class GestioneMenu {
     public void benvenutoGestore(Gestore utente) {
         int scelta;
         String nomeRistorante = "";
-        Scanner scanner = new Scanner(System.in);
         do {
             System.out.println("1. Aggiungi ristorante");
             System.out.println("2. Ricerca ristoranti");
@@ -101,8 +102,9 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
+                    AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
                     Ristorante r = ristoranteUI.inserisciGenericoRistorante(utente);
-                    AssGestoreRistoranti.assRistoranteAGestore(utente.getUsername(), r);
+                    assGestoreRistorantiServ.add(utente.getUsername(), r);
                     break;
                 case 2:
                     ristoranteUI.cercaRistorante();
@@ -117,7 +119,6 @@ public class GestioneMenu {
     public void benvenutoCliente(Cliente utente) {
         int scelta;
         String nomeRistorante = "";
-        Scanner scanner = new Scanner(System.in);
         do {
             System.out.println("1. Aggiungi ristorante ai preferiti");
             System.out.println("2. Rimuovi ristorante dai preferiti");
@@ -132,14 +133,14 @@ public class GestioneMenu {
             switch (scelta) {
                 case 1:
                     r = ristoranteUI.chiediInformazioniRistorante();
-                    PreferitiCliente.aggiungiPreferito(nomeRistorante, r);
+                    prefClienteServ.add(nomeRistorante, r);
                     break;
                 case 2:
                     r = ristoranteUI.chiediInformazioniRistorante();
-                    PreferitiCliente.rimuoviPreferito(nomeRistorante, r);
+                    prefClienteServ.remove(nomeRistorante, r);
                     break;
                 case 3:
-                    PreferitiCliente.visualizzaPreferiti(utente.getUsername());
+                    preferitiClienteUI.visualizza(utente.getUsername());
                     break;
                 case 4:
                     break;

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import repository.RecensioneService;
 
 /**
  *
@@ -51,13 +52,14 @@ public class FileRecensioni extends GestioneFile <Integer,Recensione> {
     @Override
     public void scritturaSuFile(Recensione recensione){
         List<String>RecensioniLista= new ArrayList<>();
+        RecensioneService recensioneServ = new RecensioneService();
         RecensioniLista.add(String.valueOf(recensione.getID()));
         RecensioniLista.add(recensione.getUtente());
         RecensioniLista.add(String.valueOf(recensione.getstelle()));
         RecensioniLista.add(recensione.gettesto());
         RecensioniLista.add(String.valueOf(recensione.getdata()));
         GestioneFile.scritturaSuFile(getPercorsoFile(), RecensioniLista);
-        Recensione.setRecensioniHashMap(ottieniHashMap());
+        recensioneServ.setRecensioniHashMap(ottieniHashMap());
         
       
     }
