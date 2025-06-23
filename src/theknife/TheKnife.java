@@ -32,11 +32,15 @@ public class TheKnife {
 //        System.out.println(Utente.inserisciRuolo());
         
 //        Ristorante.inserisciRistoranteEsistente((Gestore) Gestore.getUtenti().get("artur1"));
-        RistoranteService rs= new RistoranteService();
-        PreferitiClienteService pcs = new PreferitiClienteService();
-        pcs.add("eleonoracaredda", rs.get("Alinea"));
-        pcs.add("eleonoracaredda", rs.get("Amador"));
+//        RistoranteService rs= new RistoranteService();
+//        PreferitiClienteService pcs = new PreferitiClienteService();
+//        pcs.add("eleonoracaredda", rs.get("Alinea"));
+//        pcs.add("eleonoracaredda", rs.get("Amador"));
 //        pcs.add("eleonoracaredda", rs.get("Smyth"));
+FileRistorante fRis = new FileRistorante();
+fRis.ottieniHashMap();
+    FileRecensioni fR = new FileRecensioni();
+    fR.ottieniHashMap();
         GestioneMenu menu = new GestioneMenu();
     }
 

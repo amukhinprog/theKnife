@@ -22,3 +22,6 @@ un ristorante gia presente enl csv o non presente.
 problema con la lettura e scrittura con l'intestazione del csv: risolvere
 19/06/25
 problema della singola responsabilità di ogni classe
+23/06/25
+sezione preferiti completata, finire le recensioni; aggiustare il separatore nel csv delle
+recensioni

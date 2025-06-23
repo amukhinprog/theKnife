@@ -5,11 +5,13 @@
 package repository;
 
 import entita.Recensione;
+import entita.Ristorante;
 import entita.Utente;
 import gestioneFile.FileRecensioni;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
+import menu.RistoranteUI;
 
 /**
  *
@@ -19,6 +21,9 @@ public class RecensioneService {
 
     private HashMap<Integer, Recensione> recensioniHashMap = new FileRecensioni().ottieniHashMap();
     private RistoranteService ristoranteServ = new RistoranteService();
+    private FileRecensioni fileRecensioni = new FileRecensioni();
+    private Scanner scanner = new Scanner(System.in);
+    private RistoranteUI rUI = new RistoranteUI(scanner, ristoranteServ);
 
     public HashMap<Integer, Recensione> getRecensioniHashMap() {
         return recensioniHashMap;
@@ -29,7 +34,6 @@ public class RecensioneService {
     }
 
     public void add(Utente utente) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Recensione ristorante");
         String nomeRistorante;
         do {
@@ -45,5 +49,15 @@ public class RecensioneService {
         String testo = scanner.next();
 
         Recensione r = new Recensione(1, utente.getUsername(), nStelle, testo, LocalDate.now(), nomeRistorante);
+        fileRecensioni.scritturaSuFile(r);
+    }
+
+    public void put(Utente utente) {
+        
+    }
+
+    public void remove(Utente utente) {
+        Ristorante ristorante = rUI.chiediInformazioni();
+        
     }
 }

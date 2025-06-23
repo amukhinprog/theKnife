@@ -11,6 +11,7 @@ import entita.Ristorante;
 import static gestioneFile.FileRistorante.getPercorsoFile;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,36 +23,36 @@ import repository.RecensioneService;
  *
  * @author Nikoro02
  */
-public class FileRecensioni extends GestioneFile <Integer,Recensione> {
+public class FileRecensioni extends GestioneFile<Integer, Recensione> {
+
     private static String percorsofile = "..\\theKnife\\data\\recensioni_ristoranti.csv";
- 
+
     @Override
-    public HashMap<Integer, Recensione> ottieniHashMap() { 
+    public HashMap<Integer, Recensione> ottieniHashMap() {
         List<List<String>> recensioniList = new ArrayList<>();
         HashMap<Integer, Recensione> recension = new HashMap<Integer, Recensione>();
         try {
-            recensioniList=FileRecensioni.letturaCsv(FileRecensioni.getPercorsoFile());
+            recensioniList = FileRecensioni.letturaCsv(FileRecensioni.getPercorsoFile());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
         }
-         for(List<String>campo : recensioniList){
-             int id = Integer.parseInt(campo.get(0));
-             String utente = campo.get(1);
-             short stelle = Short.parseShort(campo.get(2));
-             LocalDate data = LocalDate.parse(campo.get(3));
-             String testo = campo.get(4);
-             String ristorante = campo.get(4);
-             Recensione recensione1= new Recensione(id, utente, stelle, testo, data, ristorante);
-              recension.put(recensione1.getID(), recensione1);
-         }
-         return recension;
-           }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (List<String> campo : recensioniList) {
+            int id = Integer.parseInt(campo.get(0));
+            String utente = campo.get(1);
+            short stelle = Short.parseShort(campo.get(2));
+            String testo = campo.get(3);
+            LocalDate data = LocalDate.parse(campo.get(4), formatter);
+            String ristorante = campo.get(5);
+            Recensione recensione1 = new Recensione(id, utente, stelle, testo, data, ristorante);
+            recension.put(recensione1.getID(), recensione1);
+        }
+        return recension;
+    }
 
-
-    
     @Override
-    public void scritturaSuFile(Recensione recensione){
-        List<String>RecensioniLista= new ArrayList<>();
+    public void scritturaSuFile(Recensione recensione) {
+        List<String> RecensioniLista = new ArrayList<>();
         RecensioneService recensioneServ = new RecensioneService();
         RecensioniLista.add(String.valueOf(recensione.getID()));
         RecensioniLista.add(recensione.getUtente());
@@ -60,10 +61,10 @@ public class FileRecensioni extends GestioneFile <Integer,Recensione> {
         RecensioniLista.add(String.valueOf(recensione.getdata()));
         GestioneFile.scritturaSuFile(getPercorsoFile(), RecensioniLista);
         recensioneServ.setRecensioniHashMap(ottieniHashMap());
-        
-      
+
     }
-    public static String getPercorsoFile(){
+
+    public static String getPercorsoFile() {
         return percorsofile;
     }
 }
