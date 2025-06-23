@@ -160,7 +160,7 @@ public class Ristorante {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-
+    
     /*public short getStelle() {
         return stelle;
     }

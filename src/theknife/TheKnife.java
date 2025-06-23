@@ -15,6 +15,9 @@ import gestioneFile.FileRistorante;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import repository.PreferitiClienteService;
+import repository.RistoranteService;
+import repository.UtenteService;
 /**
  *
  * @author armuh
@@ -29,7 +32,11 @@ public class TheKnife {
 //        System.out.println(Utente.inserisciRuolo());
         
 //        Ristorante.inserisciRistoranteEsistente((Gestore) Gestore.getUtenti().get("artur1"));
-        
+        RistoranteService rs= new RistoranteService();
+        PreferitiClienteService pcs = new PreferitiClienteService();
+        pcs.add("eleonoracaredda", rs.get("Alinea"));
+        pcs.add("eleonoracaredda", rs.get("Amador"));
+//        pcs.add("eleonoracaredda", rs.get("Smyth"));
         GestioneMenu menu = new GestioneMenu();
     }
 

@@ -79,7 +79,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         PCS.setPreferitiMap(ottieniHashMap());
     }
 
-    public void sovraScriFile(HashMap<String, PreferitiCliente> preferitiMap) {
+    public void sovraScriviFile(HashMap<String, PreferitiCliente> preferitiMap) {
         LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
 
         for (PreferitiCliente pc : preferitiMap.values()) {

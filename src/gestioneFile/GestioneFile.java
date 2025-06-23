@@ -52,6 +52,13 @@ public abstract class GestioneFile<K, V> {
             System.out.println(e.getMessage());
         }
     }
+    public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException{
+        List<String> intestazione = new ArrayList<>();
+        try(Scanner scanner = new Scanner(new File(percorsoFile))){
+            intestazione.add(scanner.nextLine());
+        }
+        return intestazione;
+    }
 
     public static List<List<String>> letturaCsv(String percorsoFile) throws FileNotFoundException {
         List<List<String>> frasi = new ArrayList<>();
@@ -92,7 +99,7 @@ public abstract class GestioneFile<K, V> {
         File file = new File(percorsoFile);
         List<String> intestazione = null;
         try {
-            intestazione = letturaCsv(percorsoFile).get(0);
+            intestazione = letturaIntestazione(percorsoFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
         }

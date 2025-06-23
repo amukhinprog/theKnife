@@ -27,13 +27,14 @@ public class PreferitiClienteService {
             Collection<PreferitiCliente> preferitiLista = preferitiMap.values();
             boolean assente = true;
             for (PreferitiCliente ristorantePreferito : preferitiLista) {
-                if (!ristorantePreferito.getRistorantiPreferiti().contains(ristorante)) {
+                if (ristorantePreferito.getRistorantiPreferiti().contains(ristorante)) {
                     assente = false;
                 }
             }
             if (assente) {
                 preferenze.addRistorantePreferito(ristorante);
-                file.scritturaSuFile(preferenze);
+                preferitiMap.put(username, preferenze);
+                file.sovraScriviFile(preferitiMap);
             }
         } else {
             List<Ristorante> nuoviPreferiti = new ArrayList<>();
