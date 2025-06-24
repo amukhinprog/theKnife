@@ -42,7 +42,7 @@ public abstract class GestioneFile<K, V> {
 //        }
 //    }
 
-    protected static void scritturaSuFile(String percorsoFile, List<String> oggetto) {
+    protected static void scrittura(String percorsoFile, List<String> oggetto) {
         File file = new File(percorsoFile);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile, true))) {
             String linea = String.join(",", oggetto);
@@ -95,7 +95,7 @@ public abstract class GestioneFile<K, V> {
         return rigaSpezzata;
     }
     
-    public static void sovraScriviFile(String percorsoFile, LinkedList<List<String>> oggetti){
+    public static void sovraScrivi(String percorsoFile, LinkedList<List<String>> oggetti){
         File file = new File(percorsoFile);
         List<String> intestazione = null;
         try {
@@ -117,5 +117,5 @@ public abstract class GestioneFile<K, V> {
 
     abstract public HashMap<K, V> ottieniHashMap();
 
-    abstract public void scritturaSuFile(V oggetto);
+    abstract public void scrittura(V oggetto);
 }

@@ -29,7 +29,8 @@ public class GestioneMenu {
     private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
     private PreferitiClienteUI preferitiClienteUI = new PreferitiClienteUI(scanner, prefClienteServ);
     private RecensioneService recensioneServ = new RecensioneService();
-    
+    private RecensioneUI recensioneUI = new RecensioneUI(scanner, recensioneServ);
+
     public GestioneMenu() {
         benvenuto();
     }
@@ -132,6 +133,7 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             Ristorante r;
             scelta = scanner.nextInt();
+            scanner.nextLine();
             switch (scelta) {
                 case 1:
                     r = ristoranteUI.chiediInformazioni();
@@ -145,13 +147,13 @@ public class GestioneMenu {
                     preferitiClienteUI.visualizza(utente.getUsername());
                     break;
                 case 4:
-                    recensioneServ.add(utente);
+                    recensioneUI.add(utente);
                     break;
                 case 5:
-                    recensioneServ.put(utente);
+                    recensioneUI.put(utente);
                     break;
                 case 6:
-                    recensioneServ.remove(utente);
+                    recensioneUI.remove(utente);
                     break;
                 case 7:
                     ristoranteUI.cerca();

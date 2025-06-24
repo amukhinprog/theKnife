@@ -53,7 +53,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
         return percorsoFile;
     }
 
-    public void sovraScriFile(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
+    public void sovraScrivi(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
 
         LinkedList<List<String>> assRistorantiGestoreList = new LinkedList<>();
         assRistorantiGestoreList.add(intestazione);
@@ -69,7 +69,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
             riga.add(stringaDiRistoranti);
             assRistorantiGestoreList.add(riga);
         }
-        GestioneFile.sovraScriviFile(percorsoFile, assRistorantiGestoreList);
+        GestioneFile.sovraScrivi(percorsoFile, assRistorantiGestoreList);
     }
 
     public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
@@ -114,7 +114,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
     }
 
     @Override
-    public void scritturaSuFile(AssGestoreRistoranti assRistorantiGestore) {
+    public void scrittura(AssGestoreRistoranti assRistorantiGestore) {
         List<String> assRistorantiGestoreList = new ArrayList<>();
         AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
         assRistorantiGestoreList.add(assRistorantiGestore.getUsernameRistoratore());
@@ -122,7 +122,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
             String nomeRistorantePosseduto = ristorantePosseduto.getNome() + "$";
             assRistorantiGestoreList.add(nomeRistorantePosseduto);
         }
-        GestioneFile.scritturaSuFile(percorsoFile, assRistorantiGestoreList);
+        GestioneFile.scrittura(percorsoFile, assRistorantiGestoreList);
         HashMap<String, AssGestoreRistoranti> ristorantiMap = ottieniHashMap();
         assGestoreRistoranti.setRistorantiMap(ristorantiMap);
     }

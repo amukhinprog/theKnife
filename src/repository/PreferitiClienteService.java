@@ -34,7 +34,7 @@ public class PreferitiClienteService {
             if (assente) {
                 preferenze.addRistorantePreferito(ristorante);
                 preferitiMap.put(username, preferenze);
-                file.sovraScriviFile(preferitiMap);
+                file.sovraScrivi(preferitiMap);
             }
         } else {
             List<Ristorante> nuoviPreferiti = new ArrayList<>();
@@ -43,7 +43,7 @@ public class PreferitiClienteService {
             PreferitiCliente nuovaAss = new PreferitiCliente(username, nuoviPreferiti);
             preferitiMap.put(username, nuovaAss);
 
-            file.scritturaSuFile(nuovaAss);
+            file.scrittura(nuovaAss);
         }
     }
 
@@ -55,7 +55,7 @@ public class PreferitiClienteService {
 
             if (preferenze.getRistorantiPreferiti().contains(ristorante)) {
                 preferenze.getRistorantiPreferiti().remove(ristorante);
-                file.scritturaSuFile(preferenze);
+                file.scrittura(preferenze);
             }
         }
     }

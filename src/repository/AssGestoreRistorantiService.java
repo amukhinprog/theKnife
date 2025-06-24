@@ -26,7 +26,7 @@ public class AssGestoreRistorantiService {
                 AssGestoreRistoranti g = ristorantiMap.get(username);
                 g.addRistorantiList(ristorante);
                 ristorantiMap.replace(username, g);
-                fileAss.sovraScriFile(ristorantiMap);
+                fileAss.sovraScrivi(ristorantiMap);
 
             } else {
                 List<Ristorante> l = new ArrayList<>();
@@ -34,7 +34,7 @@ public class AssGestoreRistorantiService {
                 AssGestoreRistoranti assGestore = new AssGestoreRistoranti(username, l);
                 ristorantiMap.put(username, assGestore);
 
-                fileAss.scritturaSuFile(assGestore);
+                fileAss.scrittura(assGestore);
             }
         }
     }
