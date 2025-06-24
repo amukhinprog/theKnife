@@ -6,7 +6,7 @@ package entita;
 
 /**
  *
- * @author Utente
+ * @author Nikoro02
  */
 import gestioneFile.FileRecensioni;
 import java.time.LocalDate;
