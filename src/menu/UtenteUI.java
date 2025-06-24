@@ -63,7 +63,7 @@ public class UtenteUI {
         } else if (ruolo.compareTo("cliente") == 0) {
             utente = new Cliente(nome, cognome, username, password, dataNascita, luogoDomicilio, ruolo);
         }
-        fileUtenti.scritturaSuFile(utente);
+        fileUtenti.scrittura(utente);
         return utente;
     }
 

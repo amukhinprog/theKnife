@@ -15,6 +15,11 @@ import gestioneFile.FileRistorante;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import menu.RecensioneUI;
+import repository.PreferitiClienteService;
+import repository.RecensioneService;
+import repository.RistoranteService;
+import repository.UtenteService;
 /**
  *
  * @author armuh
@@ -26,10 +31,6 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        System.out.println(Utente.inserisciRuolo());
-        
-//        Ristorante.inserisciRistoranteEsistente((Gestore) Gestore.getUtenti().get("artur1"));
-        
         GestioneMenu menu = new GestioneMenu();
     }
 

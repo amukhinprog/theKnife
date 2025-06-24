@@ -5,11 +5,14 @@
 package repository;
 
 import entita.Recensione;
+import entita.Ristorante;
 import entita.Utente;
 import gestioneFile.FileRecensioni;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
+import menu.RecensioneUI;
+import menu.RistoranteUI;
 
 /**
  *
@@ -19,31 +22,38 @@ public class RecensioneService {
 
     private HashMap<Integer, Recensione> recensioniHashMap = new FileRecensioni().ottieniHashMap();
     private RistoranteService ristoranteServ = new RistoranteService();
-
+    private FileRecensioni fileRecensioni = new FileRecensioni();
+    private Scanner scanner = new Scanner(System.in);
+    private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
+//    private RecensioneUI recensioneUI = new RecensioneUI(scanner, this);
+    private static int ID = 0;
     public HashMap<Integer, Recensione> getRecensioniHashMap() {
-        return recensioniHashMap;
+        return new FileRecensioni().ottieniHashMap();
     }
 
     public void setRecensioniHashMap(HashMap<Integer, Recensione> recensioniHashMap) {
         this.recensioniHashMap = recensioniHashMap;
     }
 
-    public void add(Utente utente) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Recensione ristorante");
-        String nomeRistorante;
-        do {
-            System.out.println("Inserire il nome del ristorante: ");
-            nomeRistorante = scanner.next();
-        } while (ristoranteServ.containsKey(nomeRistorante));
-        short nStelle;
-        do {
-            System.out.println("Inserire il numero di stelle (1-5):");
-            nStelle = scanner.nextShort();
-        } while (nStelle > 5 || nStelle < 1);
-        System.out.println("Inserire il testo");
-        String testo = scanner.next();
+    public void add(Recensione recensione) {
+        recensione.setID(incID());
+        fileRecensioni.scrittura(recensione);
+    }
 
-        Recensione r = new Recensione(1, utente.getUsername(), nStelle, testo, LocalDate.now(), nomeRistorante);
+    public void put(Integer id, Recensione recensione) {
+        recensioniHashMap.put(id, recensione);
+        fileRecensioni.sovraScrivi(recensioniHashMap);
+    }
+
+    public void remove(Integer id) {
+        recensioniHashMap.remove(id);
+        fileRecensioni.sovraScrivi(recensioniHashMap);
+    }
+
+    public static int getID() {
+        return ID;
+    }
+    public static int incID(){
+        return ++ID;
     }
 }

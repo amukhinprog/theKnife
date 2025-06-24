@@ -11,6 +11,7 @@ import entita.*;
 import gestioneFile.FileGestoreRistorante;
 import repository.AssGestoreRistorantiService;
 import repository.PreferitiClienteService;
+import repository.RecensioneService;
 import repository.RistoranteService;
 import repository.UtenteService;
 
@@ -26,7 +27,9 @@ public class GestioneMenu {
     private PreferitiClienteService prefClienteServ = new PreferitiClienteService();
     private UtenteUI utenteUI = new UtenteUI(scanner, utenteServ);
     private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
-    private PreferitiClienteUI preferitiClienteUI = new PreferitiClienteUI();
+    private PreferitiClienteUI preferitiClienteUI = new PreferitiClienteUI(scanner, prefClienteServ);
+    private RecensioneService recensioneServ = new RecensioneService();
+    private RecensioneUI recensioneUI = new RecensioneUI(scanner, recensioneServ);
 
     public GestioneMenu() {
         benvenuto();
@@ -86,7 +89,7 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:
-                    ristoranteUI.cercaRistorante();
+                    ristoranteUI.cerca();
                     break;
             }
         } while (scelta != 0);
@@ -103,11 +106,11 @@ public class GestioneMenu {
             switch (scelta) {
                 case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
                     AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
-                    Ristorante r = ristoranteUI.inserisciGenericoRistorante(utente);
+                    Ristorante r = ristoranteUI.inserisciGenerico(utente);
                     assGestoreRistorantiServ.add(utente.getUsername(), r);
                     break;
                 case 2:
-                    ristoranteUI.cercaRistorante();
+                    ristoranteUI.cerca();
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");
@@ -130,26 +133,30 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             Ristorante r;
             scelta = scanner.nextInt();
+            scanner.nextLine();
             switch (scelta) {
                 case 1:
-                    r = ristoranteUI.chiediInformazioniRistorante();
+                    r = ristoranteUI.chiediInformazioni();
                     prefClienteServ.add(nomeRistorante, r);
                     break;
                 case 2:
-                    r = ristoranteUI.chiediInformazioniRistorante();
+                    r = ristoranteUI.chiediInformazioni();
                     prefClienteServ.remove(nomeRistorante, r);
                     break;
                 case 3:
                     preferitiClienteUI.visualizza(utente.getUsername());
                     break;
                 case 4:
+                    recensioneUI.add(utente);
                     break;
                 case 5:
+                    recensioneUI.put(utente);
                     break;
                 case 6:
+                    recensioneUI.remove(utente);
                     break;
                 case 7:
-                    ristoranteUI.cercaRistorante();
+                    ristoranteUI.cerca();
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");

@@ -30,7 +30,7 @@ public class RistoranteUI {
         this.ristoranteServ = ristoranteServ;
     }
 
-    public Ristorante chiediInformazioniRistorante() {
+    public Ristorante chiediInformazioni() {
         Scanner scanner = new Scanner(System.in);
         String nomeRistorante;
         do {
@@ -40,7 +40,7 @@ public class RistoranteUI {
         return ristoranteServ.get(nomeRistorante);
     }
 
-    private Ristorante inserisciNuovoRistorante() {
+    private Ristorante inserisciNuovo() {
         String nome;
         do {
             System.out.println("Nome: ");
@@ -88,7 +88,7 @@ public class RistoranteUI {
         return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine, numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione/*, stelle*/);
     }
 
-    public void visualizzaRistorante(List<Ristorante> ristoranti) {
+    public void visualizza(List<Ristorante> ristoranti) {
 //        System.out.println(ristoranti);
 
         for (Ristorante ristorante : ristoranti) {
@@ -101,7 +101,7 @@ public class RistoranteUI {
         }
     }
 
-    public Ristorante inserisciGenericoRistorante(Gestore utente) {
+    public Ristorante inserisciGenerico(Gestore utente) {
         char scelta = ' ';
         Ristorante r = null;
         do {
@@ -110,10 +110,10 @@ public class RistoranteUI {
             scelta = scanner.next().charAt(0);
             switch (scelta) {
                 case 's':
-                    r = inserisciNuovoRistorante();
+                    r = inserisciNuovo();
                     break;
                 case 'n':
-                    r = inserisciRistoranteEsistente(utente);
+                    r = inserisciEsistente(utente);
                     break;
                 default:
                     System.out.println("Riprovare");
@@ -123,11 +123,11 @@ public class RistoranteUI {
         return r;
     }
 
-    public Ristorante inserisciRistoranteEsistente(Gestore utente) {
+    public Ristorante inserisciEsistente(Gestore utente) {
         String nomeRistorante;
 
         while (true) {
-            nomeRistorante = chiediNomeRistorante(scanner);
+            nomeRistorante = chiediNome(scanner);
 
             if (nomeRistorante.equals("0")) {
                 return ristoranteVuoto();
@@ -154,13 +154,13 @@ public class RistoranteUI {
         }
     }
 
-    private String chiediNomeRistorante(Scanner scanner) {
+    private String chiediNome(Scanner scanner) {
         System.out.println("Inserire il nome del ristorante: ");
         System.out.println("0. Esci");
         return scanner.next();
     }
 
-    public void cercaRistorante() {
+    public void cerca() {
         int scelta = -1;
         System.out.println("Inserire 1 per cercare un ristorante per locazione");
         System.out.println("Inserire 2 per cercare un ristorante per tipologia di cucina");
@@ -177,25 +177,25 @@ public class RistoranteUI {
         }
         switch (scelta) {
             case 1:
-                cercaRistorantePerLocazione();
+                cercaPerLocazione();
                 break;
             case 2:
-                cercaRistorantePerCucina();
+                cercaPerCucina();
                 break;
             case 3:
-                cercaRistorantePerPrezzo();
+                cercaPerPrezzo();
                 break;
             case 4:
-                cercaRistorantePerDelivery();
+                cercaPerDelivery();
                 break;
             case 5:
-                cercaRistorantePerPrenotazione();
+                cercaPerPrenotazione();
                 break;
             /*case 6:
-                cercaRistorantePerStelle();
+                cercaPerStelle();
                 break;
            /*case 7:
-                cercaRistoranteCriteri();
+                cercaCriteri();
                 break;*/
             default:
                 System.out.println("Scegliere l'opzione corretta");
@@ -204,7 +204,7 @@ public class RistoranteUI {
 
     }
 
-    private void cercaRistorantePerLocazione() {
+    private void cercaPerLocazione() {
         System.out.println("Inserire il nome della citta': ");
         String locazione = scanner.next();
         locazione = locazione.toLowerCase();
@@ -217,10 +217,10 @@ public class RistoranteUI {
                 ristorantiList.add(ristorante);
             }
         }
-        visualizzaRistorante(ristorantiList);
+        visualizza(ristorantiList);
     }
 
-    private void cercaRistorantePerCucina() {
+    private void cercaPerCucina() {
         System.out.println("Inserire la tipologia di cucina del ristorante : ");
         String cucina = scanner.next();
         cucina = cucina.toLowerCase();
@@ -232,10 +232,10 @@ public class RistoranteUI {
                 ristorantiList.add(ristorante);
             }
         }
-        visualizzaRistorante(ristorantiList);
+        visualizza(ristorantiList);
     }
 
-    private void cercaRistorantePerPrezzo() {
+    private void cercaPerPrezzo() {
         System.out.println("Visualizzare i ristoranti con un prezzo minore di: ");
         Float prezzoLimite;
         try {
@@ -252,10 +252,10 @@ public class RistoranteUI {
                 ristorantiList.add(ristorante);
             }
         }
-        visualizzaRistorante(ristorantiList);
+        visualizza(ristorantiList);
     }
 
-    private void cercaRistorantePerDelivery() {
+    private void cercaPerDelivery() {
         boolean delivery;
 
         while (true) {
@@ -282,10 +282,10 @@ public class RistoranteUI {
             }
         }
 
-        visualizzaRistorante(ristorantiList);
+        visualizza(ristorantiList);
     }
 
-    private void cercaRistorantePerPrenotazione() {
+    private void cercaPerPrenotazione() {
         boolean prenotazione;
 
         while (true) {
@@ -312,10 +312,10 @@ public class RistoranteUI {
             }
         }
 
-        visualizzaRistorante(ristorantiList);
+        visualizza(ristorantiList);
     }
 
-    /*private void cercaRistorantePerStelle() {
+    /*private void cercaPerStelle() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Inserisci il numero esatto di stelle (da 1 a 5): ");
         int numeroStelle;

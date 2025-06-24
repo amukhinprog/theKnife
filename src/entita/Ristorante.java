@@ -54,8 +54,22 @@ public class Ristorante {
     public static final Ristorante ristoranteVuoto() {
         return new Ristorante();
     }
-    
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Ristorante ristorante = (Ristorante)obj;
+        if (this.nome.equals(ristorante.getNome())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public String getNome() {
         return nome;

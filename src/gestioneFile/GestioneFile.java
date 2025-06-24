@@ -42,7 +42,7 @@ public abstract class GestioneFile<K, V> {
 //        }
 //    }
 
-    protected static void scritturaSuFile(String percorsoFile, List<String> oggetto) {
+    protected static void scrittura(String percorsoFile, List<String> oggetto) {
         File file = new File(percorsoFile);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile, true))) {
             String linea = String.join(",", oggetto);
@@ -51,6 +51,13 @@ public abstract class GestioneFile<K, V> {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+    public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException{
+        List<String> intestazione = new ArrayList<>();
+        try(Scanner scanner = new Scanner(new File(percorsoFile))){
+            intestazione.add(scanner.nextLine());
+        }
+        return intestazione;
     }
 
     public static List<List<String>> letturaCsv(String percorsoFile) throws FileNotFoundException {
@@ -88,11 +95,11 @@ public abstract class GestioneFile<K, V> {
         return rigaSpezzata;
     }
     
-    public static void sovraScriviFile(String percorsoFile, LinkedList<List<String>> oggetti){
+    public static void sovraScrivi(String percorsoFile, LinkedList<List<String>> oggetti){
         File file = new File(percorsoFile);
         List<String> intestazione = null;
         try {
-            intestazione = letturaCsv(percorsoFile).get(0);
+            intestazione = letturaIntestazione(percorsoFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,5 +117,5 @@ public abstract class GestioneFile<K, V> {
 
     abstract public HashMap<K, V> ottieniHashMap();
 
-    abstract public void scritturaSuFile(V oggetto);
+    abstract public void scrittura(V oggetto);
 }

@@ -27,13 +27,14 @@ public class PreferitiClienteService {
             Collection<PreferitiCliente> preferitiLista = preferitiMap.values();
             boolean assente = true;
             for (PreferitiCliente ristorantePreferito : preferitiLista) {
-                if (!ristorantePreferito.getRistorantiPreferiti().contains(ristorante)) {
+                if (ristorantePreferito.getRistorantiPreferiti().contains(ristorante)) {
                     assente = false;
                 }
             }
             if (assente) {
                 preferenze.addRistorantePreferito(ristorante);
-                file.scritturaSuFile(preferenze);
+                preferitiMap.put(username, preferenze);
+                file.sovraScrivi(preferitiMap);
             }
         } else {
             List<Ristorante> nuoviPreferiti = new ArrayList<>();
@@ -42,7 +43,7 @@ public class PreferitiClienteService {
             PreferitiCliente nuovaAss = new PreferitiCliente(username, nuoviPreferiti);
             preferitiMap.put(username, nuovaAss);
 
-            file.scritturaSuFile(nuovaAss);
+            file.scrittura(nuovaAss);
         }
     }
 
@@ -54,7 +55,7 @@ public class PreferitiClienteService {
 
             if (preferenze.getRistorantiPreferiti().contains(ristorante)) {
                 preferenze.getRistorantiPreferiti().remove(ristorante);
-                file.scritturaSuFile(preferenze);
+                file.scrittura(preferenze);
             }
         }
     }

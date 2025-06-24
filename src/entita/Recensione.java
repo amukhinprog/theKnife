@@ -19,45 +19,50 @@ import repository.RistoranteService;
 public class Recensione {
 
     private int ID;
-    private String utente;
+    private String username;
     private short stelle;
     private String testo;
     private LocalDate data;
     String ristoranteRecensito;
 
-    public Recensione(int ID, String utente, short stelle, String testo, LocalDate data, String ristoranteRecensito) {
+    public Recensione(int ID, String username, short stelle, String testo, LocalDate data, String ristoranteRecensito) {
         this.ID = ID;
+        this.username = username;
         this.stelle = stelle;
         this.testo = testo;
         this.data = data;
         this.ristoranteRecensito = ristoranteRecensito;
     }
 
-    public String getUtente() {
-        return utente;
+    public Recensione() {
+
     }
 
-    public void setUtente(String utente) {
-        this.utente = utente;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getID() {
         return ID;
     }
 
-    public short getstelle() {
+    public short getStelle() {
         return stelle;
     }
 
-    public String gettesto() {
+    public String getTesto() {
         return testo;
     }
 
-    public LocalDate getdata() {
+    public LocalDate getData() {
         return data;
     }
 
-    public String getristoranteRecensito() {
+    public String getRistoranteRecensito() {
         return ristoranteRecensito;
     }
 
@@ -65,16 +70,18 @@ public class Recensione {
         this.ID = ID;
     }
 
-    public void setstelle(short stelle) {
+    public void setStelle(short stelle) {
         this.stelle = stelle;
     }
 
-    public void setdata(LocalDate data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public void setristoranteRecensito(String ristoranteRecensito) {
+    public void setRistoranteRecensito(String ristoranteRecensito) {
         this.ristoranteRecensito = ristoranteRecensito;
     }
-
+    public void setTesto(String testo){
+        this.testo = testo;
+    }
 }

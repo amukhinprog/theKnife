@@ -114,7 +114,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
     }
 
     @Override
-    public void scritturaSuFile(Ristorante ristorante) {
+    public void scrittura(Ristorante ristorante) {
         List<String> ristoranteList = new ArrayList<>();
         RistoranteService ristoranteServ = new RistoranteService();
         ristoranteList.add(ristorante.getNome());
@@ -132,7 +132,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         ristoranteList.add(ristorante.getDescrizione());
         //ristoranteList.add(String.valueOf(ristorante.getStelle()));
 
-        GestioneFile.scritturaSuFile(getPercorsoFile(), ristoranteList);
+        GestioneFile.scrittura(getPercorsoFile(), ristoranteList);
         ristoranteServ.setRistoranti(new FileRistorante().ottieniHashMap());
     }
 

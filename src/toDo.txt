@@ -22,3 +22,18 @@ un ristorante gia presente enl csv o non presente.
 problema con la lettura e scrittura con l'intestazione del csv: risolvere
 19/06/25
 problema della singola responsabilità di ogni classe
+23/06/25
+sezione preferiti completata, finire le recensioni; aggiustare il separatore nel csv delle
+recensioni
+24/06/25
+finire metodo sovrascrivi di file recensione
+Exception in thread "main" java.util.InputMismatchException
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at menu.GestioneMenu.benvenutoCliente(GestioneMenu.java:135)
+	at menu.GestioneMenu.benvenutoUtente(GestioneMenu.java:79)
+	at menu.GestioneMenu.benvenuto(GestioneMenu.java:58)
+	at menu.GestioneMenu.<init>(GestioneMenu.java:35)
+	at theknife.TheKnife.main(TheKnife.java:34)

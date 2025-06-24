@@ -64,7 +64,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
     }
 
     @Override
-    public void scritturaSuFile(PreferitiCliente preferitiCliente) {
+    public void scrittura(PreferitiCliente preferitiCliente) {
         List<String> preferitiList = new ArrayList<>();
         PreferitiClienteService PCS = new PreferitiClienteService();
         preferitiList.add(preferitiCliente.getUsernameCliente());
@@ -75,11 +75,11 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         }
         preferitiList.add(ristorantiConcatenati.toString());
 
-        GestioneFile.scritturaSuFile(getPercorsoFile(), preferitiList);
+        GestioneFile.scrittura(getPercorsoFile(), preferitiList);
         PCS.setPreferitiMap(ottieniHashMap());
     }
 
-    public void sovraScriFile(HashMap<String, PreferitiCliente> preferitiMap) {
+    public void sovraScrivi(HashMap<String, PreferitiCliente> preferitiMap) {
         LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
 
         for (PreferitiCliente pc : preferitiMap.values()) {
@@ -95,6 +95,6 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
             righeDaScrivere.add(riga);
         }
 
-        GestioneFile.sovraScriviFile(getPercorsoFile(), righeDaScrivere);
+        GestioneFile.sovraScrivi(getPercorsoFile(), righeDaScrivere);
     }
 }
