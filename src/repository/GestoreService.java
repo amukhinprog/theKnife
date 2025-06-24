@@ -6,6 +6,7 @@ package repository;
 
 import java.util.ArrayList;
 import entita.Recensione;
+import entita.Utente;
 import gestioneFile.FileRecensioni;
 import java.util.HashMap;
 
@@ -19,4 +20,9 @@ public class GestoreService {
 
    public HashMap<Integer, Recensione> getRecensioni() {
         return recension;
-    }}
+    }
+public void setRecensioni (HashMap<Integer, Recensione> recension) {
+        this.recension = recension;
+    }
+
+}
