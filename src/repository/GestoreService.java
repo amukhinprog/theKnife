@@ -17,7 +17,6 @@ import java.util.HashMap;
 public class GestoreService {
     private FileRecensioni fileRecensioni= new FileRecensioni();
     private HashMap<Integer, Recensione> recension = fileRecensioni.ottieniHashMap();
-
    public HashMap<Integer, Recensione> getRecensioni() {
         return recension;
     }
