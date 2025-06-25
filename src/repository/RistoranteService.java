@@ -23,7 +23,7 @@ import menu.RistoranteUI;
 public class RistoranteService {
 
     private FileRistorante fileRistorante = new FileRistorante();
-    private HashMap<String, Ristorante> ristoranti = new FileRistorante().ottieniHashMap();
+    protected HashMap<String, Ristorante> ristoranti = new FileRistorante().ottieniHashMap();
     private Scanner scanner = new Scanner(System.in);
 //    private RistoranteUI ristoranteUI = new RistoranteUI(scanner);
 

@@ -31,12 +31,11 @@ public class RistoranteUI {
     }
 
     public Ristorante chiediInformazioni() {
-        Scanner scanner = new Scanner(System.in);
         String nomeRistorante;
         do {
             System.out.println("Scrivere il nome del ristorante: ");
             nomeRistorante = scanner.next();
-        } while (!ristoranteServ.containsKey(nomeRistorante));
+        } while (ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
     }
 
@@ -101,7 +100,7 @@ public class RistoranteUI {
         }
     }
 
-    public Ristorante inserisciGenerico(Gestore utente) {
+    public Ristorante inserisci(Gestore utente) {
         char scelta = ' ';
         Ristorante r = null;
         do {

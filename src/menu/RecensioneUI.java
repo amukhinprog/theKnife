@@ -4,7 +4,9 @@
  */
 package menu;
 
+import entita.Gestore;
 import entita.Recensione;
+import entita.Ristorante;
 import entita.Utente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,14 +24,14 @@ import repository.RistoranteService;
 public class RecensioneUI {
 
     Scanner scanner;
-    RecensioneService RS;
-    RecensioneService recServ = new RecensioneService();
-    RistoranteService ristoranteServ = new RistoranteService();
+    RecensioneService recServ;
+    RistoranteService ristoranteServ;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public RecensioneUI(Scanner scanner, RecensioneService RS) {
+    public RecensioneUI(Scanner scanner, RecensioneService recensioneServ, RistoranteService ristoranteServ) {
         this.scanner = scanner;
-        this.RS = RS;
+        this.recServ = recensioneServ;
+        this.ristoranteServ = ristoranteServ;
     }
 
     public void visualizzaUtente(Utente utente) {
@@ -100,5 +102,24 @@ public class RecensioneUI {
         System.out.println("Scegliere la recensione da eliminare (ID): ");
         Integer sceltaID = scanner.nextInt();
         recServ.remove(sceltaID);
+    }
+
+    public void mediaStelle(Gestore gestore) {
+        HashMap<Ristorante, Float> mediaStelle = recServ.mediaStelle(gestore);
+        System.out.println("Ristorante\tMedia stelle");
+        float sommaTot = 0;
+        int count = 0;
+        for (Ristorante ristoranteChiave : mediaStelle.keySet()) {
+            System.out.println(ristoranteChiave.getNome() + "\t" + mediaStelle.get(ristoranteChiave));
+            count++;
+            sommaTot += mediaStelle.get(ristoranteChiave);
+        }
+        float mediaTot = 0;
+        try {
+            mediaTot = sommaTot / count;
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("Media totale: " + mediaTot);
     }
 }

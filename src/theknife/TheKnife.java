@@ -15,12 +15,15 @@ import gestioneFile.FileRistorante;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import menu.AssGestoreRistoranteUI;
 import menu.PreferitiClienteUI;
 import menu.RecensioneUI;
+import repository.GestoreService;
 import repository.PreferitiClienteService;
 import repository.RecensioneService;
 import repository.RistoranteService;
 import repository.UtenteService;
+
 /**
  *
  * @author armuh
@@ -32,12 +35,17 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 //        PreferitiClienteService p = new PreferitiClienteService();
-//        PreferitiClienteUI pref = new PreferitiClienteUI(scanner, p);
-//        UtenteService us = new UtenteService();
 //        RistoranteService rs = new RistoranteService();
-//        p.remove(us.get("eleonoracaredda"), rs.get("Amador"));
+//        PreferitiClienteUI pref = new PreferitiClienteUI(scanner, p, rs);
+        UtenteService us = new UtenteService();
+        GestoreService gs = new GestoreService();
+//        RecensioneService recServ = new RecensioneService();
+//        RecensioneUI recUI = new RecensioneUI(scanner, recServ, );
+//        p.add(us.get("eleonoracaredda"), rs.get("Amador"));
+//        AssGestoreRistoranteUI AGR = new AssGestoreRistoranteUI(scanner, gs);
+//        AGR.mediaStelle((Gestore) us.get("artur1"));
         GestioneMenu menu = new GestioneMenu();
     }
 

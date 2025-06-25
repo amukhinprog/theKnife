@@ -4,11 +4,16 @@
  */
 package repository;
 
+import entita.AssGestoreRistoranti;
+import entita.Gestore;
 import java.util.ArrayList;
 import entita.Recensione;
+import entita.Ristorante;
 import entita.Utente;
+import gestioneFile.FileGestoreRistorante;
 import gestioneFile.FileRecensioni;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -17,18 +22,32 @@ import java.util.HashMap;
 public class GestoreService {
 
     private RecensioneService recensioneServ = new RecensioneService();
+    private FileGestoreRistorante FGR = new FileGestoreRistorante();
+    private HashMap<String, AssGestoreRistoranti> gesRisMap = FGR.ottieniHashMap();
+    private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
 
-    public double calcolaMediaStelle() {
-        HashMap<Integer, Recensione> recension = recensioneServ.getRecensioniHashMap();
-        if (recension == null || recension.isEmpty()) {
-            return 0.0;  // nessuna recensione
-        }
-
-        double somma = 0.0;
-        for (Recensione r : recension.values()) {
-            somma += r.getStelle();  // supponendo che getStelle() ritorni un int o double
-        }
-
-        return somma / recension.size();
+    public GestoreService() {
     }
+
+    
+
+    public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
+        AssGestoreRistoranti AGR = assGestoreRistorantiServ.getRistorantiMap().get(gestore.getUsername());
+        List<Ristorante> listaRistoranti = AGR.getRistorantiList();
+        HashMap<Ristorante, Float> mediaStelleMap = new HashMap<Ristorante, Float>();
+        for (Ristorante ristorante : listaRistoranti) {
+            float media = recensioneServ.mediaStelle(ristorante);
+            mediaStelleMap.put(ristorante, media);
+        }
+        return mediaStelleMap;
+    }
+
+    public HashMap<String, AssGestoreRistoranti> getGesRisMap() {
+        return gesRisMap;
+    }
+
+    public void setGesRisMap(HashMap<String, AssGestoreRistoranti> gesRisMap) {
+        this.gesRisMap = gesRisMap;
+    }
+
 }

@@ -38,15 +38,19 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
             Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for (List<String> campo : recensioniList) {
-            int id = Integer.parseInt(campo.get(0));
-            String utente = campo.get(1);
-            short stelle = Short.parseShort(campo.get(2));
-            String testo = campo.get(3);
-            LocalDate data = LocalDate.parse(campo.get(4));
-            String ristorante = campo.get(5);
-            Recensione recensione1 = new Recensione(id, utente, stelle, testo, data, ristorante);
-            recension.put(recensione1.getID(), recensione1);
+        try {
+            for (List<String> campo : recensioniList) {
+                int id = Integer.parseInt(campo.get(0));
+                String utente = campo.get(1);
+                short stelle = Short.parseShort(campo.get(2));
+                String testo = campo.get(3);
+                LocalDate data = LocalDate.parse(campo.get(4));
+                String ristorante = campo.get(5);
+                Recensione recensione1 = new Recensione(id, utente, stelle, testo, data, ristorante);
+                recension.put(recensione1.getID(), recensione1);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
         }
         return recension;
     }
@@ -69,7 +73,7 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
     public void sovraScrivi(HashMap<Integer, Recensione> recensioniMap) {
         LinkedList<List<String>> recensioniLista = new LinkedList<>();
         List<String> recensioneLista = new ArrayList<>();
-        for(Recensione recensione: recensioniMap.values()){
+        for (Recensione recensione : recensioniMap.values()) {
             recensioneLista.add(String.valueOf(recensione.getID()));
             recensioneLista.add(recensione.getUsername());
             recensioneLista.add(String.valueOf(recensione.getStelle()));

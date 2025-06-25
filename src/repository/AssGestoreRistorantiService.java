@@ -6,6 +6,7 @@ package repository;
 
 import entita.AssGestoreRistoranti;
 import entita.Ristorante;
+import entita.Utente;
 import gestioneFile.FileGestoreRistorante;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +16,12 @@ import java.util.List;
  *
  * @author armuh
  */
-public class AssGestoreRistorantiService {
+public class AssGestoreRistorantiService extends RistoranteService{
 
-    private HashMap<String, AssGestoreRistoranti> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
+    protected HashMap<String, AssGestoreRistoranti> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
 
-    public void add(String username, Ristorante ristorante) {
+    public void add(Utente utente, Ristorante ristorante) {
+        String username = utente.getUsername();
         FileGestoreRistorante fileAss = new FileGestoreRistorante();
         if (ristorante != null) {
             if (ristorantiMap.containsKey(username)) {
