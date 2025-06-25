@@ -15,6 +15,7 @@ import gestioneFile.FileRistorante;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import menu.PreferitiClienteUI;
 import menu.RecensioneUI;
 import repository.PreferitiClienteService;
 import repository.RecensioneService;
@@ -31,6 +32,12 @@ public class TheKnife {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+//        Scanner scanner = new Scanner(System.in);
+//        PreferitiClienteService p = new PreferitiClienteService();
+//        PreferitiClienteUI pref = new PreferitiClienteUI(scanner, p);
+//        UtenteService us = new UtenteService();
+//        RistoranteService rs = new RistoranteService();
+//        p.remove(us.get("eleonoracaredda"), rs.get("Amador"));
         GestioneMenu menu = new GestioneMenu();
     }
 

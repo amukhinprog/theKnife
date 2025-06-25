@@ -36,7 +36,7 @@ public class RistoranteUI {
         do {
             System.out.println("Scrivere il nome del ristorante: ");
             nomeRistorante = scanner.next();
-        } while (ristoranteServ.containsKey(nomeRistorante));
+        } while (!ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
     }
 

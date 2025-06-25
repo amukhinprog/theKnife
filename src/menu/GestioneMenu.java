@@ -121,7 +121,6 @@ public class GestioneMenu {
 
     public void benvenutoCliente(Cliente utente) {
         int scelta;
-        String nomeRistorante = "";
         do {
             System.out.println("1. Aggiungi ristorante ai preferiti");
             System.out.println("2. Rimuovi ristorante dai preferiti");
@@ -137,11 +136,11 @@ public class GestioneMenu {
             switch (scelta) {
                 case 1:
                     r = ristoranteUI.chiediInformazioni();
-                    prefClienteServ.add(nomeRistorante, r);
+                    prefClienteServ.add(utente, r);
                     break;
                 case 2:
                     r = ristoranteUI.chiediInformazioni();
-                    prefClienteServ.remove(nomeRistorante, r);
+                    prefClienteServ.remove(utente, r);
                     break;
                 case 3:
                     preferitiClienteUI.visualizza(utente.getUsername());

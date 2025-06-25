@@ -18,19 +18,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.LinkedList;
 import repository.PreferitiClienteService;
+
 /**
  *
  * @author filod
  */
 public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente> {
-    
+
     private static String percorsoFile = "..\\theKnife\\data\\preferiti.csv";
-    
-    public static String getPercorsoFile(){
+
+    public static String getPercorsoFile() {
         return percorsoFile;
     }
-    
-@Override
+
+    @Override
     public HashMap<String, PreferitiCliente> ottieniHashMap() {
         HashMap<String, PreferitiCliente> preferitiMap = new HashMap<>();
         HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
@@ -43,7 +44,9 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         }
 
         for (List<String> riga : preferitiList) {
-            if (riga.size() < 2) continue;
+            if (riga.size() < 2) {
+                continue;
+            }
 
             String usernameCliente = riga.get(0);
             String[] nomiRistoranti = riga.get(1).split("\\$");
@@ -52,7 +55,9 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
             for (String nome : nomiRistoranti) {
                 if (!nome.isBlank()) {
                     Ristorante r = ristorantiMap.get(nome);
-                    if (r != null) preferiti.add(r);
+                    if (r != null) {
+                        preferiti.add(r);
+                    }
                 }
             }
 
@@ -95,6 +100,6 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
             righeDaScrivere.add(riga);
         }
 
-        GestioneFile.sovraScrivi(getPercorsoFile(), righeDaScrivere);
+        GestioneFile.sovraScrivi(percorsoFile, righeDaScrivere);
     }
 }

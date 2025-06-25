@@ -15,16 +15,11 @@ import java.util.HashMap;
  * @author Nikoro02
  */
 public class GestoreService {
-    private FileRecensioni fileRecensioni= new FileRecensioni();
-    private HashMap<Integer, Recensione> recension = fileRecensioni.ottieniHashMap();
-    
-   public HashMap<Integer, Recensione> getRecensioni() {
-        return recension;
-    }
-public void setRecensioni (HashMap<Integer, Recensione> recension) {
-        this.recension = recension;
-    }
-public double calcolaMediaStelle() {
+
+    private RecensioneService recensioneServ = new RecensioneService();
+
+    public double calcolaMediaStelle() {
+        HashMap<Integer, Recensione> recension = recensioneServ.getRecensioniHashMap();
         if (recension == null || recension.isEmpty()) {
             return 0.0;  // nessuna recensione
         }
