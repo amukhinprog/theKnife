@@ -1,3 +1,5 @@
+!!!!ATTENZIONE!!!!
+NEL COMMIT ESCLUDERE I FILE CONTENUTI NELLA CARTELLA NBPROJECT (CARTELLA PRIVATE, PROJECT.XML....); PROVOCA CONFLITTI CON LE CONFIGURAZIONI DI OGNUNO
 Per sincronizzare il mio codice con quello di un altro fare il pull
 
 comando per clonare(posizionamoci sulla cartella in cui vogliamo salvare il progetto, per esempio "netBeansProjects"):
