@@ -133,7 +133,7 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         //ristoranteList.add(String.valueOf(ristorante.getStelle()));
 
         GestioneFile.scrittura(getPercorsoFile(), ristoranteList);
-        ristoranteServ.setRistoranti(new FileRistorante().ottieniHashMap());
+        ristoranteServ.set(new FileRistorante().ottieniHashMap());
     }
 
 }

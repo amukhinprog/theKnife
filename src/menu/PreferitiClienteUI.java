@@ -4,6 +4,7 @@
  */
 package menu;
 
+import entita.PreferitiCliente;
 import entita.Ristorante;
 import entita.Utente;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import repository.RistoranteService;
  *
  * @author armuh
  */
-public class PreferitiClienteUI {
+public class PreferitiClienteUI implements ComandiUI<Utente> {
 
     Scanner scanner;
     PreferitiClienteService PCS;
@@ -28,10 +29,66 @@ public class PreferitiClienteUI {
         this.ristoranteServ = ristoranteServ;
     }
 
-    public void visualizza(String username) {
+    private Ristorante chiediRistorante() {
+        System.out.println("Inserire il nome del ristorante: ");
+        String nomeRistorante;
+        do {
+            nomeRistorante = scanner.next();
+        } while (!ristoranteServ.containsKey(nomeRistorante));
+        return ristoranteServ.get(nomeRistorante);
+    }
+
+//    public void removeSingolo(Utente valore) {
+//        Ristorante r = chiediRistorante();
+//        PCS.remove(valore, r);
+//    }
+
+    @Override
+    public boolean add(Utente valore) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        ristorantiList.add(r);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiList);
+        return PCS.add(preferitiCliente);
+    }
+
+    @Override
+    public Utente remove(Utente utente) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        ristorantiList.add(r);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(utente.getUsername(), ristorantiList);
+        String username = preferitiCliente.getUsernameCliente();
+        PCS.remove(username);
+        return utente;
+    }
+
+    @Override
+    public Utente get(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Utente put(Utente valore) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
+        ristorantiListValore.remove(r);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiListValore);
+        PCS.put(preferitiCliente);
+        return valore;
+    }
+
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza(Utente valore) {
         PreferitiClienteService PCS = new PreferitiClienteService();
-        if (PCS.getPreferitiMap().containsKey(username)) {
-            List<Ristorante> listaRistoranti = PCS.getPreferitiMap().get(username).getRistorantiPreferiti();
+        String username = valore.getUsername();
+        if (PCS.get().containsKey(username)) {
+            List<Ristorante> listaRistoranti = PCS.get().get(username).getRistorantiPreferiti();
             for (Ristorante r : listaRistoranti) {
                 System.out.println("Nome: " + r.getNome());
                 System.out.println("Locazione: " + r.getLocazione());
@@ -42,24 +99,5 @@ public class PreferitiClienteUI {
             }
 
         }
-    }
-
-    private Ristorante chiediRistorante() {
-        System.out.println("Inserire il nome del ristorante: ");
-        String nomeRistorante;
-        do {
-            nomeRistorante = scanner.next();
-        } while (!ristoranteServ.containsKey(nomeRistorante));
-        return ristoranteServ.get(nomeRistorante);
-    }
-
-    public void add(Utente utente) {
-        Ristorante r = chiediRistorante();
-        PCS.add(utente, r);
-    }
-
-    public void remove(Utente utente) {
-        Ristorante r = chiediRistorante();
-        PCS.remove(utente, r);
     }
 }

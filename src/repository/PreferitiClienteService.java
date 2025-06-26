@@ -4,6 +4,7 @@
  */
 package repository;
 
+import repository.generico.HashMapService;
 import entita.PreferitiCliente;
 import entita.Ristorante;
 import entita.Utente;
@@ -17,16 +18,16 @@ import java.util.List;
  *
  * @author armuh
  */
-public class PreferitiClienteService {
+public class PreferitiClienteService extends HashMapService<String, PreferitiCliente> {
 
-    private HashMap<String, PreferitiCliente> preferitiMap = new FilePreferitiCliente().ottieniHashMap();
+    private static final FilePreferitiCliente FPC = new FilePreferitiCliente();
 
     public void add(Utente utente, Ristorante ristorante) {
         FilePreferitiCliente file = new FilePreferitiCliente();
         String username = utente.getUsername();
-        if (preferitiMap.containsKey(username)) {
-            PreferitiCliente preferenze = preferitiMap.get(username);
-            Collection<PreferitiCliente> preferitiLista = preferitiMap.values();
+        if (map.containsKey(username)) {
+            PreferitiCliente preferenze = map.get(username);
+            Collection<PreferitiCliente> preferitiLista = map.values();
             boolean assente = true;
             for (PreferitiCliente ristorantePreferito : preferitiLista) {
                 if (ristorantePreferito.getRistorantiPreferiti().contains(ristorante)) {
@@ -35,15 +36,15 @@ public class PreferitiClienteService {
             }
             if (assente) {
                 preferenze.addRistorantePreferito(ristorante);
-                preferitiMap.put(username, preferenze);
-                file.sovraScrivi(preferitiMap);
+                map.put(username, preferenze);
+                file.sovraScrivi(map);
             }
         } else {
             List<Ristorante> nuoviPreferiti = new ArrayList<>();
             nuoviPreferiti.add(ristorante);
 
             PreferitiCliente nuovaAss = new PreferitiCliente(username, nuoviPreferiti);
-            preferitiMap.put(username, nuovaAss);
+            map.put(username, nuovaAss);
 
             file.scrittura(nuovaAss);
         }
@@ -52,22 +53,33 @@ public class PreferitiClienteService {
     public void remove(Utente utente, Ristorante ristorante) {
         FilePreferitiCliente file = new FilePreferitiCliente();
         String username = utente.getUsername();
-        if (preferitiMap.containsKey(username)) {
-            PreferitiCliente preferenze = preferitiMap.get(username);
+        if (map.containsKey(username)) {
+            PreferitiCliente preferenze = map.get(username);
 
             if (preferenze.getRistorantiPreferiti().contains(ristorante)) {
                 preferenze.getRistorantiPreferiti().remove(ristorante);
-                preferitiMap.put(username, preferenze);
-                file.sovraScrivi(preferitiMap);
+                map.put(username, preferenze);
+                file.sovraScrivi(map);
             }
         }
     }
 
-    public HashMap<String, PreferitiCliente> getPreferitiMap() {
-        return preferitiMap;
+    protected String getKey(PreferitiCliente preferitiCliente) {
+        return preferitiCliente.getUsernameCliente();
     }
 
-    public void setPreferitiMap(HashMap<String, PreferitiCliente> preferitiMap) {
-        this.preferitiMap = preferitiMap;
+    @Override
+    protected HashMap<String, PreferitiCliente> lettura() {
+        return FPC.ottieniHashMap();
+    }
+
+    @Override
+    protected void scrittura(PreferitiCliente valore) {
+        FPC.scrittura(valore);
+    }
+
+    @Override
+    protected void sovrascrittura(HashMap<String, PreferitiCliente> map) {
+        FPC.sovraScrivi(map);
     }
 }

@@ -54,7 +54,9 @@ public class GestioneMenu {
             switch (scelta) {
                 case 1:
                     u = utenteUI.registrazione();
-                    benvenutoUtente(u);
+                    if (u != null) {
+                        benvenutoUtente(u);
+                    }
                     break;
                 case 2:
                     u = utenteUI.login();
@@ -144,10 +146,10 @@ public class GestioneMenu {
                     preferitiClienteUI.add(utente);
                     break;
                 case 2:
-                    preferitiClienteUI.remove(utente);
+                    preferitiClienteUI.put(utente);
                     break;
                 case 3:
-                    preferitiClienteUI.visualizza(utente.getUsername());
+                    preferitiClienteUI.visualizza(utente);
                     break;
                 case 4:
                     recensioneUI.add(utente);

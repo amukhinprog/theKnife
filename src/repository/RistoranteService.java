@@ -4,63 +4,31 @@
  */
 package repository;
 
+import repository.generico.HashMapService;
 import entita.AssGestoreRistoranti;
 import entita.Gestore;
 import entita.Ristorante;
 import gestioneFile.FileRistorante;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
-import menu.RistoranteUI;
 
 /**
  *
  * @author armuh
  */
-public class RistoranteService {
+public class RistoranteService extends HashMapService<String, Ristorante> {
 
-    private FileRistorante fileRistorante = new FileRistorante();
-    protected HashMap<String, Ristorante> ristoranti = new FileRistorante().ottieniHashMap();
-    private Scanner scanner = new Scanner(System.in);
-//    private RistoranteUI ristoranteUI = new RistoranteUI(scanner);
-
-    public HashMap<String, Ristorante> getRistoranti() {
-        return ristoranti;
-    }
-
-    public void setRistoranti(HashMap<String, Ristorante> ristoranti) {
-        this.ristoranti = ristoranti;
-    }
-
-    public boolean containsKey(String chiave) {
-        return ristoranti.containsKey(chiave);
-    }
-
-    public Ristorante get(String chiave) {
-        if (ristoranti.containsKey(chiave)) {
-            return ristoranti.get(chiave);
-        } else {
-            return null;
-        }
-    }
-
-    public Collection<Ristorante> values() {
-        return ristoranti.values();
-    }
+    private static final FileRistorante FR = new FileRistorante();
 
     public boolean ristoranteGiaPossedutoDalGestore(Gestore utente, Ristorante ristorante) {
         AssGestoreRistorantiService AGR = new AssGestoreRistorantiService();
-        HashMap<String, AssGestoreRistoranti> mappa = AGR.getRistorantiMap();
+        HashMap<String, AssGestoreRistoranti> mappa = AGR.get();
         AssGestoreRistoranti gestore = mappa.get(utente.getUsername());
         return gestore != null && gestore.contains(ristorante);
     }
 
     public boolean ristoranteHaAltroProprietario(Gestore utente, Ristorante ristorante) {
         AssGestoreRistorantiService AGRs = new AssGestoreRistorantiService();
-        HashMap<String, AssGestoreRistoranti> AGRsmap = AGRs.getRistorantiMap();
+        HashMap<String, AssGestoreRistoranti> AGRsmap = AGRs.get();
         for (AssGestoreRistoranti assGestoreRistoranti : AGRsmap.values()) {
             if (assGestoreRistoranti.contains(ristorante)
                     && !assGestoreRistoranti.getUsernameRistoratore().equals(utente.getUsername())) {
@@ -68,5 +36,24 @@ public class RistoranteService {
             }
         }
         return false;
+    }
+
+    protected String getKey(Ristorante ristorante) {
+        return ristorante.getNome();
+    }
+
+    @Override
+    protected HashMap<String, Ristorante> lettura() {
+        return FR.ottieniHashMap();
+    }
+
+    @Override
+    protected void scrittura(Ristorante valore) {
+        FR.scrittura(valore);
+    }
+
+    @Override
+    protected void sovrascrittura(HashMap<String, Ristorante> map) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

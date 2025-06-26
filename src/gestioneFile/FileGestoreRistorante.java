@@ -74,7 +74,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
 
     public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
         AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
-        HashMap<String, AssGestoreRistoranti> assGestoreRistorantiMap = assGestoreRistoranti.getRistorantiMap();
+        HashMap<String, AssGestoreRistoranti> assGestoreRistorantiMap = assGestoreRistoranti.get();
         List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
         
         List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>(); 
@@ -124,7 +124,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
         }
         GestioneFile.scrittura(percorsoFile, assRistorantiGestoreList);
         HashMap<String, AssGestoreRistoranti> ristorantiMap = ottieniHashMap();
-        assGestoreRistoranti.setRistorantiMap(ristorantiMap);
+        assGestoreRistoranti.set(ristorantiMap);
     }
 
 }

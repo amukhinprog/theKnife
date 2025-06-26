@@ -4,41 +4,36 @@
  */
 package repository;
 
+import repository.generico.HashMapService;
 import entita.Utente;
 import gestioneFile.FileUtenti;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
  *
  * @author armuh
  */
-public class UtenteService {
+public class UtenteService extends HashMapService<String, Utente> {
 
-    private FileUtenti fileUtenti = new FileUtenti();
-    private HashMap<String, Utente> utenti = fileUtenti.ottieniHashMap();
+    private static final FileUtenti FU = new FileUtenti();
 
-    public HashMap<String, Utente> getUtenti() {
-        return utenti;
+    @Override
+    protected String getKey(Utente utente) {
+        return utente.getUsername();
     }
 
-    public void setUtenti(HashMap<String, Utente> utenti) {
-        this.utenti = utenti;
+    @Override
+    protected HashMap<String, Utente> lettura() {
+        return FU.ottieniHashMap();
     }
 
-    public Utente get(String chiave) {
-        if (utenti.containsKey(chiave)) {
-            return utenti.get(chiave);
-        } else {
-            return null;
-        }
+    @Override
+    protected void scrittura(Utente valore) {
+        FU.scrittura(valore);
     }
 
-    public boolean containsKey(String chiave) {
-        return utenti.containsKey(chiave);
-    }
-    
-    public Collection<Utente> values(){
-        return utenti.values();
+    @Override
+    protected void sovrascrittura(HashMap<String, Utente> map) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

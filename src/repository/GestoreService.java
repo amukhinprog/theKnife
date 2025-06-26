@@ -32,7 +32,7 @@ public class GestoreService {
     
 
     public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
-        AssGestoreRistoranti AGR = assGestoreRistorantiServ.getRistorantiMap().get(gestore.getUsername());
+        AssGestoreRistoranti AGR = assGestoreRistorantiServ.get().get(gestore.getUsername());
         List<Ristorante> listaRistoranti = AGR.getRistorantiList();
         HashMap<Ristorante, Float> mediaStelleMap = new HashMap<Ristorante, Float>();
         for (Ristorante ristorante : listaRistoranti) {

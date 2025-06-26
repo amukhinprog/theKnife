@@ -4,20 +4,20 @@
  */
 package menu;
 
-import entita.Gestore;
+import entita.AssGestoreRistoranti;
 import entita.Ristorante;
 import entita.Utente;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import repository.AssGestoreRistorantiService;
-import repository.GestoreService;
 import repository.RistoranteService;
 
 /**
  *
  * @author armuh
  */
-public class AssGestoreRistoranteUI {
+public class AssGestoreRistoranteUI  implements ComandiUI<Utente> {
 
     AssGestoreRistorantiService assGestoreRistorantiServ;
     Scanner scanner;
@@ -29,8 +29,6 @@ public class AssGestoreRistoranteUI {
         this.ristoranteServ = ristoranteServ;
     }
 
-    
-
     public Ristorante chiediRistorante() {
         String nomeRistorante;
         do {
@@ -40,8 +38,43 @@ public class AssGestoreRistoranteUI {
         return ristoranteServ.get(nomeRistorante);
     }
 
-    public void add(Utente utente) {
+    @Override
+    public boolean add(Utente utente) {
         Ristorante r = chiediRistorante();
-        assGestoreRistorantiServ.add(utente, r);
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        ristorantiList.add(r);
+        AssGestoreRistoranti assGestoreRistoranti= new AssGestoreRistoranti(utente.getUsername(), ristorantiList);
+        boolean b = assGestoreRistorantiServ.add(assGestoreRistoranti);
+        return b;
     }
+
+    @Override
+    public Utente get(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Utente remove(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Utente put(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+
+    
+    
 }

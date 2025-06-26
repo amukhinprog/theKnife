@@ -66,7 +66,7 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
         RecensioniLista.add(String.valueOf(recensione.getData()));
         RecensioniLista.add(recensione.getRistoranteRecensito());
         GestioneFile.scrittura(percorsoFile, RecensioniLista);
-        recensioneServ.setRecensioniHashMap(ottieniHashMap());
+        recensioneServ.set(ottieniHashMap());
 
     }
 

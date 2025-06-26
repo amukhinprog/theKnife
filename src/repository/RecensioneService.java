@@ -4,6 +4,7 @@
  */
 package repository;
 
+import repository.generico.HashMapService;
 import entita.Gestore;
 import entita.Recensione;
 import entita.Ristorante;
@@ -20,21 +21,18 @@ import menu.RistoranteUI;
  *
  * @author armuh
  */
-public class RecensioneService extends AssGestoreRistorantiService {
+public class RecensioneService extends HashMapService<Integer, Recensione> {
 
-    private HashMap<Integer, Recensione> recensioniHashMap = new FileRecensioni().ottieniHashMap();
-    private FileRecensioni fileRecensioni = new FileRecensioni();
+    private static final FileRecensioni FR = new FileRecensioni();
+
+    private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
     private static int ID = 0;
-
-    public HashMap<Integer, Recensione> getRecensioniHashMap() {
-        return new FileRecensioni().ottieniHashMap();
-    }
 
     public float mediaStelle(Ristorante r) {
         int somma = 0;
         int ripetizioni = 0;
         String nome = r.getNome();
-        for (Recensione recensione : recensioniHashMap.values()) {
+        for (Recensione recensione : map.values()) {
             if (recensione.getRistoranteRecensito().equals(nome)) {
                 somma += recensione.getStelle();
                 ripetizioni++;
@@ -49,28 +47,28 @@ public class RecensioneService extends AssGestoreRistorantiService {
     }
 
     public double mediaStelle() {
-        if (recensioniHashMap == null || recensioniHashMap.isEmpty()) {
+        if (map == null || map.isEmpty()) {
             return 0.0;  // nessuna recensione
         }
 
         double somma = 0.0;
-        for (Recensione r : recensioniHashMap.values()) {
+        for (Recensione r : map.values()) {
             somma += r.getStelle();  // supponendo che getStelle() ritorni un int o double
         }
 
-        return somma / recensioniHashMap.size();
+        return somma / map.size();
     }
 
     public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
         HashMap<Ristorante, Float> mediaStelleMap = new HashMap<>();
-        List<Ristorante> listaRistorantiposseduti = ristorantiMap.get(gestore.getUsername()).getRistorantiList();
+        List<Ristorante> listaRistorantiposseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
         int sommaTot = 0;
         int countTot = 0;
         float mediaStelle = 0;
         for (Ristorante ristoranteP : listaRistorantiposseduti) {
             int somma = 0;
             int count = 0;
-            for (Recensione recensione : recensioniHashMap.values()) {
+            for (Recensione recensione : map.values()) {
                 if (recensione.getRistoranteRecensito().equals(ristoranteP)) {
                     somma += recensione.getStelle();
                     count++;
@@ -85,23 +83,9 @@ public class RecensioneService extends AssGestoreRistorantiService {
         return mediaStelleMap;
     }
 
-    public void setRecensioniHashMap(HashMap<Integer, Recensione> recensioniHashMap) {
-        this.recensioniHashMap = recensioniHashMap;
-    }
-
-    public void add(Recensione recensione) {
-        recensione.setID(incID());
-        fileRecensioni.scrittura(recensione);
-    }
-
-    public void put(Integer id, Recensione recensione) {
-        recensioniHashMap.put(id, recensione);
-        fileRecensioni.sovraScrivi(recensioniHashMap);
-    }
-
-    public void remove(Integer id) {
-        recensioniHashMap.remove(id);
-        fileRecensioni.sovraScrivi(recensioniHashMap);
+    @Override
+    protected Integer getKey(Recensione recensione) {
+        return recensione.getID();
     }
 
     public static int getID() {
@@ -111,4 +95,20 @@ public class RecensioneService extends AssGestoreRistorantiService {
     public static int incID() {
         return ++ID;
     }
+
+    @Override
+    protected HashMap<Integer, Recensione> lettura() {
+        return FR.ottieniHashMap();
+    }
+
+    @Override
+    protected void scrittura(Recensione valore) {
+        FR.scrittura(valore);
+    }
+
+    @Override
+    protected void sovrascrittura(HashMap<Integer, Recensione> map) {
+        FR.sovraScrivi(map);
+    }
+
 }

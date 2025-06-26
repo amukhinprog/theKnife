@@ -4,6 +4,7 @@
  */
 package repository;
 
+import repository.generico.HashMapService;
 import entita.AssGestoreRistoranti;
 import entita.Ristorante;
 import entita.Utente;
@@ -16,37 +17,47 @@ import java.util.List;
  *
  * @author armuh
  */
-public class AssGestoreRistorantiService extends RistoranteService{
+public class AssGestoreRistorantiService extends HashMapService<String, AssGestoreRistoranti> {
 
-    protected HashMap<String, AssGestoreRistoranti> ristorantiMap = new FileGestoreRistorante().ottieniHashMap();
+    private static final FileGestoreRistorante FGR = new FileGestoreRistorante();
 
     public void add(Utente utente, Ristorante ristorante) {
         String username = utente.getUsername();
         FileGestoreRistorante fileAss = new FileGestoreRistorante();
         if (ristorante != null) {
-            if (ristorantiMap.containsKey(username)) {
-                AssGestoreRistoranti g = ristorantiMap.get(username);
+            if (map.containsKey(username)) {
+                AssGestoreRistoranti g = map.get(username);
                 g.addRistorantiList(ristorante);
-                ristorantiMap.replace(username, g);
-                fileAss.sovraScrivi(ristorantiMap);
+                map.replace(username, g);
+                fileAss.sovraScrivi(map);
 
             } else {
                 List<Ristorante> l = new ArrayList<>();
                 l.add(ristorante);
                 AssGestoreRistoranti assGestore = new AssGestoreRistoranti(username, l);
-                ristorantiMap.put(username, assGestore);
+                map.put(username, assGestore);
 
                 fileAss.scrittura(assGestore);
             }
         }
     }
 
-    public HashMap<String, AssGestoreRistoranti> getRistorantiMap() {
-        return ristorantiMap;
+    protected String getKey(AssGestoreRistoranti assGestoreRistoranti) {
+        return assGestoreRistoranti.getUsernameRistoratore();
     }
 
-    public void setRistorantiMap(HashMap<String, AssGestoreRistoranti> ristorantiMap) {
-        this.ristorantiMap = ristorantiMap;
+    @Override
+    protected HashMap<String, AssGestoreRistoranti> lettura() {
+        return FGR.ottieniHashMap();
     }
-    
+
+    @Override
+    protected void scrittura(AssGestoreRistoranti valore) {
+        FGR.scrittura(valore);
+    }
+
+    @Override
+    protected void sovrascrittura(HashMap<String, AssGestoreRistoranti> map) {
+        FGR.sovraScrivi(map);
+    }
 }

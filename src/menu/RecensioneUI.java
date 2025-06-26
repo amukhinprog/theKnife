@@ -21,7 +21,7 @@ import repository.RistoranteService;
  *
  * @author armuh
  */
-public class RecensioneUI {
+public class RecensioneUI implements ComandiUI<Utente> {
 
     Scanner scanner;
     RecensioneService recServ;
@@ -34,8 +34,88 @@ public class RecensioneUI {
         this.ristoranteServ = ristoranteServ;
     }
 
-    public void visualizzaUtente(Utente utente) {
-        HashMap<Integer, Recensione> recensioniMap = recServ.getRecensioniHashMap();
+    private Recensione modificaInformazioni(Recensione recensione) {
+        System.out.println("Modifica la tua recensione");
+        LocalDate data = LocalDate.now();
+        System.out.println("Scegli il numero di stelle (1-5): ");
+        short stelle = scanner.nextShort();
+        recensione.setStelle(stelle);
+        System.out.println("Modifica il testo: ");
+        String testo = scanner.next();
+        recensione.setTesto(testo);
+        return recensione;
+    }
+
+    public boolean add(Utente utente) {
+        System.out.println("Recensione ristorante");
+        String nomeRistorante;
+        do {
+            System.out.println("Inserire il nome del ristorante: ");
+            nomeRistorante = scanner.next();
+        } while (!ristoranteServ.containsKey(nomeRistorante));
+        short nStelle;
+        do {
+            System.out.println("Inserire il numero di stelle (1-5):");
+            nStelle = scanner.nextShort();
+        } while (nStelle > 5 || nStelle < 1);
+        System.out.println("Inserire il testo");
+        String testo = scanner.next();
+        Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.parse(LocalDate.now().format(formatter)), nomeRistorante);
+        return recServ.add(r);
+    }
+
+    @Override
+    public Utente put(Utente utente) {
+        visualizza(utente);
+        Recensione recensioneNuova = new Recensione();
+        System.out.println("Scegliere la recensione da modificare (ID): ");
+        Integer sceltaID = scanner.nextInt();
+        recensioneNuova = modificaInformazioni(recServ.get().get(sceltaID));
+        recServ.put(recensioneNuova);
+        return utente;
+    }
+
+    @Override
+    public Utente remove(Utente utente) {
+        visualizza(utente);
+        System.out.println("Scegliere la recensione da eliminare (ID): ");
+        Integer sceltaID = scanner.nextInt();
+        recServ.remove(sceltaID);
+        return utente;
+    }
+
+    public void mediaStelle(Gestore gestore) {
+        HashMap<Ristorante, Float> mediaStelle = recServ.mediaStelle(gestore);
+        System.out.println("Ristorante\tMedia stelle");
+        float sommaTot = 0;
+        int count = 0;
+        for (Ristorante ristoranteChiave : mediaStelle.keySet()) {
+            System.out.println(ristoranteChiave.getNome() + "\t" + mediaStelle.get(ristoranteChiave));
+            count++;
+            sommaTot += mediaStelle.get(ristoranteChiave);
+        }
+        float mediaTot = 0;
+        try {
+            mediaTot = sommaTot / count;
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("Media totale: " + mediaTot);
+    }
+
+    @Override
+    public Utente get(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza(Utente utente) {
+        HashMap<Integer, Recensione> recensioniMap = recServ.get();
         List<Recensione> recensioniList = new ArrayList<>();
         String[] intestazione = {"ID", "username", "stelle",
             "data", "ristorante", "testo",};
@@ -56,70 +136,5 @@ public class RecensioneUI {
         }
         System.out.println(tabella.toString());
 
-    }
-
-    private Recensione modificaInformazioni(Recensione recensione) {
-        System.out.println("Modifica la tua recensione");
-        LocalDate data = LocalDate.now();
-        System.out.println("Scegli il numero di stelle (1-5): ");
-        short stelle = scanner.nextShort();
-        recensione.setStelle(stelle);
-        System.out.println("Modifica il testo: ");
-        String testo = scanner.next();
-        recensione.setTesto(testo);
-        return recensione;
-    }
-
-    public void add(Utente utente) {
-        System.out.println("Recensione ristorante");
-        String nomeRistorante;
-        do {
-            System.out.println("Inserire il nome del ristorante: ");
-            nomeRistorante = scanner.next();
-        } while (!ristoranteServ.containsKey(nomeRistorante));
-        short nStelle;
-        do {
-            System.out.println("Inserire il numero di stelle (1-5):");
-            nStelle = scanner.nextShort();
-        } while (nStelle > 5 || nStelle < 1);
-        System.out.println("Inserire il testo");
-        String testo = scanner.next();
-        Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.parse(LocalDate.now().format(formatter)), nomeRistorante);
-        recServ.add(r);
-    }
-
-    public void put(Utente utente) {
-        visualizzaUtente(utente);
-        Recensione recensioneNuova = new Recensione();
-        System.out.println("Scegliere la recensione da modificare (ID): ");
-        Integer sceltaID = scanner.nextInt();
-        recensioneNuova = modificaInformazioni(recServ.getRecensioniHashMap().get(sceltaID));
-        recServ.put(sceltaID, recensioneNuova);
-    }
-
-    public void remove(Utente utente) {
-        visualizzaUtente(utente);
-        System.out.println("Scegliere la recensione da eliminare (ID): ");
-        Integer sceltaID = scanner.nextInt();
-        recServ.remove(sceltaID);
-    }
-
-    public void mediaStelle(Gestore gestore) {
-        HashMap<Ristorante, Float> mediaStelle = recServ.mediaStelle(gestore);
-        System.out.println("Ristorante\tMedia stelle");
-        float sommaTot = 0;
-        int count = 0;
-        for (Ristorante ristoranteChiave : mediaStelle.keySet()) {
-            System.out.println(ristoranteChiave.getNome() + "\t" + mediaStelle.get(ristoranteChiave));
-            count++;
-            sommaTot += mediaStelle.get(ristoranteChiave);
-        }
-        float mediaTot = 0;
-        try {
-            mediaTot = sommaTot / count;
-        } catch (ArithmeticException e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println("Media totale: " + mediaTot);
     }
 }

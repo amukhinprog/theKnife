@@ -41,7 +41,7 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         utenteList.add(utente.getRuolo());
         
         GestioneFile.scrittura(getPercorsoFile(), utenteList);
-        utenteServ.setUtenti(new FileUtenti().ottieniHashMap());
+        utenteServ.set(new FileUtenti().ottieniHashMap());
     }
 
     @Override

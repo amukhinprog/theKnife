@@ -81,7 +81,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         preferitiList.add(ristorantiConcatenati.toString());
 
         GestioneFile.scrittura(getPercorsoFile(), preferitiList);
-        PCS.setPreferitiMap(ottieniHashMap());
+        PCS.set(ottieniHashMap());
     }
 
     public void sovraScrivi(HashMap<String, PreferitiCliente> preferitiMap) {
