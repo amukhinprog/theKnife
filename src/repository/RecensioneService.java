@@ -61,20 +61,25 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
 
     public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
         HashMap<Ristorante, Float> mediaStelleMap = new HashMap<>();
-        List<Ristorante> listaRistorantiposseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
+        List<Ristorante> listaRistorantiPosseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
         int sommaTot = 0;
         int countTot = 0;
         float mediaStelle = 0;
-        for (Ristorante ristoranteP : listaRistorantiposseduti) {
+        for (Ristorante ristoranteP : listaRistorantiPosseduti) {
             int somma = 0;
             int count = 0;
+            mediaStelle = 0;
             for (Recensione recensione : map.values()) {
-                if (recensione.getRistoranteRecensito().equals(ristoranteP)) {
+                if (recensione.getRistoranteRecensito().equals(ristoranteP.getNome())) {
                     somma += recensione.getStelle();
                     count++;
                 }
             }
-            mediaStelle = somma / count;
+            try{
+                mediaStelle = somma / count;
+            }catch(ArithmeticException e){
+                System.out.println("Il ristorante non ha recensioni");
+            }
             mediaStelleMap.put(ristoranteP, mediaStelle);
             sommaTot += somma;
             countTot++;

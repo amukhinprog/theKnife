@@ -46,6 +46,7 @@ public class RecensioneUI implements ComandiUI<Utente> {
         return recensione;
     }
 
+    @Override
     public boolean add(Utente utente) {
         System.out.println("Recensione ristorante");
         String nomeRistorante;
