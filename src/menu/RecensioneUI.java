@@ -4,10 +4,10 @@
  */
 package menu;
 
-import entita.Gestore;
-import entita.Recensione;
-import entita.Ristorante;
-import entita.Utente;
+import entita.dominio.Gestore;
+import entita.associazioni.Recensione;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import repository.RistoranteService;
  *
  * @author armuh
  */
-public class RecensioneUI implements ComandiUI<Utente> {
+public class RecensioneUI implements ComandiUI<Utente, Recensione> {
 
     Scanner scanner;
     RecensioneService recServ;
@@ -39,9 +39,10 @@ public class RecensioneUI implements ComandiUI<Utente> {
         LocalDate data = LocalDate.now();
         System.out.println("Scegli il numero di stelle (1-5): ");
         short stelle = scanner.nextShort();
+        scanner.nextLine();
         recensione.setStelle(stelle);
         System.out.println("Modifica il testo: ");
-        String testo = scanner.next();
+        String testo = scanner.nextLine();
         recensione.setTesto(testo);
         return recensione;
     }
@@ -58,31 +59,31 @@ public class RecensioneUI implements ComandiUI<Utente> {
         do {
             System.out.println("Inserire il numero di stelle (1-5):");
             nStelle = scanner.nextShort();
+            scanner.nextLine();
         } while (nStelle > 5 || nStelle < 1);
         System.out.println("Inserire il testo");
-        String testo = scanner.next();
+        String testo = scanner.nextLine();
         Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.parse(LocalDate.now().format(formatter)), nomeRistorante);
         return recServ.add(r);
     }
 
     @Override
-    public Utente put(Utente utente) {
+    public Recensione put(Utente utente) {
         visualizza(utente);
         Recensione recensioneNuova = new Recensione();
         System.out.println("Scegliere la recensione da modificare (ID): ");
         Integer sceltaID = scanner.nextInt();
         recensioneNuova = modificaInformazioni(recServ.get().get(sceltaID));
-        recServ.put(recensioneNuova);
-        return utente;
+        return recServ.put(recensioneNuova);
     }
 
     @Override
-    public Utente remove(Utente utente) {
+    public Recensione remove(Utente utente) {
         visualizza(utente);
         System.out.println("Scegliere la recensione da eliminare (ID): ");
         Integer sceltaID = scanner.nextInt();
-        recServ.remove(sceltaID);
-        return utente;
+        Recensione recensione = recServ.remove(sceltaID);
+        return recensione;
     }
 
     public void mediaStelle(Gestore gestore) {
@@ -105,7 +106,7 @@ public class RecensioneUI implements ComandiUI<Utente> {
     }
 
     @Override
-    public Utente get(Utente valore) {
+    public Recensione get(Utente valore) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -137,5 +138,10 @@ public class RecensioneUI implements ComandiUI<Utente> {
         }
         System.out.println(tabella.toString());
 
+    }
+
+    @Override
+    public void visualizza(Recensione valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

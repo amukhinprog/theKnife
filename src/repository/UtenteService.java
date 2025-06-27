@@ -5,7 +5,7 @@
 package repository;
 
 import repository.generico.HashMapService;
-import entita.Utente;
+import entita.dominio.Utente;
 import gestioneFile.FileUtenti;
 import java.util.HashMap;
 

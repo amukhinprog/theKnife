@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entita;
+package entita.associazioni;
 
 /**
  *
  * @author Nikoro02
  */
+import entita.Associazione;
 import gestioneFile.FileRecensioni;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import repository.RistoranteService;
 
-public class Recensione {
+public class Recensione extends Associazione{
 
     private int ID;
     private String username;

@@ -20,9 +20,10 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
     public boolean add(V valore) {
         K chiave = getKey(valore);
         if (map.containsKey(chiave)) {
-            throw new RuntimeException("Valore già presente");
+            throw new RuntimeException("Valore già presente, utilizzare put");
         }
         map.put(chiave, valore);
+        scrittura(valore);
         return true;
     }
 
@@ -33,13 +34,17 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
 
     @Override
     public V remove(K chiave) {
-        return map.remove(chiave);
+        V v = map.remove(chiave);
+        sovrascrittura(map);
+        return v;
     }
 
     @Override
     public V put(V valore) {
         K chiave = getKey(valore);
-        return map.put(chiave, valore);
+        V v = map.put(chiave, valore);
+        sovrascrittura(map);
+        return v;
     }
 
     public void set(HashMap<K, V> map) {

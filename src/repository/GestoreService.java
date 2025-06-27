@@ -4,12 +4,12 @@
  */
 package repository;
 
-import entita.AssGestoreRistoranti;
-import entita.Gestore;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
 import java.util.ArrayList;
-import entita.Recensione;
-import entita.Ristorante;
-import entita.Utente;
+import entita.associazioni.Recensione;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import gestioneFile.FileGestoreRistorante;
 import gestioneFile.FileRecensioni;
 import java.util.HashMap;

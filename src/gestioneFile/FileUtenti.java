@@ -4,9 +4,9 @@
  */
 package gestioneFile;
 
-import entita.Cliente;
-import entita.Gestore;
-import entita.Utente;
+import entita.dominio.Cliente;
+import entita.dominio.Gestore;
+import entita.dominio.Utente;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;

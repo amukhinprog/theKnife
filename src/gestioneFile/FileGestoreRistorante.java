@@ -4,10 +4,10 @@
  */
 package gestioneFile;
 
-import entita.AssGestoreRistoranti;
-import entita.Gestore;
-import entita.Utente;
-import entita.Ristorante;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
+import entita.dominio.Utente;
+import entita.dominio.Ristorante;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -118,7 +118,7 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
         List<String> assRistorantiGestoreList = new ArrayList<>();
         AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
         assRistorantiGestoreList.add(assRistorantiGestore.getUsernameRistoratore());
-        for (entita.Ristorante ristorantePosseduto : assRistorantiGestore.getRistorantiList()) {
+        for (entita.dominio.Ristorante ristorantePosseduto : assRistorantiGestore.getRistorantiList()) {
             String nomeRistorantePosseduto = ristorantePosseduto.getNome() + "$";
             assRistorantiGestoreList.add(nomeRistorantePosseduto);
         }

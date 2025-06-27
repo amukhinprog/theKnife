@@ -1,5 +1,6 @@
-package entita;
+package entita.dominio;
 
+import entita.dominio.Utente;
 import java.time.LocalDate;
 import java.util.*;
 import eccezioni.LocaleGiaPresenteException;

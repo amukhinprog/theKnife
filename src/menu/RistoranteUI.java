@@ -4,10 +4,11 @@
  */
 package menu;
 
-import entita.AssGestoreRistoranti;
-import entita.Gestore;
-import entita.Ristorante;
-import static entita.Ristorante.ristoranteVuoto;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import static entita.dominio.Ristorante.ristoranteVuoto;
+import entita.dominio.Utente;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import repository.RistoranteService;
  *
  * @author armuh
  */
-public class RistoranteUI {
+public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     private Scanner scanner;
     private RistoranteService ristoranteServ;
@@ -30,7 +31,7 @@ public class RistoranteUI {
         this.ristoranteServ = ristoranteServ;
     }
 
-    public Ristorante chiediInformazioni() {
+    public Ristorante contains() {
         String nomeRistorante;
         do {
             System.out.println("Scrivere il nome del ristorante: ");
@@ -39,7 +40,7 @@ public class RistoranteUI {
         return ristoranteServ.get(nomeRistorante);
     }
 
-    private Ristorante inserisciNuovo() {
+    private Ristorante chiedi() {
         String nome;
         do {
             System.out.println("Nome: ");
@@ -97,59 +98,6 @@ public class RistoranteUI {
             System.out.println("Servizio delivery: " + ristorante.isDelivery());
             System.out.println("Servizio prenotazione: " + ristorante.isPrenotazione() + "\n\n");
             //System.out.println("Stelle: " + ristorante.getStelle());
-        }
-    }
-
-    public Ristorante inserisci(Gestore utente) {
-        char scelta = ' ';
-        Ristorante r = null;
-        do {
-            System.out.println("Vuole inserire un ristorante di nuova apertura? (s/n)");
-            System.out.println("0. Esci");
-            scelta = scanner.next().charAt(0);
-            switch (scelta) {
-                case 's':
-                    r = inserisciNuovo();
-                    break;
-                case 'n':
-                    r = inserisciEsistente(utente);
-                    break;
-                default:
-                    System.out.println("Riprovare");
-                    break;
-            }
-        } while (scelta != '0');
-        return r;
-    }
-
-    public Ristorante inserisciEsistente(Gestore utente) {
-        String nomeRistorante;
-
-        while (true) {
-            nomeRistorante = chiediNome(scanner);
-
-            if (nomeRistorante.equals("0")) {
-                return ristoranteVuoto();
-            }
-
-            if (!ristoranteServ.containsKey(nomeRistorante)) {
-                System.out.println("Ristorante non trovato.");
-                continue;
-            }
-
-            Ristorante ristorante = ristoranteServ.get(nomeRistorante);
-
-            if (ristoranteServ.ristoranteGiaPossedutoDalGestore(utente, ristorante)) {
-                System.out.println("Il ristorante è già presente nel vostro elenco.");
-                continue;
-            }
-
-            if (ristoranteServ.ristoranteHaAltroProprietario(utente, ristorante)) {
-                System.out.println("Il ristorante inserito ha già un proprietario.");
-                continue;
-            }
-
-            return ristorante;
         }
     }
 
@@ -337,4 +285,37 @@ public class RistoranteUI {
 
         visualizzaRistorante(ristorantiList);
     }*/
+    @Override
+    public Ristorante add() {
+        Ristorante ristorante;
+        ristorante = chiedi();
+        ristoranteServ.add(ristorante);
+        return ristorante;
+    }
+
+    @Override
+    public Ristorante get() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Ristorante remove() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Ristorante put() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza(Ristorante valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

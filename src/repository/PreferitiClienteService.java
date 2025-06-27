@@ -5,9 +5,9 @@
 package repository;
 
 import repository.generico.HashMapService;
-import entita.PreferitiCliente;
-import entita.Ristorante;
-import entita.Utente;
+import entita.associazioni.PreferitiCliente;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import gestioneFile.FilePreferitiCliente;
 import java.util.ArrayList;
 import java.util.Collection;

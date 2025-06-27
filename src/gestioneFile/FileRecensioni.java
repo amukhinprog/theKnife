@@ -6,8 +6,8 @@ package gestioneFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import entita.Recensione;
-import entita.Ristorante;
+import entita.associazioni.Recensione;
+import entita.dominio.Ristorante;
 import static gestioneFile.FileRistorante.getPercorsoFile;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;

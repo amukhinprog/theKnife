@@ -4,7 +4,7 @@
  */
 package gestioneFile;
 
-import entita.Ristorante;
+import entita.dominio.Ristorante;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;

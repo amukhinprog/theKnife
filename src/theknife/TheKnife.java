@@ -5,10 +5,10 @@ package theknife;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 import menu.GestioneMenu;
-import entita.AssGestoreRistoranti;
-import entita.Gestore;
-import entita.Ristorante;
-import entita.Utente;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import gestioneFile.*;
 import java.io.FileNotFoundException;
 import gestioneFile.FileRistorante;

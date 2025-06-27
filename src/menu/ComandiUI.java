@@ -4,24 +4,23 @@
  */
 package menu;
 
+import entita.Dominio;
 import repository.generico.Service;
 
 /**
  *
  * @author armuh
  */
-public interface ComandiUI<V> {//CRUD
+public interface ComandiUI<K extends Dominio, V> extends ComandiBaseUI<V>{//CRUD
 
-    public boolean add(V valore);
+    public boolean add(K chiave);
 
-    public V get(V valore);
+    public V get(K chiave);
 
-    public V remove(V valore);
+    public V remove(K chiave);
 
-    public V put(V valore);
-
-    public void visualizza();
-
-    public void visualizza(V valore);
+    public V put(K chiave);
+    
+    public void visualizza(K chiave);
 
 }

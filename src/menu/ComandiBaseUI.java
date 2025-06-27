@@ -2,15 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package repository;
-
-import java.util.HashMap;
+package menu;
 
 /**
  *
  * @author armuh
  */
-public interface NewInterface {
+public interface ComandiBaseUI<V> {
 
-    HashMap<String, Float> map = new HashMap<>();
+    public void visualizza();
+
+    public void visualizza(V valore);
 }

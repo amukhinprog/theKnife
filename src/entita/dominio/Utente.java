@@ -1,5 +1,6 @@
-package entita;
+package entita.dominio;
 
+import entita.Dominio;
 import java.time.LocalDate;
 
 /*
@@ -10,8 +11,8 @@ import java.time.LocalDate;
  *
  * @author armuh
  */
-public class Utente {
-    
+public class Utente extends Dominio {
+
     protected String nome;
     protected String cognome;
     protected String username;
@@ -31,6 +32,22 @@ public class Utente {
     }
 
     public Utente() {
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Utente utente = (Utente) obj;
+        if (this.username.equals(utente.getUsername())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getLuogoDomicilio() {

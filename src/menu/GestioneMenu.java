@@ -4,8 +4,10 @@
  */
 package menu;
 
-import entita.Ristorante;
-import entita.Utente;
+import entita.dominio.Cliente;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import java.util.Scanner;
 import entita.*;
 import gestioneFile.FileGestoreRistorante;
@@ -53,13 +55,13 @@ public class GestioneMenu {
             Utente u;
             switch (scelta) {
                 case 1:
-                    u = utenteUI.registrazione();
+                    u = utenteUI.add();
                     if (u != null) {
                         benvenutoUtente(u);
                     }
                     break;
                 case 2:
-                    u = utenteUI.login();
+                    u = utenteUI.get();
                     if (u != null) {
                         benvenutoUtente(u);
                     }
@@ -112,7 +114,7 @@ public class GestioneMenu {
             scelta = scanner.nextInt();
             switch (scelta) {
                 case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
-                    assGestoreRistoranteUI.add(utente);
+                    assGestoreRistoranteUI.aggiungi(utente);
                     break;
                 case 2:
                     ristoranteUI.cerca();
@@ -129,6 +131,7 @@ public class GestioneMenu {
 
     public void benvenutoCliente(Cliente utente) {
         int scelta;
+        String c;
         do {
             System.out.println("1. Aggiungi ristorante ai preferiti");
             System.out.println("2. Rimuovi ristorante dai preferiti");
@@ -139,7 +142,8 @@ public class GestioneMenu {
             System.out.println("7. Ricerca ristoranti");
             System.out.println("0. Esci");
             Ristorante r;
-            scelta = scanner.nextInt();
+            c = scanner.next();
+            scelta = Integer.parseInt(c);
             scanner.nextLine();
             switch (scelta) {
                 case 1:

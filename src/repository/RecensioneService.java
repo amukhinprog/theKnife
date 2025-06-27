@@ -5,10 +5,10 @@
 package repository;
 
 import repository.generico.HashMapService;
-import entita.Gestore;
-import entita.Recensione;
-import entita.Ristorante;
-import entita.Utente;
+import entita.dominio.Gestore;
+import entita.associazioni.Recensione;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import gestioneFile.FileRecensioni;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
     private static final FileRecensioni FR = new FileRecensioni();
 
     private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
-    private static int ID = 0;
+    private static int ID = getID();
 
     public float mediaStelle(Ristorante r) {
         int somma = 0;
@@ -75,9 +75,9 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
                     count++;
                 }
             }
-            try{
+            try {
                 mediaStelle = somma / count;
-            }catch(ArithmeticException e){
+            } catch (ArithmeticException e) {
                 System.out.println("Il ristorante non ha recensioni");
             }
             mediaStelleMap.put(ristoranteP, mediaStelle);
@@ -94,11 +94,30 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
     }
 
     public static int getID() {
-        return ID;
+        HashMap<Integer, Recensione> map = FR.ottieniHashMap();
+        int id = 0;
+        for (Integer i : map.keySet()) {
+            if (i >= id) {
+                id = i;
+            }
+        }
+        return id;
     }
 
     public static int incID() {
-        return ++ID;
+        return ID++;
+    }
+
+    @Override
+    public boolean add(Recensione valore) {
+        valore.setID(incID());
+        Integer chiave = getKey(valore);
+        if (map.containsKey(chiave)) {
+            throw new RuntimeException("Valore già presente, utilizzare put");
+        }
+        map.put(chiave, valore);
+        scrittura(valore);
+        return true;
     }
 
     @Override

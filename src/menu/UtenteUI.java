@@ -4,10 +4,10 @@
  */
 package menu;
 
-import entita.Cliente;
-import entita.Gestore;
+import entita.dominio.Cliente;
+import entita.dominio.Gestore;
 import entita.Ruolo;
-import entita.Utente;
+import entita.dominio.Utente;
 import gestioneFile.FileUtenti;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -17,7 +17,7 @@ import repository.UtenteService;
  *
  * @author armuh
  */
-public class UtenteUI {
+public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     private static FileUtenti fileUtenti = new FileUtenti();
     private Scanner scanner;
@@ -28,7 +28,7 @@ public class UtenteUI {
         this.utenteServ = utenteServ;
     }
 
-    public Utente registrazione() {
+    private Utente registrazione() {
         String dataProvvisoria;
 
         System.out.println("Nome: ");
@@ -63,11 +63,10 @@ public class UtenteUI {
         } else if (ruolo.compareTo("cliente") == 0) {
             utente = new Cliente(nome, cognome, username, password, dataNascita, luogoDomicilio, ruolo);
         }
-        fileUtenti.scrittura(utente);
         return utente;
     }
 
-    public Utente login() {
+    private Utente login() {
 
         System.out.println("Username: ");
         String username = scanner.next();
@@ -82,7 +81,7 @@ public class UtenteUI {
         }
     }
 
-    public String inserisciRuolo() {
+    private String inserisciRuolo() {
         Ruolo ruolo = null;
 
         while (ruolo == null) {
@@ -98,5 +97,38 @@ public class UtenteUI {
         }
 
         return ruolo.toString().toLowerCase();
+    }
+
+    @Override
+    public Utente add() {
+        Utente utente = registrazione();
+        utenteServ.add(utente);
+        return utente;
+    }
+
+    @Override
+    public Utente get() {
+        Utente utente = login();
+        return utente;
+    }
+
+    @Override
+    public Utente remove() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Utente put() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizza(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

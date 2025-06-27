@@ -4,8 +4,8 @@
  */
 package gestioneFile;
 
-import entita.PreferitiCliente;
-import entita.Ristorante;
+import entita.associazioni.PreferitiCliente;
+import entita.dominio.Ristorante;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

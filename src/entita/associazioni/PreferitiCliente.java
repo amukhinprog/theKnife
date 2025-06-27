@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entita;
+package entita.associazioni;
 
+import entita.Associazione;
+import entita.dominio.Ristorante;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -13,7 +15,7 @@ import gestioneFile.FilePreferitiCliente;
  *
  * @author filod
  */
-public class PreferitiCliente {
+public class PreferitiCliente  extends Associazione{
     
     private String usernameCliente;
     private List<Ristorante> ristorantiPreferiti = new ArrayList<>();

@@ -5,9 +5,9 @@
 package repository;
 
 import repository.generico.HashMapService;
-import entita.AssGestoreRistoranti;
-import entita.Ristorante;
-import entita.Utente;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import gestioneFile.FileGestoreRistorante;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -4,9 +4,9 @@
  */
 package menu;
 
-import entita.PreferitiCliente;
-import entita.Ristorante;
-import entita.Utente;
+import entita.associazioni.PreferitiCliente;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +17,7 @@ import repository.RistoranteService;
  *
  * @author armuh
  */
-public class PreferitiClienteUI implements ComandiUI<Utente> {
+public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
 
     Scanner scanner;
     PreferitiClienteService PCS;
@@ -53,29 +53,27 @@ public class PreferitiClienteUI implements ComandiUI<Utente> {
     }
 
     @Override
-    public Utente remove(Utente utente) {
+    public PreferitiCliente remove(Utente utente) {
         Ristorante r = chiediRistorante();
         List<Ristorante> ristorantiList = new ArrayList<>();
         ristorantiList.add(r);
         PreferitiCliente preferitiCliente = new PreferitiCliente(utente.getUsername(), ristorantiList);
         String username = preferitiCliente.getUsernameCliente();
-        PCS.remove(username);
-        return utente;
+        return PCS.remove(username);
     }
 
     @Override
-    public Utente get(Utente valore) {
+    public PreferitiCliente get(Utente valore) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Utente put(Utente valore) {
+    public PreferitiCliente put(Utente valore) {
         Ristorante r = chiediRistorante();
         List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
         ristorantiListValore.remove(r);
         PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiListValore);
-        PCS.put(preferitiCliente);
-        return valore;
+        return PCS.put(preferitiCliente);
     }
 
     @Override
@@ -99,5 +97,10 @@ public class PreferitiClienteUI implements ComandiUI<Utente> {
             }
 
         }
+    }
+
+    @Override
+    public void visualizza(PreferitiCliente valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

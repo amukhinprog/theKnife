@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entita;
+package entita.associazioni;
 
+import entita.Associazione;
+import entita.dominio.Ristorante;
 import gestioneFile.FileGestoreRistorante;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +15,7 @@ import java.util.List;
  *
  * @author armuh
  */
-public class AssGestoreRistoranti {
+public class AssGestoreRistoranti extends Associazione {
 
     private String usernameRistoratore;
     private List<Ristorante> ristorantiList = new ArrayList<>();
