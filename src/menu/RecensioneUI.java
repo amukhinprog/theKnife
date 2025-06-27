@@ -53,7 +53,7 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
         String nomeRistorante;
         do {
             System.out.println("Inserire il nome del ristorante: ");
-            nomeRistorante = scanner.next();
+            nomeRistorante = scanner.nextLine();
         } while (!ristoranteServ.containsKey(nomeRistorante));
         short nStelle;
         do {

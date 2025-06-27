@@ -58,15 +58,13 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
     @Override
     public void scrittura(Recensione recensione) {
         List<String> RecensioniLista = new ArrayList<>();
-        RecensioneService recensioneServ = new RecensioneService();
         RecensioniLista.add(String.valueOf(recensione.getID()));
         RecensioniLista.add(recensione.getUsername());
-        RecensioniLista.add(String.valueOf(recensione.getStelle()));
+        RecensioniLista.add(String.valueOf((int) recensione.getStelle()));
         RecensioniLista.add(recensione.getTesto());
         RecensioniLista.add(String.valueOf(recensione.getData()));
         RecensioniLista.add(recensione.getRistoranteRecensito());
         GestioneFile.scrittura(percorsoFile, RecensioniLista);
-        recensioneServ.set(ottieniHashMap());
 
     }
 
@@ -77,7 +75,7 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
             recensioneLista.add(String.valueOf(recensione.getID()));
             recensioneLista.add(recensione.getUsername());
             recensioneLista.add(String.valueOf(recensione.getStelle()));
-            recensioneLista.add(recensione.getTesto());
+            recensioneLista.add("\"" + recensione.getTesto() + "\"");
             recensioneLista.add(recensione.getData().toString());
             recensioneLista.add(recensione.getRistoranteRecensito());
         }

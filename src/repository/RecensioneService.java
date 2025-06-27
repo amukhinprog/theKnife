@@ -105,7 +105,7 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
     }
 
     public static int incID() {
-        return ID++;
+        return ++ID;
     }
 
     @Override

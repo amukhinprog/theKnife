@@ -116,15 +116,12 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
     @Override
     public void scrittura(AssGestoreRistoranti assRistorantiGestore) {
         List<String> assRistorantiGestoreList = new ArrayList<>();
-        AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
         assRistorantiGestoreList.add(assRistorantiGestore.getUsernameRistoratore());
         for (entita.dominio.Ristorante ristorantePosseduto : assRistorantiGestore.getRistorantiList()) {
             String nomeRistorantePosseduto = ristorantePosseduto.getNome() + "$";
             assRistorantiGestoreList.add(nomeRistorantePosseduto);
         }
         GestioneFile.scrittura(percorsoFile, assRistorantiGestoreList);
-        HashMap<String, AssGestoreRistoranti> ristorantiMap = ottieniHashMap();
-        assGestoreRistoranti.set(ristorantiMap);
     }
 
 }

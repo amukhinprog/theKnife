@@ -31,7 +31,6 @@ public class FileUtenti extends GestioneFile<String, Utente> {
     @Override
     public void scrittura(Utente utente) {
         List<String> utenteList = new ArrayList<>();
-        UtenteService utenteServ = new UtenteService();
         utenteList.add(utente.getNome());
         utenteList.add(utente.getCognome());
         utenteList.add(utente.getUsername());
@@ -41,7 +40,6 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         utenteList.add(utente.getRuolo());
         
         GestioneFile.scrittura(getPercorsoFile(), utenteList);
-        utenteServ.set(new FileUtenti().ottieniHashMap());
     }
 
     @Override
