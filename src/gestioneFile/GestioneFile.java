@@ -18,6 +18,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.LinkedList;
+
 /**
  *
  * @author armuh
@@ -52,9 +53,10 @@ public abstract class GestioneFile<K, V> {
             System.out.println(e.getMessage());
         }
     }
-    public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException{
+
+    public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException {
         List<String> intestazione = new ArrayList<>();
-        try(Scanner scanner = new Scanner(new File(percorsoFile))){
+        try (Scanner scanner = new Scanner(new File(percorsoFile))) {
             intestazione.add(scanner.nextLine());
         }
         return intestazione;
@@ -94,8 +96,8 @@ public abstract class GestioneFile<K, V> {
         }
         return rigaSpezzata;
     }
-    
-    public static void sovraScrivi(String percorsoFile, LinkedList<List<String>> oggetti){
+
+    public static void sovraScrivi(String percorsoFile, LinkedList<List<String>> oggetti) {
         File file = new File(percorsoFile);
         List<String> intestazione = null;
         try {
@@ -104,13 +106,13 @@ public abstract class GestioneFile<K, V> {
             Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         oggetti.addFirst(intestazione);
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))){
-            for(List<String> oggetto: oggetti){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
+            for (List<String> oggetto : oggetti) {
                 String riga = String.join(",", oggetto);
                 writer.write(riga);
                 writer.newLine();
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -118,4 +120,6 @@ public abstract class GestioneFile<K, V> {
     abstract public HashMap<K, V> ottieniHashMap();
 
     abstract public void scrittura(V oggetto);
+
+    abstract public void sovraScrivi(HashMap<K, V> map);
 }

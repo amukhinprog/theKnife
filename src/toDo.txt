@@ -37,3 +37,6 @@ Exception in thread "main" java.util.InputMismatchException
 	at menu.GestioneMenu.benvenuto(GestioneMenu.java:58)
 	at menu.GestioneMenu.<init>(GestioneMenu.java:35)
 	at theknife.TheKnife.main(TheKnife.java:34)
+
+27/06/2025
+cibtubuare risposte recensioni

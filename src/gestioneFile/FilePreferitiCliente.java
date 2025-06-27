@@ -38,7 +38,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
 
         List<List<String>> preferitiList = new ArrayList<>();
         try {
-            preferitiList = FilePreferitiCliente.letturaCsv(getPercorsoFile());
+            preferitiList = FilePreferitiCliente.letturaCsv(percorsoFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FilePreferitiCliente.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -6,6 +6,8 @@ package menu;
 
 import entita.associazioni.RispostaRecensioni;
 import entita.dominio.Gestore;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import repository.RecensioneService;
 import repository.RispostaRecensioniService;
@@ -19,11 +21,20 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
     Scanner scanner;
     RispostaRecensioniService rispostaRecensioniServ;
     RecensioneService recensioneServ;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public RispostaRecensioniUI(Scanner scanner, RispostaRecensioniService rispostaRecensioniServ, RecensioneService recensioneServ) {
         this.scanner = scanner;
         this.rispostaRecensioniServ = rispostaRecensioniServ;
         this.recensioneServ = recensioneServ;
+    }
+
+    private RispostaRecensioni chiedi() {
+        int ID;
+        int idRif;
+        String username;
+        String testo;
+        LocalDate data;return null;//continuare
     }
 
     @Override

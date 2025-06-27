@@ -33,7 +33,7 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
         List<List<String>> recensioniList = new ArrayList<>();
         HashMap<Integer, Recensione> recension = new HashMap<Integer, Recensione>();
         try {
-            recensioniList = FileRecensioni.letturaCsv(FileRecensioni.getPercorsoFile());
+            recensioniList = FileRecensioni.letturaCsv(percorsoFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
         }

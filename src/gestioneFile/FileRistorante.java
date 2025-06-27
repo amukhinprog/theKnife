@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import repository.RistoranteService;
 
 /**
  *
@@ -132,6 +131,11 @@ public class FileRistorante extends GestioneFile<String, Ristorante> {
         //ristoranteList.add(String.valueOf(ristorante.getStelle()));
 
         GestioneFile.scrittura(getPercorsoFile(), ristoranteList);
+    }
+
+    @Override
+    public void sovraScrivi(HashMap<String, Ristorante> map) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

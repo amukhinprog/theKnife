@@ -124,7 +124,7 @@ public class GestioneMenu {
                     recensioneUI.mediaStelle(utente);
                     break;
                 case 4:
-                    recensioneUI.rispondi(utente);
+                    recensioneUI.add(utente);
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");
