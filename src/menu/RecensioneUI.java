@@ -112,7 +112,24 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
 
     @Override
     public void visualizza() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        HashMap<Integer, Recensione> recensioniMap = recServ.get();
+        List<Recensione> recensioniList = new ArrayList<>();
+        String[] intestazione = {"ID", "username", "stelle",
+            "data", "ristorante", "testo",};
+        StringBuilder tabella = new StringBuilder();
+        tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
+                intestazione[0], intestazione[2],
+                intestazione[3], intestazione[4], intestazione[5]));
+        for (Recensione recensione : recensioniMap.values()) {
+            recensioniList.add(recensione);
+        }
+
+        for (Recensione recensione : recensioniList) {
+            tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
+                    recensione.getID(), recensione.getStelle(),
+                    recensione.getData(), recensione.getRistoranteRecensito(), recensione.getTesto()));
+        }
+        System.out.println(tabella.toString());
     }
 
     @Override

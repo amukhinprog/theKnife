@@ -110,6 +110,7 @@ public class GestioneMenu {
             System.out.println("1. Aggiungi ristorante");
             System.out.println("2. Ricerca ristoranti");
             System.out.println("3. Visualizza media valutazioni");
+            System.out.println("4. Rispondi alle recensioni");
             System.out.println("0. Esci");
             scelta = scanner.nextInt();
             switch (scelta) {
@@ -121,6 +122,9 @@ public class GestioneMenu {
                     break;
                 case 3:
                     recensioneUI.mediaStelle(utente);
+                    break;
+                case 4:
+                    recensioneUI.rispondi(utente);
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");

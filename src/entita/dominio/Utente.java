@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * @author armuh
  */
-public class Utente extends Dominio {
+public class Utente implements Dominio {
 
     protected String nome;
     protected String cognome;

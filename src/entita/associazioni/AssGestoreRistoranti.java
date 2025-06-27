@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author armuh
  */
-public class AssGestoreRistoranti extends Associazione {
+public class AssGestoreRistoranti implements Associazione {
 
     private String usernameRistoratore;
     private List<Ristorante> ristorantiList = new ArrayList<>();

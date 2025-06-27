@@ -14,7 +14,7 @@ import gestioneFile.FileRistorante;
  *
  * @author armuh
  */
-public class Ristorante extends Dominio{
+public class Ristorante implements Dominio{
 
     private String nome;
     private String indirizzo;

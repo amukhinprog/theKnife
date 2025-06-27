@@ -9,15 +9,10 @@ package entita.associazioni;
  * @author Nikoro02
  */
 import entita.Associazione;
-import gestioneFile.FileRecensioni;
+import entita.Dominio;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import repository.RistoranteService;
 
-public class Recensione extends Associazione{
+public class Recensione implements Dominio, Associazione{
 
     private int ID;
     private String username;

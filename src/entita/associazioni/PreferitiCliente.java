@@ -15,7 +15,7 @@ import gestioneFile.FilePreferitiCliente;
  *
  * @author filod
  */
-public class PreferitiCliente  extends Associazione{
+public class PreferitiCliente  implements Associazione{
     
     private String usernameCliente;
     private List<Ristorante> ristorantiPreferiti = new ArrayList<>();
