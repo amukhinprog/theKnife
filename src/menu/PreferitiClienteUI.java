@@ -30,18 +30,13 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     }
 
     private Ristorante chiediRistorante() {
-        System.out.println("Inserire il nome del ristorante: ");
         String nomeRistorante;
         do {
-            nomeRistorante = scanner.next();
+            System.out.println("Inserire il nome del ristorante: ");
+            nomeRistorante = scanner.nextLine();
         } while (!ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
     }
-
-//    public void removeSingolo(Utente valore) {
-//        Ristorante r = chiediRistorante();
-//        PCS.remove(valore, r);
-//    }
 
     @Override
     public boolean add(Utente valore) {
@@ -53,27 +48,27 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     }
 
     @Override
-    public PreferitiCliente remove(Utente utente) {
-        Ristorante r = chiediRistorante();
-        List<Ristorante> ristorantiList = new ArrayList<>();
-        ristorantiList.add(r);
-        PreferitiCliente preferitiCliente = new PreferitiCliente(utente.getUsername(), ristorantiList);
+    public boolean remove(Utente utente) {
+        Ristorante ristorante = chiediRistorante();
+        PreferitiCliente preferitiCliente = get(utente);
+        List<Ristorante> ristorantiList = preferitiCliente.getRistorantiPreferiti();
+        ristorantiList.remove(ristorante);
         String username = preferitiCliente.getUsernameCliente();
-        return PCS.remove(username);
+        return PCS.put(username, preferitiCliente);
     }
 
     @Override
     public PreferitiCliente get(Utente valore) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return PCS.get(valore.getUsername());
     }
 
     @Override
-    public PreferitiCliente put(Utente valore) {
+    public boolean put(Utente valore) {
         Ristorante r = chiediRistorante();
         List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
-        ristorantiListValore.remove(r);
+        ristorantiListValore.add(r);
         PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiListValore);
-        return PCS.put(preferitiCliente);
+        return PCS.put(valore.getUsername(), preferitiCliente);
     }
 
     @Override
@@ -83,7 +78,6 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
 
     @Override
     public void visualizza(Utente valore) {
-        PreferitiClienteService PCS = new PreferitiClienteService();
         String username = valore.getUsername();
         if (PCS.get().containsKey(username)) {
             List<Ristorante> listaRistoranti = PCS.get().get(username).getRistorantiPreferiti();

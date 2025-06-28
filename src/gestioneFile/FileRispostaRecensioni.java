@@ -4,7 +4,6 @@
  */
 package gestioneFile;
 
-import entita.associazioni.Recensione;
 import entita.associazioni.RispostaRecensioni;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;

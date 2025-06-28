@@ -4,7 +4,6 @@
  */
 package repository;
 
-import entita.associazioni.Recensione;
 import entita.associazioni.RispostaRecensioni;
 import gestioneFile.FileRispostaRecensioni;
 import java.util.HashMap;

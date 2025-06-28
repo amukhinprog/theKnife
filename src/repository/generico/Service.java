@@ -14,7 +14,7 @@ public interface Service<K, V> {//CRUD
 
     public V get(K chiave);
 
-    public V remove(K chiave);
+    public boolean remove(K chiave, V elemento);
 
-    public V put(V valore);
+    public boolean put(K chiave, V valore);
 }

@@ -6,10 +6,6 @@ package gestioneFile;
 
 import entita.associazioni.PreferitiCliente;
 import entita.dominio.Ristorante;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.LinkedList;
-import repository.PreferitiClienteService;
 
 /**
  *

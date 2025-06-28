@@ -1,4 +1,2 @@
-id,username,stelle,testo,data,ristorante recensito,,,,,
-0,eleonoracaredda,3,molto caro,27/06/2025,Alinea,,,,,
-1,mferri,4,in italiano,27/06/2025,Per Se,,,,,
-2,mferri,4,modernissimo e favoloso,2025-06-27,Masa
+id,username,stelle,testo,data,ristorante recensito
+2,mferri,4,"modernissimo e favoloso",2025-06-27,Masa,3,mferri,3,"cibo buono",2025-06-28,Amador,5,mferri,3,"servizio completo",2025-06-28,Masa

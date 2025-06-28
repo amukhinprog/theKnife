@@ -1,6 +1,5 @@
 package entita.dominio;
 
-import entita.dominio.Utente;
 import java.time.LocalDate;
 
 /*

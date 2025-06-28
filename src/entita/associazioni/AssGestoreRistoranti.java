@@ -6,9 +6,7 @@ package entita.associazioni;
 
 import entita.Associazione;
 import entita.dominio.Ristorante;
-import gestioneFile.FileGestoreRistorante;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

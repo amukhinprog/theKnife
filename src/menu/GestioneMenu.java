@@ -4,19 +4,9 @@
  */
 package menu;
 
-import entita.dominio.Cliente;
-import entita.dominio.Gestore;
-import entita.dominio.Ristorante;
-import entita.dominio.Utente;
+import entita.dominio.*;
 import java.util.Scanner;
-import entita.*;
-import gestioneFile.FileGestoreRistorante;
-import repository.AssGestoreRistorantiService;
-import repository.GestoreService;
-import repository.PreferitiClienteService;
-import repository.RecensioneService;
-import repository.RistoranteService;
-import repository.UtenteService;
+import repository.*;
 
 /**
  *
@@ -151,10 +141,14 @@ public class GestioneMenu {
             scanner.nextLine();
             switch (scelta) {
                 case 1:
-                    preferitiClienteUI.add(utente);
+                    if (prefClienteServ.containsKey(utente.getUsername())) {
+                        preferitiClienteUI.put(utente);
+                    } else {
+                        preferitiClienteUI.add(utente);
+                    }
                     break;
                 case 2:
-                    preferitiClienteUI.put(utente);
+                    preferitiClienteUI.remove(utente);
                     break;
                 case 3:
                     preferitiClienteUI.visualizza(utente);

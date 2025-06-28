@@ -48,12 +48,12 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
     }
 
     @Override
-    public RispostaRecensioni remove(Gestore chiave) {
+    public boolean remove(Gestore chiave) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public RispostaRecensioni put(Gestore chiave) {
+    public boolean put(Gestore chiave) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

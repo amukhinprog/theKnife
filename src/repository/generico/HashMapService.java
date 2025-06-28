@@ -4,7 +4,6 @@
  */
 package repository.generico;
 
-import repository.generico.Service;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -20,7 +19,7 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
     public boolean add(V valore) {
         K chiave = getKey(valore);
         if (map.containsKey(chiave)) {
-            throw new RuntimeException("Valore già presente, utilizzare put");
+            return false;
         }
         map.put(chiave, valore);
         scrittura(valore);
@@ -33,18 +32,17 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
     }
 
     @Override
-    public V remove(K chiave) {
-        V v = map.remove(chiave);
+    public boolean remove(K chiave, V elemento) {
+        boolean b = map.remove(chiave, elemento);
         sovrascrittura(map);
-        return v;
+        return b;
     }
 
     @Override
-    public V put(V valore) {
-        K chiave = getKey(valore);
+    public boolean put(K chiave, V valore) {
         V v = map.put(chiave, valore);
         sovrascrittura(map);
-        return v;
+        return v != null;
     }
 
     public void set(HashMap<K, V> map) {

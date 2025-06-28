@@ -1,14 +1,6 @@
 package entita.dominio;
 
-import entita.dominio.Utente;
 import java.time.LocalDate;
-import java.util.*;
-import eccezioni.LocaleGiaPresenteException;
-import gestioneFile.FileGestoreRistorante;
-import gestioneFile.FileRistorante;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

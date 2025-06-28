@@ -5,9 +5,6 @@ package entita.dominio;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 import entita.Dominio;
-import java.util.*;
-import java.io.*;
-import gestioneFile.FileRistorante;
 //import java.util.ArrayList;
 
 /**

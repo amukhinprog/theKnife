@@ -62,17 +62,17 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
     }
 
     @Override
-    public AssGestoreRistoranti remove(Utente valore) {
+    public boolean remove(Utente valore) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public AssGestoreRistoranti put(Utente valore) {
+    public boolean put(Utente valore) {
         Ristorante r = chiediRistorante();
         List<Ristorante> ristorantiList = new ArrayList<>();
         ristorantiList.add(r);
         AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(valore.getUsername(), ristorantiList);
-        AssGestoreRistoranti b = assGestoreRistorantiServ.put(assGestoreRistoranti);
+        boolean b = assGestoreRistorantiServ.put(assGestoreRistoranti.getUsernameRistoratore(), assGestoreRistoranti);
         return b;
     }
 

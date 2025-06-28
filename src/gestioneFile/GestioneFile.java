@@ -5,7 +5,6 @@
 package gestioneFile;
 
 import static gestioneFile.FileRistorante.leggiRiga;
-import static gestioneFile.FileRistorante.letturaCsv;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;

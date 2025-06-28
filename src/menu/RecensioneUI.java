@@ -6,8 +6,7 @@ package menu;
 
 import entita.dominio.Gestore;
 import entita.associazioni.Recensione;
-import entita.dominio.Ristorante;
-import entita.dominio.Utente;
+import entita.dominio.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,22 +67,22 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
     }
 
     @Override
-    public Recensione put(Utente utente) {
+    public boolean put(Utente utente) {
         visualizza(utente);
         Recensione recensioneNuova = new Recensione();
         System.out.println("Scegliere la recensione da modificare (ID): ");
         Integer sceltaID = scanner.nextInt();
         recensioneNuova = modificaInformazioni(recServ.get().get(sceltaID));
-        return recServ.put(recensioneNuova);
+        return recServ.put(recensioneNuova.getID(), recensioneNuova);
     }
 
     @Override
-    public Recensione remove(Utente utente) {
+    public boolean remove(Utente utente) {
         visualizza(utente);
         System.out.println("Scegliere la recensione da eliminare (ID): ");
         Integer sceltaID = scanner.nextInt();
-        Recensione recensione = recServ.remove(sceltaID);
-        return recensione;
+        Recensione recensione = recServ.get(sceltaID);
+        return recServ.remove(sceltaID, recensione);
     }
 
     public void mediaStelle(Gestore gestore) {

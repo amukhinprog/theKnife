@@ -4,14 +4,9 @@
  */
 package menu;
 
-import entita.associazioni.AssGestoreRistoranti;
-import entita.dominio.Gestore;
 import entita.dominio.Ristorante;
-import static entita.dominio.Ristorante.ristoranteVuoto;
-import entita.dominio.Utente;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
