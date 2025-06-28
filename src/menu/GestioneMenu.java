@@ -26,6 +26,8 @@ public class GestioneMenu {
     private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
     private GestoreService gestoreServ = new GestoreService();
     private AssGestoreRistoranteUI assGestoreRistoranteUI = new AssGestoreRistoranteUI(scanner, assGestoreRistorantiServ, ristoranteServ);
+    private RispostaRecensioniService rispostaRecensioniServ = new RispostaRecensioniService();
+    private RispostaRecensioniUI rispostaRecensioniUI = new RispostaRecensioniUI(scanner, rispostaRecensioniServ, recensioneServ, assGestoreRistorantiServ);
 
     public GestioneMenu() {
         benvenuto();
@@ -114,7 +116,7 @@ public class GestioneMenu {
                     recensioneUI.mediaStelle(utente);
                     break;
                 case 4:
-                    recensioneUI.add(utente);
+                    rispostaRecensioniUI.add(utente);
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");

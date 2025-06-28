@@ -40,3 +40,5 @@ Exception in thread "main" java.util.InputMismatchException
 
 27/06/2025
 cibtubuare risposte recensioni
+28/06/25
+controllare login in caso di inserimento scorretto

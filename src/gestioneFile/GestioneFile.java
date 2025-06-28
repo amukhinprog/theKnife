@@ -45,12 +45,25 @@ public abstract class GestioneFile<K, V> {
     protected static void scrittura(String percorsoFile, List<String> oggetto) {
         File file = new File(percorsoFile);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile, true))) {
-            String linea = String.join(",", oggetto);
+
+            List<String> campiCorretti = new ArrayList<>();
+            for (String campo : oggetto) {
+                campiCorretti.add(escapeCSV(campo));
+            }
+            String linea = String.join(",", campiCorretti);
             writer.write(linea);
             writer.newLine();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static String escapeCSV(String campo) {
+        if (campo.contains(",") || campo.contains("\"") || campo.contains("\n")) {
+            campo = campo.replace("\"", "\"\"");
+            return "\"" + campo + "\"";
+        }
+        return campo;
     }
 
     public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException {

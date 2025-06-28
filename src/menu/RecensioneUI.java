@@ -62,7 +62,7 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
         } while (nStelle > 5 || nStelle < 1);
         System.out.println("Inserire il testo");
         String testo = scanner.nextLine();
-        Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.parse(LocalDate.now().format(formatter)), nomeRistorante);
+        Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.now(), nomeRistorante);
         return recServ.add(r);
     }
 

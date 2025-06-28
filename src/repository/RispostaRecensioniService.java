@@ -34,6 +34,18 @@ public class RispostaRecensioniService extends HashMapService<Integer, RispostaR
     }
 
     @Override
+    public boolean add(RispostaRecensioni valore) {
+        valore.setID(incID());
+        Integer chiave = getKey(valore);
+        if (map.containsKey(chiave)) {
+            throw new RuntimeException("Valore già presente, utilizzare put");
+        }
+        map.put(chiave, valore);
+        scrittura(valore);
+        return true;
+    }
+
+    @Override
     protected Integer getKey(RispostaRecensioni valore) {
         return valore.getID();
     }
