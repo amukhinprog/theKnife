@@ -73,6 +73,7 @@ public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente>
         GestioneFile.scrittura(getPercorsoFile(), preferitiList);
     }
 
+    @Override
     public void sovraScrivi(HashMap<String, PreferitiCliente> preferitiMap) {
         LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
 

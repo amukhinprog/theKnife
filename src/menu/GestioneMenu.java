@@ -1,6 +1,7 @@
 package menu;
 
 import entita.dominio.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import repository.*;
 
@@ -30,15 +31,24 @@ public class GestioneMenu {
     }
 
     public void benvenuto() {
-        int scelta;
-
+        int scelta = 0;
+        boolean valido = false;
         do {
             System.out.println("Benvenuto su The Knife, scegliere l'opzione");
             System.out.println("1. Registrati");
             System.out.println("2. Login");
             System.out.println("3. Entra come guest");
             System.out.println("0. Esci");
-            scelta = scanner.nextInt();
+            do {
+                try {
+                    scelta = scanner.nextInt();
+                    valido = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(e.getMessage());
+                    scanner.nextLine();
+                }
+            } while (!valido);
+
             Utente u;
             switch (scelta) {
                 case 1:
@@ -76,12 +86,21 @@ public class GestioneMenu {
     }
 
     public void benvenutoGuest() {
-        int scelta;
+        int scelta = 0;
+        boolean valido = false;
         do {
 
             System.out.println("1. Visualizza ristoranti");
             System.out.println("0. Esci");
-            scelta = scanner.nextInt();
+            do {
+                try {
+                    scelta = scanner.nextInt();
+                    valido = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(e.getMessage());
+                    scanner.nextLine();
+                }
+            } while (!valido);
             switch (scelta) {
                 case 1:
                     ristoranteUI.cerca();
@@ -91,14 +110,23 @@ public class GestioneMenu {
     }
 
     public void benvenutoGestore(Gestore utente) {
-        int scelta;
+        int scelta = 0;
+        boolean valido = false;
         do {
-            System.out.println("1. Aggiungi ristorante");
+            System.out.println("1. Aggiungi ristorante di proprietà");
             System.out.println("2. Ricerca ristoranti");
             System.out.println("3. Visualizza media valutazioni");
             System.out.println("4. Rispondi alle recensioni");
             System.out.println("0. Esci");
-            scelta = scanner.nextInt();
+            do {
+                try {
+                    scelta = scanner.nextInt();
+                    valido = true;
+                } catch (InputMismatchException e) {
+                    System.out.println(e.getMessage());
+                    scanner.nextLine();
+                }
+            } while (!valido);
             switch (scelta) {
                 case 1:
                     assGestoreRistoranteUI.aggiungi(utente);
@@ -120,7 +148,8 @@ public class GestioneMenu {
     }
 
     public void benvenutoCliente(Cliente utente) {
-        int scelta;
+        int scelta = 0;
+        boolean valido = false;
         String c;
         do {
             System.out.println("1. Aggiungi ristorante ai preferiti");
@@ -129,18 +158,22 @@ public class GestioneMenu {
             System.out.println("4. Aggiungi recensione");
             System.out.println("5. Modifica recensione");
             System.out.println("6. Elimina recensione");
-            System.out.println("7. Ricerca ristoranti");
+            System.out.println("7. Visualizza recensione/i");
+            System.out.println("8. Ricerca ristoranti");
             System.out.println("0. Esci");
-            c = scanner.next();
-            scelta = Integer.parseInt(c);
-            scanner.nextLine();
+            do {
+                try {
+                    c = scanner.next();
+                    scelta = Integer.parseInt(c);
+                    valido = true;
+                } catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
+                }
+            } while (!valido);
+//            scanner.nextLine();
             switch (scelta) {
                 case 1:
-                    if (prefClienteServ.containsKey(utente.getUsername())) {
-                        preferitiClienteUI.put(utente);
-                    } else {
-                        preferitiClienteUI.add(utente);
-                    }
+                    preferitiClienteUI.aggiungi(utente);
                     break;
                 case 2:
                     preferitiClienteUI.remove(utente);
@@ -158,6 +191,9 @@ public class GestioneMenu {
                     recensioneUI.remove(utente);
                     break;
                 case 7:
+                    recensioneUI.visualizza(utente);
+                    break;
+                case 8:
                     ristoranteUI.cerca();
                     break;
                 default:

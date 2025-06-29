@@ -5,6 +5,7 @@ import entita.dominio.Gestore;
 import entita.associazioni.Recensione;
 import entita.dominio.Ristorante;
 import gestioneFile.FileRecensioni;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,13 +47,17 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
         for (Recensione r : map.values()) {
             somma += r.getStelle();  // supponendo che getStelle() ritorni un int o double
         }
-
         return somma / map.size();
     }
 
     public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
         HashMap<Ristorante, Float> mediaStelleMap = new HashMap<>();
-        List<Ristorante> listaRistorantiPosseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
+        List<Ristorante> listaRistorantiPosseduti = new ArrayList<>();
+        try {
+            listaRistorantiPosseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
         int sommaTot = 0;
         int countTot = 0;
         float mediaStelle = 0;

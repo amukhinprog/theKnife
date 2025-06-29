@@ -36,8 +36,14 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
 
     @Override
     public boolean put(K chiave, V valore) {
-        V v = map.put(chiave, valore);
-        sovrascrittura(map);
+        V v;
+        if (map.get(chiave).equals(valore)) {
+            v = valore;
+        } else {
+            map.put(chiave, valore);
+            v = null;
+            sovrascrittura(map);
+        }
         return v != null;
     }
 

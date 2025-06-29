@@ -98,8 +98,18 @@ public abstract class GestioneFile<K, V> {
         oggetti.addFirst(intestazione);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
             for (List<String> oggetto : oggetti) {
-                String riga = String.join(",", oggetto);
-                writer.write(riga);
+                List<String> campiCorretti = new ArrayList<>();
+                if (oggetti.indexOf(oggetto) != oggetti.indexOf(intestazione)) {
+                    for (String campo : oggetto) {
+                        campiCorretti.add(escapeCSV(campo));
+                    }
+                } else {
+                    for (String campo : oggetto) {
+                        campiCorretti.add(campo);
+                    }
+                }
+                String linea = String.join(",", campiCorretti);
+                writer.write(linea);
                 writer.newLine();
             }
         } catch (IOException e) {

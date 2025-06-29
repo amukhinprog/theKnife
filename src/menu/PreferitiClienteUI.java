@@ -27,11 +27,20 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
 
     private Ristorante chiediRistorante() {
         String nomeRistorante;
+        scanner.nextLine();
         do {
             System.out.println("Inserire il nome del ristorante: ");
             nomeRistorante = scanner.nextLine();
         } while (!ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
+    }
+
+    public void aggiungi(Utente utente) {
+        if (get(utente) != null) {
+            put(utente);
+        } else {
+            add(utente);
+        }
     }
 
     @Override
@@ -62,7 +71,9 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     public boolean put(Utente valore) {
         Ristorante r = chiediRistorante();
         List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
-        ristorantiListValore.add(r);
+        if (!ristorantiListValore.contains(r)) {
+            ristorantiListValore.add(r);
+        }
         PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiListValore);
         return PCS.put(valore.getUsername(), preferitiCliente);
     }

@@ -1,7 +1,6 @@
 package gestioneFile;
 
 import entita.associazioni.AssGestoreRistoranti;
-import entita.dominio.Gestore;
 import entita.dominio.Ristorante;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -15,19 +14,16 @@ import repository.AssGestoreRistorantiService;
 public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistoranti> {
 
     protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
-    private final List<String> intestazione = new ArrayList<>(List.of("username", "ristorantiPosseduti"));
 
     public static String getPercorsoFile() {
         return percorsoFile;
     }
 
+    @Override
     public void sovraScrivi(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
-
         LinkedList<List<String>> assRistorantiGestoreList = new LinkedList<>();
-        assRistorantiGestoreList.add(intestazione);
-
-        List<String> riga = new ArrayList<>();
         for (String chiave : assRistorantiGestore.keySet()) {
+            List<String> riga = new ArrayList<>();
             List<Ristorante> ristorantiPosseduti = assRistorantiGestore.get(chiave).getRistorantiList();
             riga.add(assRistorantiGestore.get(chiave).getUsernameRistoratore());
             String stringaDiRistoranti = "";

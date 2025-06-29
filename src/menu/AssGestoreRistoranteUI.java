@@ -27,9 +27,10 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
 
     public Ristorante chiediRistorante() {
         String nomeRistorante;
+        scanner.nextLine();
         do {
             System.out.println("Scrivere il nome del ristorante: ");
-            nomeRistorante = scanner.next();
+            nomeRistorante = scanner.nextLine();
         } while (!ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
     }
@@ -65,8 +66,10 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
     @Override
     public boolean put(Utente valore) {
         Ristorante r = chiediRistorante();
-        List<Ristorante> ristorantiList = new ArrayList<>();
-        ristorantiList.add(r);
+        List<Ristorante> ristorantiList = assGestoreRistorantiServ.get(valore.getUsername()).getRistorantiList();
+        if (ristorantiList.contains(r)) {
+            ristorantiList.add(r);
+        }
         AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(valore.getUsername(), ristorantiList);
         boolean b = assGestoreRistorantiServ.put(assGestoreRistoranti.getUsernameRistoratore(), assGestoreRistoranti);
         return b;

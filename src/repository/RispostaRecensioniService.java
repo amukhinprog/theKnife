@@ -12,7 +12,7 @@ import repository.generico.HashMapService;
 public class RispostaRecensioniService extends HashMapService<Integer, RispostaRecensioni> {
 
     private static final FileRispostaRecensioni FRR = new FileRispostaRecensioni();
-    private static int ID = 0;
+    private static int ID = getID();
 
     public static int getID() {
         HashMap<Integer, RispostaRecensioni> map = FRR.ottieniHashMap();

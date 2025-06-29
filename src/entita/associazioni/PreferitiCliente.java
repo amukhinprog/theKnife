@@ -19,7 +19,21 @@ public class PreferitiCliente  implements Associazione{
         this.usernameCliente = usernameCliente;
         this.ristorantiPreferiti = ristorantiPreferiti;
     }
-    
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        PreferitiCliente preferitiCliente = (PreferitiCliente) obj;
+        if (this.usernameCliente.equals(preferitiCliente.getUsernameCliente())) {
+            return ristorantiPreferiti.containsAll(preferitiCliente.getRistorantiPreferiti());
+        } else {
+            return false;
+        }
+    }
     public List<Ristorante> getRistorantiPreferiti() {
         return ristorantiPreferiti;
     }

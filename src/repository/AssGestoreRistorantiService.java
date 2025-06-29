@@ -2,12 +2,8 @@ package repository;
 
 import repository.generico.HashMapService;
 import entita.associazioni.AssGestoreRistoranti;
-import entita.dominio.Ristorante;
-import entita.dominio.Utente;
 import gestioneFile.FileGestoreRistorante;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  *
@@ -17,27 +13,7 @@ public class AssGestoreRistorantiService extends HashMapService<String, AssGesto
 
     private static final FileGestoreRistorante FGR = new FileGestoreRistorante();
 
-    public void add(Utente utente, Ristorante ristorante) {
-        String username = utente.getUsername();
-        FileGestoreRistorante fileAss = new FileGestoreRistorante();
-        if (ristorante != null) {
-            if (map.containsKey(username)) {
-                AssGestoreRistoranti g = map.get(username);
-                g.addRistorantiList(ristorante);
-                map.replace(username, g);
-                fileAss.sovraScrivi(map);
-
-            } else {
-                List<Ristorante> l = new ArrayList<>();
-                l.add(ristorante);
-                AssGestoreRistoranti assGestore = new AssGestoreRistoranti(username, l);
-                map.put(username, assGestore);
-
-                fileAss.scrittura(assGestore);
-            }
-        }
-    }
-
+    @Override
     protected String getKey(AssGestoreRistoranti assGestoreRistoranti) {
         return assGestoreRistoranti.getUsernameRistoratore();
     }
