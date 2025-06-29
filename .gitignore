@@ -15,4 +15,4 @@ git rm --cached nbproject/private/config.properties
 git rm --cached nbproject/build-impl.xml
 git rm --cached nbproject/genfiles.properties
 git rm --cached nbproject/project.properties
-git rm --cahed nbproject/project.xml
+git rm --cached nbproject/project.xml
