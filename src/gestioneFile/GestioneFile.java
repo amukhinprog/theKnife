@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package gestioneFile;
 
 import static gestioneFile.FileRistorante.leggiRiga;
@@ -23,24 +19,6 @@ import java.util.LinkedList;
  * @author armuh
  */
 public abstract class GestioneFile<K, V> {
-//    public static void scritturaSuFile(String percorsoFile) {
-//        File file = new File(percorsoFile);
-//        List<List<String>> frasi = new ArrayList<>();
-//        try {
-//            frasi = letturaCsv(percorsoFile);
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
-//            for (List<String> riga : frasi) {
-//                String linea = String.join(",", riga);
-//                writer.write(linea);
-//                writer.newLine();
-//            }
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
 
     protected static void scrittura(String percorsoFile, List<String> oggetto) {
         File file = new File(percorsoFile);

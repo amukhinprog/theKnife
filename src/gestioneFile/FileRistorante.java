@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestioneFile;
 
 import entita.dominio.Ristorante;
@@ -23,7 +19,6 @@ import java.util.logging.Logger;
 public class FileRistorante extends GestioneFile<String, Ristorante> {
 
     private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
-//    private RistoranteService ristoranteServ = new RistoranteService();
 
     private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
 

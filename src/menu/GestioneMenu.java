@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package menu;
 
 import entita.dominio.*;
@@ -42,7 +38,6 @@ public class GestioneMenu {
             System.out.println("2. Login");
             System.out.println("3. Entra come guest");
             System.out.println("0. Esci");
-            Scanner scanner = new Scanner(System.in);
             scelta = scanner.nextInt();
             Utente u;
             switch (scelta) {
@@ -97,7 +92,6 @@ public class GestioneMenu {
 
     public void benvenutoGestore(Gestore utente) {
         int scelta;
-        String nomeRistorante = "";
         do {
             System.out.println("1. Aggiungi ristorante");
             System.out.println("2. Ricerca ristoranti");
@@ -106,7 +100,7 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             scelta = scanner.nextInt();
             switch (scelta) {
-                case 1:/*aggiungere ristorante esistente in csv o non esistente? qui non esistente*/
+                case 1:
                     assGestoreRistoranteUI.aggiungi(utente);
                     break;
                 case 2:
@@ -137,7 +131,6 @@ public class GestioneMenu {
             System.out.println("6. Elimina recensione");
             System.out.println("7. Ricerca ristoranti");
             System.out.println("0. Esci");
-            Ristorante r;
             c = scanner.next();
             scelta = Integer.parseInt(c);
             scanner.nextLine();

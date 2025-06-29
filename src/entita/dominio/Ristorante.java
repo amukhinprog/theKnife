@@ -1,17 +1,12 @@
 package entita.dominio;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 import entita.Dominio;
-//import java.util.ArrayList;
 
 /**
  *
  * @author armuh
  */
-public class Ristorante implements Dominio{
+public class Ristorante implements Dominio {
 
     private String nome;
     private String indirizzo;
@@ -61,7 +56,7 @@ public class Ristorante implements Dominio{
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Ristorante ristorante = (Ristorante)obj;
+        Ristorante ristorante = (Ristorante) obj;
         if (this.nome.equals(ristorante.getNome())) {
             return true;
         } else {

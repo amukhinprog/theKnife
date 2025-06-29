@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestioneFile;
 
 import entita.dominio.Cliente;
@@ -22,7 +18,7 @@ import java.util.logging.Logger;
 public class FileUtenti extends GestioneFile<String, Utente> {
 
     private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
-//    private UtenteService utenteServ = new UtenteService();
+
     public static String getPercorsoFile() {
         return percorsoFile;
     }
@@ -37,7 +33,7 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         utenteList.add(utente.getDataNascita().toString());
         utenteList.add(utente.getLuogodomicilio());
         utenteList.add(utente.getRuolo());
-        
+
         GestioneFile.scrittura(getPercorsoFile(), utenteList);
     }
 
@@ -83,8 +79,7 @@ public class FileUtenti extends GestioneFile<String, Utente> {
                         utenteList.get(2), utenteList.get(3),
                         LocalDate.parse(utenteList.get(4)), utenteList.get(5),
                         utenteList.get(6));
-                
-                
+
                 gestoriMap.put(gestore.getUsername(), gestore);
             }
         }

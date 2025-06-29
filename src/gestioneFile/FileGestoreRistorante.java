@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestioneFile;
 
 import entita.associazioni.AssGestoreRistoranti;
@@ -16,33 +12,10 @@ import java.util.logging.Logger;
 import java.util.LinkedList;
 import repository.AssGestoreRistorantiService;
 
-
 public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistoranti> {
 
     protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
     private final List<String> intestazione = new ArrayList<>(List.of("username", "ristorantiPosseduti"));
-//    public static void associaGestore(String username, String nomeRistorante) {
-//        List<List<String>> gestori = new ArrayList<>();
-//        try {
-//            gestori = FileUtenti.letturaCsv(FileUtenti.getPercorsoFile());
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        for (int i = 1; i < gestori.size(); i++) {
-//            if (gestori.get(i).get(2).equals(username)) {
-//                String campo = gestori.get(i).get(1).concat("$ " + nomeRistorante);
-//                gestori.get(i).set(1, campo);
-//                sovraScriFile(getPercorsoFile(), gestori);
-//            } else {
-//                //aggiungere una riga username, e suo ristorante
-//                List<String> gestore = new ArrayList<>();
-//                gestore.add(username);
-//                gestore.add(nomeRistorante);
-//                FileGestoreRistorante.scritturaSuFile(getPercorsoFile(), gestore);
-//
-//            }
-//        }
-//    }
 
     public static String getPercorsoFile() {
         return percorsoFile;
@@ -71,9 +44,9 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
         AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
         HashMap<String, AssGestoreRistoranti> assGestoreRistorantiMap = assGestoreRistoranti.get();
         List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
-        
-        List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>(); 
-        for(String chiave: assGestoreRistorantiMap.keySet()){
+
+        List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>();
+        for (String chiave : assGestoreRistorantiMap.keySet()) {
             ristorantiPossedutiDaUtente = assGestoreRistorantiMap.get(chiave).getRistorantiList();
             ristorantiPossedutiUtenti.addAll(ristorantiPossedutiDaUtente);
         }
@@ -83,7 +56,6 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
     @Override
     public HashMap<String, AssGestoreRistoranti> ottieniHashMap() {
         HashMap<String, AssGestoreRistoranti> assGestoreRistoranteMap = new HashMap<>();
-        HashMap<String, Gestore> gestoriMap = new FileUtenti().ottieniHashMapGestori();
 
         HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
 

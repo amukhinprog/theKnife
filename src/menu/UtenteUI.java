@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package menu;
 
 import entita.dominio.Cliente;
@@ -108,7 +104,12 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     @Override
     public Utente get() {
-        Utente utente = login();
+        Utente utente = null;
+        try {
+            utente = login();
+        } catch (NullPointerException e) {
+            System.out.println("Riprovare");
+        }
         return utente;
     }
 

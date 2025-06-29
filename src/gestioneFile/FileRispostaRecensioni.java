@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestioneFile;
 
 import entita.associazioni.RispostaRecensioni;
@@ -31,7 +27,6 @@ public class FileRispostaRecensioni extends GestioneFile<Integer, RispostaRecens
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         try {
             for (List<String> campo : risposteList) {
                 int ID = Integer.parseInt(campo.get(0));
