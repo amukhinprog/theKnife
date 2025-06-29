@@ -1,0 +1,5198 @@
+/**
+ * Classe che rappresenta un'eccezione personalizzata lanciata quando un locale e\' gia\' presente.
+ * Estende la classe RuntimeException.
+ */
+package eccezioni;
+
+/**
+ * Eccezione personalizzata per segnalare che un locale e\' gia\' presente.
+ * Estende la classe {RuntimeException}.
+ * Viene lanciata quando si cerca di aggiungere un locale che esiste gia\' nel sistema.
+ * 
+ * @author armuh
+ */
+public class LocaleGiaPresenteException extends RuntimeException {
+
+    /**
+     * Costruttore che crea l'eccezione con un messaggio di errore personalizzato.
+     *
+     *  messaggio: il messaggio di errore descrive il motivo dell'eccezione.
+     */
+    public LocaleGiaPresenteException(String messaggio) {
+        super(messaggio);
+    }
+}
+
+
+
+
+
+/**
+ * Interfaccia che rappresenta un'associazione tra entita\'.
+ * 
+ * L'interfaccia {Associazione} funge da marker (indicatore) per tutte le classi che definiscono 
+ * una relazione tra due o piu\' entita\'. Le classi che implementano questa interfaccia 
+ * rappresentano associazioni tra oggetti senza fornire metodi specifici.
+ * 
+ * @author armuh
+ */
+package entita;
+
+/**
+ * Interfaccia marker per le classi che rappresentano associazioni tra entita\'.
+ * Le classi che implementano questa interfaccia definiscono relazioni fra oggetti,
+ * ma non e\' previsto un comportamento comune specifico.
+ * 
+ * @author armuh
+ */
+public interface Associazione {
+    // Non ci sono metodi definiti in questa interfaccia, e\' solo un marker
+}
+
+
+
+
+
+
+
+
+/**
+ * Interfaccia che rappresenta un dominio, ovvero un'entita\' che ha un'implementazione del metodo {#equals(Object)}.
+ * Le classi che implementano questa interfaccia devono fornire un comportamento 
+ * per confrontare oggetti dello stesso tipo.
+ * 
+ * @author armuh
+ */
+package entita;
+
+/**
+ * Interfaccia per definire oggetti di dominio che devono implementare un metodo {equals(Object)}.
+ */
+public interface Dominio {
+
+    /**
+     * Confronta questo oggetto con un altro oggetto per determinare se sono uguali.
+     * 
+     *  obj L'oggetto con cui confrontare questo oggetto.
+     * Ritorna {true} se gli oggetti sono uguali, {false} altrimenti.
+     */
+    @Override
+    public abstract boolean equals(Object obj);
+}
+
+
+
+package entita;
+
+/**
+ * Enum che rappresenta e definisce i ruoli di un utente.
+ * I ruoli possono essere:
+ * Gestore - Ruolo di un utente che gestisce un ristorante.
+ * Cliente - Ruolo di un utente che e\' cliente di un ristorante.
+ * 
+ * @author armuh
+ */
+
+public enum Ruolo {
+    GESTORE,
+    CLIENTE
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Classe che rappresenta l'associazione tra un gestore di ristorante e i ristoranti che possiede.
+ * Implementa l'interfaccia {Associazione} per segnare la relazione come associazione.
+ */
+package entita.associazioni;
+
+import entita.Associazione;
+import entita.dominio.Ristorante;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Classe che rappresenta l'associazione di un gestore a una lista di ristoranti da lui posseduti.
+ * Ogni {AssGestoreRistoranti} contiene il nome utente del ristoratore e la lista di ristoranti associati.
+ * 
+ * @author armuh
+ */
+public class AssGestoreRistoranti implements Associazione {
+
+    /**
+     * Il nome utente del ristoratore.
+     */
+    private String usernameRistoratore;
+    
+    /**
+     * La lista dei ristoranti posseduti dal ristoratore.
+     */
+    private List<Ristorante> ristorantiList = new ArrayList<>();
+
+    /**
+     * Costruttore per inizializzare l'associazione tra un gestore e la lista dei ristoranti.
+     *
+     *  usernameRistoratore: il nome utente del ristoratore.
+     *  ristorantiList: la lista dei ristoranti associati.
+     */
+    public AssGestoreRistoranti(String usernameRistoratore, List<Ristorante> ristorantiList) {
+        this.usernameRistoratore = usernameRistoratore;
+        this.ristorantiList = ristorantiList;
+    }
+
+    /**
+     * Verifica se un ristorante e\' gia\' presente nella lista dei ristoranti posseduti dal gestore.
+     *
+     *  r: ristorante da verificare.
+     * Ritorna {true} se il ristorante e\' gia\' presente nella lista, {false} altrimenti.
+     */
+    public boolean contains(Ristorante r) {
+        for (Ristorante rPosseduti : ristorantiList) {
+            if (rPosseduti.getNome().equals(r.getNome())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Restituisce la lista dei ristoranti associati al gestore.
+     *
+     * Ritorna la lista dei ristoranti posseduti dal gestore.
+     */
+    public List<Ristorante> getRistorantiList() {
+        return ristorantiList;
+    }
+
+    /**
+     * Imposta una nuova lista di ristoranti per l'associazione del gestore.
+     *
+     *  ristorantiList: nuova lista dei ristoranti.
+     */
+    public void setRistorantiList(List<Ristorante> ristorantiList) {
+        this.ristorantiList = ristorantiList;
+    }
+
+    /**
+     * Aggiunge un ristorante alla lista dei ristoranti posseduti dal gestore.
+     *
+     *  ristorante: ristorante da aggiungere.
+     */
+    public void addRistorantiList(Ristorante ristorante) {
+        this.ristorantiList.add(ristorante);
+    }
+
+    /**
+     * Restituisce il nome utente del ristoratore.
+     *
+     * Ritorna il nome utente del ristoratore.
+     */
+    public String getUsernameRistoratore() {
+        return usernameRistoratore;
+    }
+
+    /**
+     * Imposta il nome utente del ristoratore.
+     *
+     *  usernameRistoratore: nuovo nome utente del ristoratore.
+     */
+    public void setUsernameRistoratore(String usernameRistoratore) {
+        this.usernameRistoratore = usernameRistoratore;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Classe che rappresenta l'associazione tra un cliente e i suoi ristoranti preferiti.
+ * Implementa l'interfaccia {Associazione}, segnando la relazione come una specifica associazione.
+ * 
+ * @author filod
+ */
+package entita.associazioni;
+
+import entita.Associazione;
+import entita.dominio.Ristorante;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Classe che rappresenta l'associazione di un cliente con i ristoranti che ha aggiunto ai suoi preferiti.
+ * Ogni {PreferitiCliente} contiene un nome utente del cliente e una lista di ristoranti preferiti.
+ * 
+ * @author filod
+ */
+public class PreferitiCliente implements Associazione {
+
+    /**
+     * Il nome utente del cliente.
+     */
+    private String usernameCliente;
+
+    /**
+     * La lista dei ristoranti preferiti dal cliente.
+     */
+    private List<Ristorante> ristorantiPreferiti = new ArrayList<>();
+
+    /**
+     * Costruttore che inizializza l'associazione tra un cliente e i suoi ristoranti preferiti.
+     *
+     *  usernameCliente: nome utente del cliente.
+     *  ristorantiPreferiti: lista dei ristoranti preferiti dal cliente.
+     */
+    public PreferitiCliente(String usernameCliente, List<Ristorante> ristorantiPreferiti) {
+        this.usernameCliente = usernameCliente;
+        this.ristorantiPreferiti = ristorantiPreferiti;
+    }
+
+    /**
+     * Restituisce la lista dei ristoranti preferiti dal cliente.
+     *
+     * Ritorna la lista dei ristoranti preferiti dal cliente.
+     */
+    public List<Ristorante> getRistorantiPreferiti() {
+        return ristorantiPreferiti;
+    }
+
+    /**
+     * Imposta una nuova lista di ristoranti preferiti per il cliente.
+     *
+     *  ristorantiPreferiti: nuova lista dei ristoranti preferiti.
+     */
+    public void setRistorantiPreferiti(List<Ristorante> ristorantiPreferiti) {
+        this.ristorantiPreferiti = ristorantiPreferiti;
+    }
+
+    /**
+     * Aggiunge un ristorante alla lista dei preferiti del cliente.
+     *
+     *  ristorante: ristorante da aggiungere.
+     */
+    public void addRistorantePreferito(Ristorante ristorante) {
+        this.ristorantiPreferiti.add(ristorante);
+    }
+
+    /**
+     * Restituisce il nome utente del cliente.
+     *
+     * Ritorna il nome utente del cliente.
+     */
+    public String getUsernameCliente() {
+        return usernameCliente;
+    }
+
+    /**
+     * Imposta il nome utente del cliente.
+     *
+     *  usernameCliente: nuovo nome utente del cliente.
+     */
+    public void setUsernameCliente(String usernameCliente) {
+        this.usernameCliente = usernameCliente;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Classe che rappresenta una recensione di un ristorante. 
+ * Implementa le interfacce {Dominio} e {Associazione}, segnando la recensione come una specifica associazione 
+ * tra un utente e un ristorante.
+ * 
+ * @author Nikoro02
+ */
+package entita.associazioni;
+
+import entita.Associazione;
+import entita.Dominio;
+import java.time.LocalDate;
+
+/**
+ * Classe che rappresenta una recensione scritta da un utente su un ristorante. La recensione include un punteggio in stelle, 
+ * un testo del commento, e la data in cui e\' stata scritta.
+ * La classe implementa l'interfaccia {Dominio} per la gestione del confronto degli oggetti e {Associazione} 
+ * per segnare la relazione tra l'utente e il ristorante recensito.
+ * 
+ * @author Nikoro02
+ */
+public class Recensione implements Dominio, Associazione {
+
+    /**
+     * L'ID univoco della recensione.
+     */
+    private int ID;
+
+    /**
+     * Il nome utente dell'utente che ha scritto la recensione.
+     */
+    private String username;
+
+    /**
+     * Il punteggio della recensione in stelle.
+     */
+    private short stelle;
+
+    /**
+     * Il testo della recensione.
+     */
+    private String testo;
+
+    /**
+     * La data in cui la recensione e\' stata scritta.
+     */
+    private LocalDate data;
+
+    /**
+     * Il nome del ristorante recensito.
+     */
+    private String ristoranteRecensito;
+
+    /**
+     * Costruttore che inizializza la recensione con tutti i suoi attributi.
+     *
+     *  ID: l'ID univoco della recensione.
+     *  username: il nome utente dell'utente che ha scritto la recensione.
+     *  stelle: il punteggio della recensione (in stelle).
+     *  testo: il testo della recensione.
+     *  data: la data della recensione.
+     *  ristoranteRecensito: il nome del ristorante recensito.
+     */
+    public Recensione(int ID, String username, short stelle, String testo, LocalDate data, String ristoranteRecensito) {
+        this.ID = ID;
+        this.username = username;
+        this.stelle = stelle;
+        this.testo = testo;
+        this.data = data;
+        this.ristoranteRecensito = ristoranteRecensito;
+    }
+
+    /**
+     * Costruttore vuoto che crea una recensione senza inizializzare i suoi attributi.
+     */
+    public Recensione() {
+        // Costruttore vuoto
+    }
+
+    /**
+     * Restituisce il nome utente che ha scritto la recensione.
+     *
+     * Ritorna il nome utente dell'utente che ha scritto la recensione.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Imposta il nome utente dell'utente che ha scritto la recensione.
+     *
+     * username: nome utente dell'utente che ha scritto la recensione.
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Restituisce l'ID univoco della recensione.
+     *
+     * Ritorna l'ID della recensione.
+     */
+    public int getID() {
+        return ID;
+    }
+
+    /**
+     * Restituisce il punteggio della recensione, espresso in stelle.
+     *
+     * Ritorna il punteggio della recensione.
+     */
+    public short getStelle() {
+        return stelle;
+    }
+
+    /**
+     * Restituisce il testo della recensione.
+     *
+     * Ritorna il testo della recensione.
+     */
+    public String getTesto() {
+        return testo;
+    }
+
+    /**
+     * Restituisce la data in cui la recensione e\' stata scritta.
+     *
+     * Ritorna la data della recensione.
+     */
+    public LocalDate getData() {
+        return data;
+    }
+
+    /**
+     * Restituisce il nome del ristorante recensito.
+     *
+     * Ritorna il nome del ristorante recensito.
+     */
+    public String getRistoranteRecensito() {
+        return ristoranteRecensito;
+    }
+
+    /**
+     * Imposta l'ID univoco della recensione.
+     *
+     *  ID: l'ID della recensione.
+     */
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    /**
+     * Imposta il punteggio della recensione (in stelle).
+     *
+     *  stelle: il punteggio della recensione.
+     */
+    public void setStelle(short stelle) {
+        this.stelle = stelle;
+    }
+
+    /**
+     * Imposta la data della recensione.
+     *
+     *  data: data della recensione.
+     */
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    /**
+     * Imposta il nome del ristorante recensito.
+     *
+     *  ristoranteRecensito: nome del ristorante recensito.
+     */
+    public void setRistoranteRecensito(String ristoranteRecensito) {
+        this.ristoranteRecensito = ristoranteRecensito;
+    }
+
+    /**
+     * Imposta il testo della recensione.
+     *
+     *  testo: testo della recensione.
+     */
+    public void setTesto(String testo) {
+        this.testo = testo;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package entita.associazioni;
+
+import java.time.LocalDate;
+
+/**
+ * Classe che rappresenta una risposta a una recensione.
+ * 
+ * La classe {RispostaRecensioni} contiene le informazioni relative a una risposta 
+ * data da un gestore a una recensione. Ogni risposta e\' associata a un identificativo 
+ * (ID), un riferimento alla recensione a cui risponde (idRif), il nome utente che ha scritto 
+ * la risposta, il testo della risposta stessa e la data in cui e\' stata scritta.
+ * 
+ * @author armuh
+ */
+public class RispostaRecensioni {
+
+    /**
+     * L'ID univoco della risposta.
+     */
+    private int ID;
+
+    /**
+     * L'ID della recensione a cui questa risposta si riferisce.
+     */
+    private int idRif;
+
+    /**
+     * Il nome utente che ha scritto la risposta.
+     */
+    private String username;
+
+    /**
+     * Il testo della risposta alla recensione.
+     */
+    private String testo;
+
+    /**
+     * La data in cui e\' stata scritta la risposta.
+     */
+    private LocalDate data;
+
+    /**
+     * Costruttore per creare una nuova risposta a una recensione.
+     * 
+     *  ID: l'ID della risposta.
+     *  idRif: l'ID della recensione a cui si sta rispondendo.
+     *  username: nome utente che ha scritto la risposta.
+     *  testo: testo della risposta.
+     *  data: data in cui e\' stata scritta la risposta.
+     */
+    public RispostaRecensioni(int ID, int idRif, String username, String testo, LocalDate data) {
+        this.ID = ID;
+        this.idRif = idRif;
+        this.username = username;
+        this.testo = testo;
+        this.data = data;
+    }
+
+    /**
+     * Restituisce l'ID della risposta.
+     * 
+     * Ritorna l'ID della risposta.
+     */
+    public int getID() {
+        return ID;
+    }
+
+    /**
+     * Assegna un valore all'ID della risposta.
+     * 
+     *  ID: ID da assegnare.
+     */
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    /**
+     * Restituisce l'ID della recensione a cui la risposta si riferisce.
+     * 
+     * Ritorna l'ID della recensione di riferimento.
+     */
+    public int getIdRif() {
+        return idRif;
+    }
+
+    /**
+     * Imposta l'ID della recensione a cui la risposta si riferisce.
+     * 
+     *  idRif: l'ID della recensione da impostare.
+     */
+    public void setIdRif(int idRif) {
+        this.idRif = idRif;
+    }
+
+    /**
+     * Restituisce il nome utente che ha scritto la risposta.
+     * 
+     * Ritorna il nome utente che ha scritto la risposta.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Imposta il nome utente che ha scritto la risposta.
+     * 
+     *  username: il nome utente da impostare.
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Restituisce il testo della risposta.
+     * 
+     * Ritorna il testo della risposta.
+     */
+    public String getTesto() {
+        return testo;
+    }
+
+    /**
+     * Imposta il testo della risposta.
+     * 
+     *  testo: testo da impostare.
+     */
+    public void setTesto(String testo) {
+        this.testo = testo;
+    }
+
+    /**
+     * Restituisce la data in cui e\' stata scritta la risposta.
+     * 
+     * Ritorna la data della risposta.
+     */
+    public LocalDate getData() {
+        return data;
+    }
+
+    /**
+     * Imposta la data in cui e\' stata scritta la risposta.
+     * 
+     *  data: data da impostare.
+     */
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package entita.dominio;
+
+import java.time.LocalDate;
+
+/**
+ * La classe {Cliente} rappresenta un cliente, estendendo la classe {Utente}.
+ * 
+ * Un {Cliente} e\' un tipo di {Utente} che ha attributi come nome, cognome, 
+ * username, password, data di nascita, luogo di domicilio e ruolo. Questa classe 
+ * rappresenta l'entita\' di un cliente che puo\' interagire con il sistema, come ad esempio 
+ * fare recensioni o aggiungere ristoranti ai preferiti.
+ * 
+ * @author armuh
+ */
+public class Cliente extends Utente {
+
+    /**
+     * Costruttore per creare un'istanza di {Cliente}.
+     * 
+     * Questo costruttore inizializza un oggetto {Cliente} con i dettagli specificati,
+     * che includono il nome, cognome, username, password, data di nascita, luogo di domicilio
+     * e ruolo, passando questi valori al costruttore della classe {Utente}.
+     * 
+     *  nome: nome del cliente.
+     *  cognome: cognome del cliente.
+     *  username: nome utente del cliente, utilizzato per identificare il cliente.
+     *  password: password dell'account del cliente.
+     *  Data: data di nascita del cliente.
+     *  luogodomicilio: luogo di domicilio del cliente.
+     *  ruolo: ruolo del cliente (ad esempio "Cliente").
+     */
+    public Cliente(String nome, String cognome, String username, String password, LocalDate Data, String luogodomicilio, String ruolo) {
+        super(nome, cognome, username, password, Data, luogodomicilio, ruolo);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package entita.dominio;
+
+import java.time.LocalDate;
+
+/**
+ * La classe {Gestore} rappresenta un gestore di ristoranti, estendendo la classe {Utente}.
+ * 
+ * Un {Gestore} e\' una specializzazione della classe {Utente} che rappresenta un utente
+ * che ha il ruolo di gestore all'interno del sistema. La classe {Gestore} eredita tutti gli
+ * attributi e i metodi della classe {Utente} come nome, cognome, username, password, data di 
+ * nascita, luogo di domicilio e ruolo. Il gestore avra\' probabilmente un comportamento diverso rispetto
+ * ad altri tipi di utenti come i clienti, ad esempio la possibilita\' di gestire ristoranti.
+ * 
+ * @author armuh
+ */
+public class Gestore extends Utente {
+
+    /**
+     * Costruttore per creare un'istanza di {Gestore}.
+     * 
+     * Questo costruttore inizializza un oggetto {Gestore} con i dettagli specificati,
+     * che includono il nome, cognome, username, password, data di nascita, luogo di domicilio
+     * e ruolo, passando questi valori al costruttore della classe {Utente}.
+     * 
+     *  nome: nome del gestore.
+     *  cognome: cognome del gestore.
+     *  username: nome utente del gestore, utilizzato per identificare l'utente.
+     *  password: password dell'account del gestore.
+     *  data: data di nascita del gestore.
+     *  luogodomicilio: luogo di domicilio del gestore.
+     *  ruolo: ruolo del gestore (ad esempio "Gestore").
+     */
+    public Gestore(String nome, String cognome, String username, String password, LocalDate data, String luogodomicilio, String ruolo) {
+        super(nome, cognome, username, password, data, luogodomicilio, ruolo);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package entita.dominio;
+
+import entita.Dominio;
+
+/**
+ * La classe {Ristorante} rappresenta un ristorante nel sistema.
+ * 
+ * Un {Ristorante} contiene tutte le informazioni relative a un ristorante,
+ * inclusi i dettagli come il nome, l'indirizzo, la locazione, il prezzo medio,
+ * il tipo di cucina, le coordinate geografiche, le informazioni di contatto, e altro ancora.
+ * Questa classe implementa l'interfaccia {Dominio}, che fornisce un metodo {equals}
+ * per confrontare due oggetti {Ristorante}.
+ * 
+ * @author armuh
+ */
+public class Ristorante implements Dominio {
+
+    private String nome;
+    private String indirizzo;
+    private String locazione;
+    private float prezzo;
+    private String cucina;
+    private float longitudine;
+    private float latitudine;
+    private String numeroTelefono;
+    private boolean delivery;
+    private String url;
+    private String webSiteUrl;
+    private boolean prenotazione;
+    private String descrizione;
+    // private short stelle;
+
+    /**
+     * Costruttore per creare un'istanza di {Ristorante}.
+     * 
+     * Questo costruttore inizializza un oggetto {Ristorante} con i dettagli specificati,
+     * che includono nome, indirizzo, locazione, prezzo, tipo di cucina, coordinate geografiche,
+     * informazioni di contatto, disponibilita\' di delivery, prenotazione, e descrizione.
+     * 
+     *  nome: nome del ristorante.
+     *  indirizzo: indirizzo del ristorante.
+     *  locazione: locazione del ristorante (citta\', provincia, ecc.).
+     *  prezzo: prezzo medio del ristorante.
+     *  cucina: tipo di cucina offerta dal ristorante.
+     *  longitudine: longitudine del ristorante.
+     *  latitudine: latitudine del ristorante.
+     *  numeroTelefono: numero di telefono del ristorante.
+     *  delivery: indica se il ristorante offre il servizio di delivery.
+     *  url: l'URL del ristorante.
+     *  webSiteUrl: l'URL del sito web del ristorante.
+     *  prenotazione: indica se il ristorante accetta prenotazioni.
+     *  descrizione: una breve descrizione del ristorante.
+     */
+    public Ristorante(String nome, String indirizzo, String locazione, float prezzo, String cucina, 
+                      float longitudine, float latitudine, String numeroTelefono, boolean delivery, 
+                      String url, String webSiteUrl, boolean prenotazione, String descrizione/*, short stelle*/) {
+        this.nome = nome;
+        this.indirizzo = indirizzo;
+        this.locazione = locazione;
+        this.prezzo = prezzo;
+        this.cucina = cucina;
+        this.longitudine = longitudine;
+        this.latitudine = latitudine;
+        this.numeroTelefono = numeroTelefono;
+        this.delivery = delivery;
+        this.url = url;
+        this.webSiteUrl = webSiteUrl;
+        this.prenotazione = prenotazione;
+        this.descrizione = descrizione;
+        // this.stelle = stelle;
+    }
+
+    /**
+     * Costruttore privato per la creazione di un ristorante "vuoto".
+     * 
+     * Questo costruttore e\' utilizzato per creare un oggetto {Ristorante} senza
+     * parametri iniziali.
+     */
+    private Ristorante() {
+
+    }
+
+    /**
+     * Metodo statico che restituisce un oggetto {Ristorante} vuoto.
+     * 
+     * Ritorna un oggetto {Ristorante} vuoto.
+     */
+    public static final Ristorante ristoranteVuoto() {
+        return new Ristorante();
+    }
+
+    /**
+     * Confronta due oggetti {Ristorante} per determinare se sono uguali.
+     * Due ristoranti sono considerati uguali se il loro nome e\' lo stesso.
+     * 
+     *  obj: l'oggetto da confrontare con il ristorante corrente.
+     * Ritorna {true} se i ristoranti sono uguali, {false} altrimenti.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Ristorante ristorante = (Ristorante) obj;
+        return this.nome.equals(ristorante.getNome());
+    }
+
+    // Getter e Setter per ogni attributo
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
+    public String getLocazione() {
+        return locazione;
+    }
+
+    public void setLocazione(String locazione) {
+        this.locazione = locazione;
+    }
+
+    public float getPrezzo() {
+        return prezzo;
+    }
+
+    public void setPrezzo(float prezzo) {
+        this.prezzo = prezzo;
+    }
+
+    public String getCucina() {
+        return cucina;
+    }
+
+    public void setCucina(String cucina) {
+        this.cucina = cucina;
+    }
+
+    public float getLongitudine() {
+        return longitudine;
+    }
+
+    public void setLongitudine(float longitudine) {
+        this.longitudine = longitudine;
+    }
+
+    public float getLatitudine() {
+        return latitudine;
+    }
+
+    public void setLatitudine(float latitudine) {
+        this.latitudine = latitudine;
+    }
+
+    public String getNumeroTelefono() {
+        return numeroTelefono;
+    }
+
+    public void setNumeroTelefono(String numeroTelefono) {
+        this.numeroTelefono = numeroTelefono;
+    }
+
+    public boolean isDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(boolean delivery) {
+        this.delivery = delivery;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getWebSiteUrl() {
+        return webSiteUrl;
+    }
+
+    public void setWebSiteUrl(String webSiteUrl) {
+        this.webSiteUrl = webSiteUrl;
+    }
+
+    public boolean isPrenotazione() {
+        return prenotazione;
+    }
+
+    public void setPrenotazione(boolean prenotazione) {
+        this.prenotazione = prenotazione;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    /*public short getStelle() {
+        return stelle;
+    }
+
+    public void setStelle(short stelle) {
+        this.stelle = stelle;
+    }*/
+}
+
+
+
+
+
+
+
+package entita.dominio;
+
+import entita.Dominio;
+import java.time.LocalDate;
+
+/**
+ * La classe {Utente} rappresenta un utente generico nel sistema.
+ * 
+ * Un {Utente} e\' caratterizzato da dati personali come il nome, il cognome,
+ * il nome utente (username), la password, la data di nascita, il luogo di domicilio
+ * e il ruolo. La classe {Utente} fornisce metodi per l'accesso e la modifica
+ * di queste informazioni e implementa l'interfaccia {Dominio}.
+ * 
+ * La classe {Utente} puo\' essere estesa per creare specifici tipi di utenti
+ * (come {Cliente}, {Gestore}, ecc.) che condivideranno questi attributi
+ * e metodi, ma con comportamenti specifici legati al loro ruolo nel sistema.
+ * 
+ * @author armuh
+ */
+public class Utente implements Dominio {
+
+    /** Il nome dell'utente */
+    protected String nome;
+
+    /** Il cognome dell'utente */
+    protected String cognome;
+
+    /** Il nome utente per l'accesso al sistema */
+    protected String username;
+
+    /** La password dell'utente per l'accesso al sistema */
+    protected String password;
+
+    /** La data di nascita dell'utente */
+    protected LocalDate dataNascita;
+
+    /** Il luogo di domicilio dell'utente */
+    protected String luogoDomicilio;
+
+    /** Il ruolo dell'utente nel sistema (ad esempio, "Cliente", "Gestore") */
+    protected String ruolo;
+
+    /**
+     * Costruttore per creare un'istanza di {Utente}.
+     * 
+     * Questo costruttore inizializza un oggetto {Utente} con i dettagli
+     * specificati, che includono nome, cognome, username, password, data di nascita,
+     * luogo di domicilio e ruolo.
+     * 
+     *  nome: nome dell'utente.
+     *  cognome: cognome dell'utente.
+     *  username: nome utente dell'utente.
+     *  password: password dell'utente.
+     *  Data: data di nascita dell'utente.
+     *  luogoDomicilio: luogo di domicilio dell'utente.
+     *  ruolo: ruolo dell'utente (ad esempio "Cliente" o "Gestore").
+     */
+    public Utente(String nome, String cognome, String username, String password, LocalDate Data, String luogoDomicilio, String ruolo) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.username = username;
+        this.password = password;
+        this.dataNascita = Data;
+        this.luogoDomicilio = luogoDomicilio;
+        this.ruolo = ruolo;
+    }
+
+    /**
+     * Costruttore vuoto per la creazione di un oggetto {Utente}.
+     * 
+     * Questo costruttore viene utilizzato per creare un oggetto {Utente}
+     * senza parametri iniziali.
+     */
+    public Utente() {
+    }
+
+    /**
+     * Confronta due oggetti {Utente} per determinare se sono uguali.
+     * 
+     * Due utenti sono considerati uguali se il loro {username} e\' lo stesso.
+     * 
+     *  obj: l'oggetto da confrontare con l'utente corrente.
+     * Ritorna {true} se gli utenti sono uguali, {false} altrimenti.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Utente utente = (Utente) obj;
+        return this.username.equals(utente.getUsername());
+    }
+
+    // Getter e Setter per ogni attributo
+
+    /**
+     * Restituisce il luogo di domicilio dell'utente.
+     * 
+     * Ritorna il luogo di domicilio dell'utente.
+     */
+    public String getLuogoDomicilio() {
+        return luogoDomicilio;
+    }
+
+    /**
+     * Imposta il luogo di domicilio dell'utente.
+     * 
+     *  luogoDomicilio: il luogo di domicilio da impostare.
+     */
+    public void setLuogoDomicilio(String luogoDomicilio) {
+        this.luogoDomicilio = luogoDomicilio;
+    }
+
+    /**
+     * Restituisce il nome dell'utente.
+     * 
+     * Ritorna il nome dell'utente.
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * Imposta il nome dell'utente.
+     * 
+     *  nome: il nome da impostare.
+     */
+    protected void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    /**
+     * Restituisce il cognome dell'utente.
+     * 
+     * Ritorna il cognome dell'utente.
+     */
+    public String getCognome() {
+        return cognome;
+    }
+
+    /**
+     * Imposta il cognome dell'utente.
+     * 
+     *  cognome: il cognome da impostare.
+     */
+    protected void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    /**
+     * Restituisce il nome utente (username) dell'utente.
+     * 
+     * Ritorna il nome utente dell'utente.
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Imposta il nome utente dell'utente.
+     * 
+     *  username: il nome utente da impostare.
+     */
+    protected void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Restituisce la password dell'utente.
+     * 
+     * Ritorna la password dell'utente.
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Imposta la password dell'utente.
+     * 
+     *  password: la password da impostare.
+     */
+    protected void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Restituisce la data di nascita dell'utente.
+     * 
+     * Ritorna la data di nascita dell'utente.
+     */
+    public LocalDate getDataNascita() {
+        return dataNascita;
+    }
+
+    /**
+     * Imposta la data di nascita dell'utente.
+     * 
+     *  dataNascita: la data di nascita da impostare.
+     */
+    protected void setDataNascita(LocalDate dataNascita) {
+        this.dataNascita = dataNascita;
+    }
+
+    /**
+     * Restituisce il luogo di domicilio dell'utente.
+     * 
+     * Ritorna il luogo di domicilio dell'utente.
+     */
+    public String getLuogodomicilio() {
+        return luogoDomicilio;
+    }
+
+    /**
+     * Imposta il luogo di domicilio dell'utente.
+     * 
+     *  luogoDomicilio: il luogo di domicilio da impostare.
+     */
+    protected void setLuogodomicilio(String luogoDomicilio) {
+        this.luogoDomicilio = luogoDomicilio;
+    }
+
+    /**
+     * Restituisce il ruolo dell'utente nel sistema.
+     * 
+     * Ritorna il ruolo dell'utente.
+     */
+    public String getRuolo() {
+        return ruolo;
+    }
+
+    /**
+     * Imposta il ruolo dell'utente nel sistema.
+     * 
+     *  ruolo: il ruolo da impostare.
+     */
+    protected void setRuolo(String ruolo) {
+        this.ruolo = ruolo;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package gestioneFile;
+
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import repository.AssGestoreRistorantiService;
+
+/**
+ * La classe {FileGestoreRistorante} gestisce le operazioni di lettura, scrittura
+ * e sovrascrittura dei dati relativi agli {AssGestoreRistoranti}, che rappresentano
+ * l'associazione tra un {Gestore} e i ristoranti che possiede. La gestione dei file
+ * avviene tramite file CSV che vengono letti e scritti a seconda delle operazioni richieste.
+ * 
+ * La classe estende {GestioneFile<String, AssGestoreRistoranti>} ed implementa i metodi
+ * di lettura e scrittura per associare un {Gestore} ai suoi ristoranti e gestire i dati.
+ * 
+ * @author armuh
+ */
+public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistoranti> {
+
+    /** Percorso del file CSV contenente le informazioni sugli {AssGestoreRistoranti} */
+    protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
+
+    /** Intestazione del file CSV */
+    private final List<String> intestazione = new ArrayList<>(List.of("username", "ristorantiPosseduti"));
+
+    /**
+     * Restituisce il percorso del file CSV contenente i dati sugli {AssGestoreRistoranti}.
+     * 
+     * Ritorna il percorso del file.
+     */
+    public static String getPercorsoFile() {
+        return percorsoFile;
+    }
+
+    /**
+     * Sovrascrive il file CSV con l'elenco aggiornato degli {AssGestoreRistoranti}.
+     * 
+     *  assRistorantiGestore la mappa che associa ogni gestore ai ristoranti che possiede.
+     */
+    public void sovraScrivi(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
+        LinkedList<List<String>> assRistorantiGestoreList = new LinkedList<>();
+        assRistorantiGestoreList.add(intestazione);
+
+        List<String> riga = new ArrayList<>();
+        for (String chiave : assRistorantiGestore.keySet()) {
+            List<Ristorante> ristorantiPosseduti = assRistorantiGestore.get(chiave).getRistorantiList();
+            riga.add(assRistorantiGestore.get(chiave).getUsernameRistoratore());
+            String stringaDiRistoranti = "";
+            for (Ristorante ristorantePosseduto : ristorantiPosseduti) {
+                stringaDiRistoranti += ristorantePosseduto.getNome() + "$";
+            }
+            riga.add(stringaDiRistoranti);
+            assRistorantiGestoreList.add(riga);
+        }
+        GestioneFile.sovraScrivi(percorsoFile, assRistorantiGestoreList);
+    }
+
+    /**
+     * Ottiene la lista di tutti i ristoranti posseduti dagli utenti gestori.
+     * 
+     * Ritorna una lista di ristoranti posseduti da tutti i gestori.
+     */
+    public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
+        AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
+        HashMap<String, AssGestoreRistoranti> assGestoreRistorantiMap = assGestoreRistoranti.get();
+        List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
+        
+        List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>(); 
+        for (String chiave : assGestoreRistorantiMap.keySet()) {
+            ristorantiPossedutiDaUtente = assGestoreRistorantiMap.get(chiave).getRistorantiList();
+            ristorantiPossedutiUtenti.addAll(ristorantiPossedutiDaUtente);
+        }
+        return ristorantiPossedutiUtenti;
+    }
+
+    /**
+     * Ottiene una mappa che associa ogni gestore ai ristoranti che possiede.
+     * 
+     * Ritorna una mappa con l'associazione tra ogni username di gestore e i suoi ristoranti.
+     */
+    @Override
+    public HashMap<String, AssGestoreRistoranti> ottieniHashMap() {
+        HashMap<String, AssGestoreRistoranti> assGestoreRistoranteMap = new HashMap<>();
+        HashMap<String, Gestore> gestoriMap = new FileUtenti().ottieniHashMapGestori();
+        HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
+
+        List<List<String>> assGestoreRistoranteList = new ArrayList<>();
+        try {
+            assGestoreRistoranteList = FileGestoreRistorante.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (List<String> riga : assGestoreRistoranteList) {
+            String usernameGestore = riga.get(0);
+            String[] ristorantiSplittati = riga.get(1).split("\\$");
+            List<Ristorante> l = new ArrayList<>();
+            for (String nomeRistorante : ristorantiSplittati) {
+                Ristorante ristorante = ristorantiMap.get(nomeRistorante);
+                l.add(ristorante);
+            }
+            AssGestoreRistoranti ristoratoreConRistoranti = new AssGestoreRistoranti(usernameGestore, l);
+            assGestoreRistoranteMap.put(usernameGestore, ristoratoreConRistoranti);
+        }
+        return assGestoreRistoranteMap;
+    }
+
+    /**
+     * Scrive un nuovo {AssGestoreRistoranti} nel file CSV.
+     * 
+     *  assRistorantiGestore: l'oggetto da scrivere nel file.
+     */
+    @Override
+    public void scrittura(AssGestoreRistoranti assRistorantiGestore) {
+        List<String> assRistorantiGestoreList = new ArrayList<>();
+        assRistorantiGestoreList.add(assRistorantiGestore.getUsernameRistoratore());
+        for (entita.dominio.Ristorante ristorantePosseduto : assRistorantiGestore.getRistorantiList()) {
+            String nomeRistorantePosseduto = ristorantePosseduto.getNome() + "$";
+            assRistorantiGestoreList.add(nomeRistorantePosseduto);
+        }
+        GestioneFile.scrittura(percorsoFile, assRistorantiGestoreList);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+package gestioneFile;
+
+import entita.associazioni.PreferitiCliente;
+import entita.dominio.Ristorante;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.LinkedList;
+
+/**
+ * La classe {FilePreferitiCliente} gestisce le operazioni di lettura, scrittura
+ * e sovrascrittura dei dati relativi ai ristoranti preferiti dai clienti. I dati vengono
+ * gestiti in un file CSV, che memorizza le associazioni tra i clienti e i ristoranti 
+ * che hanno aggiunto ai loro preferiti.
+ * 
+ * La classe estende {GestioneFile<String, PreferitiCliente>} e implementa i metodi
+ * di lettura e scrittura per gestire le preferenze dei clienti riguardo ai ristoranti.
+ * 
+ * @author filod
+ */
+public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente> {
+
+    /** Percorso del file CSV contenente i dati sui preferiti dei clienti */
+    private static String percorsoFile = "..\\theKnife\\data\\preferiti.csv";
+
+    /**
+     * Restituisce il percorso del file CSV contenente i dati sui preferiti dei clienti.
+     * 
+     * Ritorna il percorso del file.
+     */
+    public static String getPercorsoFile() {
+        return percorsoFile;
+    }
+
+    /**
+     * Ottiene una mappa che associa ogni cliente ai suoi ristoranti preferiti.
+     * 
+     * Ritorna una mappa con l'associazione tra l'username del cliente e i suoi ristoranti preferiti.
+     */
+    @Override
+    public HashMap<String, PreferitiCliente> ottieniHashMap() {
+        HashMap<String, PreferitiCliente> preferitiMap = new HashMap<>();
+        HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
+
+        List<List<String>> preferitiList = new ArrayList<>();
+        try {
+            preferitiList = FilePreferitiCliente.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FilePreferitiCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (List<String> riga : preferitiList) {
+            if (riga.size() < 2) {
+                continue;
+            }
+
+            String usernameCliente = riga.get(0);
+            String[] nomiRistoranti = riga.get(1).split("\\$");
+
+            List<Ristorante> preferiti = new ArrayList<>();
+            for (String nome : nomiRistoranti) {
+                if (!nome.isBlank()) {
+                    Ristorante r = ristorantiMap.get(nome);
+                    if (r != null) {
+                        preferiti.add(r);
+                    }
+                }
+            }
+
+            PreferitiCliente pc = new PreferitiCliente(usernameCliente, preferiti);
+            preferitiMap.put(usernameCliente, pc);
+        }
+
+        return preferitiMap;
+    }
+
+    /**
+     * Scrive i preferiti di un cliente nel file CSV.
+     * 
+     *  preferitiCliente: l'oggetto che contiene i dati del cliente e dei suoi ristoranti preferiti.
+     */
+    @Override
+    public void scrittura(PreferitiCliente preferitiCliente) {
+        List<String> preferitiList = new ArrayList<>();
+        preferitiList.add(preferitiCliente.getUsernameCliente());
+
+        StringBuilder ristorantiConcatenati = new StringBuilder();
+        for (Ristorante ristorante : preferitiCliente.getRistorantiPreferiti()) {
+            ristorantiConcatenati.append(ristorante.getNome()).append("$");
+        }
+        preferitiList.add(ristorantiConcatenati.toString());
+
+        GestioneFile.scrittura(getPercorsoFile(), preferitiList);
+    }
+
+    /**
+     * Sovrascrive il file CSV con l'elenco aggiornato dei preferiti dei clienti.
+     * 
+     *  preferitiMap: la mappa che associa ogni cliente ai suoi ristoranti preferiti.
+     */
+    public void sovraScrivi(HashMap<String, PreferitiCliente> preferitiMap) {
+        LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
+
+        for (PreferitiCliente pc : preferitiMap.values()) {
+            List<String> riga = new ArrayList<>();
+            riga.add(pc.getUsernameCliente());
+
+            StringBuilder ristorantiConcatenati = new StringBuilder();
+            for (Ristorante ristorante : pc.getRistorantiPreferiti()) {
+                ristorantiConcatenati.append(ristorante.getNome()).append("$");
+            }
+
+            riga.add(ristorantiConcatenati.toString());
+            righeDaScrivere.add(riga);
+        }
+
+        GestioneFile.sovraScrivi(percorsoFile, righeDaScrivere);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package gestioneFile;
+
+import entita.associazioni.Recensione;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * La classe {FileRecensioni} gestisce le operazioni di lettura, scrittura
+ * e sovrascrittura di recensioni sui ristoranti. I dati sono memorizzati in un file
+ * CSV, dove ogni recensione e\' associata a un cliente, una valutazione in stelle, un testo,
+ * una data e il nome del ristorante recensito.
+ * 
+ * @author Nikoro02
+ */
+public class FileRecensioni extends GestioneFile<Integer, Recensione> {
+
+    /** Percorso del file CSV contenente le recensioni dei ristoranti */
+    private static String percorsoFile = "..\\theKnife\\data\\recensioni_ristoranti.csv";
+
+    /**
+     * Ottiene una mappa che associa ogni ID di recensione ai dati della recensione.
+     * 
+     * Ritorna una mappa con l'associazione tra l'ID della recensione e la recensione stessa.
+     */
+    @Override
+    public HashMap<Integer, Recensione> ottieniHashMap() {
+        List<List<String>> recensioniList = new ArrayList<>();
+        HashMap<Integer, Recensione> recension = new HashMap<>();
+        try {
+            recensioniList = FileRecensioni.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            for (List<String> campo : recensioniList) {
+                int id = Integer.parseInt(campo.get(0));
+                String utente = campo.get(1);
+                short stelle = Short.parseShort(campo.get(2));
+                String testo = campo.get(3);
+                LocalDate data = LocalDate.parse(campo.get(4));
+                String ristorante = campo.get(5);
+                Recensione recensione1 = new Recensione(id, utente, stelle, testo, data, ristorante);
+                recension.put(recensione1.getID(), recensione1);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+        return recension;
+    }
+
+    /**
+     * Scrive una nuova recensione nel file CSV.
+     * 
+     *  recensione: l'oggetto che contiene i dati della recensione da scrivere.
+     */
+    @Override
+    public void scrittura(Recensione recensione) {
+        List<String> RecensioniLista = new ArrayList<>();
+        RecensioniLista.add(String.valueOf(recensione.getID()));
+        RecensioniLista.add(recensione.getUsername());
+        RecensioniLista.add(String.valueOf((int) recensione.getStelle()));
+        RecensioniLista.add(recensione.getTesto());
+        RecensioniLista.add(String.valueOf(recensione.getData()));
+        RecensioniLista.add(recensione.getRistoranteRecensito());
+        GestioneFile.scrittura(percorsoFile, RecensioniLista);
+    }
+
+    /**
+     * Sovrascrive il file CSV con le recensioni aggiornate.
+     * 
+     *  recensioniMap: la mappa che associa ogni ID di recensione ai dati della recensione.
+     */
+    public void sovraScrivi(HashMap<Integer, Recensione> recensioniMap) {
+        LinkedList<List<String>> recensioniLista = new LinkedList<>();
+        List<String> recensioneLista = new ArrayList<>();
+        for (Recensione recensione : recensioniMap.values()) {
+            recensioneLista.add(String.valueOf(recensione.getID()));
+            recensioneLista.add(recensione.getUsername());
+            recensioneLista.add(String.valueOf(recensione.getStelle()));
+            recensioneLista.add("\"" + recensione.getTesto() + "\"");
+            recensioneLista.add(recensione.getData().toString());
+            recensioneLista.add(recensione.getRistoranteRecensito());
+        }
+        recensioniLista.add(recensioneLista);
+        GestioneFile.sovraScrivi(percorsoFile, recensioniLista);
+    }
+
+    /**
+     * Restituisce il percorso del file CSV contenente le recensioni.
+     * 
+     * Ritorna il percorso del file.
+     */
+    public static String getPercorsoFile() {
+        return percorsoFile;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package gestioneFile;
+
+import entita.associazioni.RispostaRecensioni;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * La classe {FileRispostaRecensioni} gestisce le operazioni di lettura, scrittura
+ * e sovrascrittura delle risposte alle recensioni dei ristoranti. I dati delle risposte sono
+ * memorizzati in un file CSV.
+ * 
+ * @author armuh
+ */
+public class FileRispostaRecensioni extends GestioneFile<Integer, RispostaRecensioni> {
+
+    /** Percorso del file CSV contenente le risposte alle recensioni */
+    private static String percorsoFile = "..\\theKnife\\data\\risposta_recensioni.csv";
+
+    /**
+     * Ottiene una mappa che associa ogni ID di risposta al relativo oggetto {RispostaRecensioni}.
+     * 
+     * Ritorna una mappa con l'associazione tra l'ID della risposta e la risposta stessa.
+     */
+    @Override
+    public HashMap<Integer, RispostaRecensioni> ottieniHashMap() {
+        List<List<String>> risposteList = new ArrayList<>();
+        HashMap<Integer, RispostaRecensioni> risposteMap = new HashMap<>();
+        try {
+            risposteList = FileRecensioni.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            for (List<String> campo : risposteList) {
+                int ID = Integer.parseInt(campo.get(0));
+                int idRif = Integer.parseInt(campo.get(1));
+                String username = campo.get(2);
+                String testo = campo.get(3);
+                LocalDate data = LocalDate.parse(campo.get(4));
+                RispostaRecensioni rispostaRecensioni = new RispostaRecensioni(ID, idRif, username, testo, data);
+                risposteMap.put(ID, rispostaRecensioni);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+        return risposteMap;
+    }
+
+    /**
+     * Scrive una nuova risposta nel file CSV.
+     * 
+     *  oggetto: l'oggetto che contiene i dati della risposta da scrivere.
+     */
+    @Override
+    public void scrittura(RispostaRecensioni oggetto) {
+        List<String> rispostaRecensioniLista = new ArrayList<>();
+        rispostaRecensioniLista.add(String.valueOf(oggetto.getID()));
+        rispostaRecensioniLista.add(String.valueOf(oggetto.getIdRif()));
+        rispostaRecensioniLista.add(oggetto.getUsername());
+        rispostaRecensioniLista.add(oggetto.getTesto());
+        rispostaRecensioniLista.add(String.valueOf(oggetto.getData()));
+        GestioneFile.scrittura(percorsoFile, rispostaRecensioniLista);
+    }
+
+    /**
+     * Sovrascrive il file CSV con le risposte aggiornate.
+     * 
+     *  map: la mappa che associa ogni ID di risposta al relativo oggetto {RispostaRecensioni}.
+     */
+    @Override
+    public void sovraScrivi(HashMap<Integer, RispostaRecensioni> map) {
+        LinkedList<List<String>> rispostaRecensioniLista = new LinkedList<>();
+        for (RispostaRecensioni risposta : map.values()) {
+            List<String> rispostaList = new ArrayList<>();
+            rispostaList.add(String.valueOf(risposta.getID()));
+            rispostaList.add(String.valueOf(risposta.getIdRif()));
+            rispostaList.add(risposta.getUsername());
+            rispostaList.add(risposta.getTesto());
+            rispostaList.add(String.valueOf(risposta.getData()));
+            rispostaRecensioniLista.add(rispostaList);
+        }
+        GestioneFile.sovraScrivi(percorsoFile, rispostaRecensioniLista);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package gestioneFile;
+
+import entita.dominio.Ristorante;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * La classe {FileRistorante} gestisce la lettura, scrittura e modifica dei dati
+ * dei ristoranti in un file CSV. I dati dei ristoranti comprendono il nome, l'indirizzo,
+ * la cucina, i dettagli di contatto, e altre informazioni.
+ * 
+ * @author armuh
+ */
+public class FileRistorante extends GestioneFile<String, Ristorante> {
+
+    /** Percorso del file CSV contenente i dati dei ristoranti */
+    private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
+
+    /**
+     * Aggiunge o rimuove alcuni campi dal file CSV e modifica i valori di alcuni
+     * campi esistenti come "Prezzo" e "Delivery".
+     * 
+     *  frasi La lista di righe del CSV.
+     * Ritorna Una lista di righe con i campi aggiornati.
+     * @throws FileNotFoundException Se il file non e\' trovato.
+     */
+    private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
+        int posizioneCampoPrezzo = 3;
+        int posizioneCampoDelivery = 8;
+        int posizioneCampoPrenotazione = 11;
+
+        // Rimuove tre colonne
+        frasi.get(0).remove(10);
+        frasi.get(0).remove(10);
+        frasi.get(0).remove(10);
+        // Aggiunge nuove colonne "Delivery" e "PrenotazioneOnline"
+        frasi.get(0).add(8, "Delivery");
+        frasi.get(0).add(11, "PrenotazioneOnline");
+
+        for (int i = 1; i < frasi.size(); i++) {
+            // Aggiunge valori casuali per "Delivery" e "PrenotazioneOnline"
+            int r = (int) (Math.random() * 2);
+            frasi.get(i).add(posizioneCampoDelivery, String.valueOf(r));
+            r = (int) (Math.random() * 2);
+            frasi.get(i).add(posizioneCampoPrenotazione, String.valueOf(r));
+
+            // Modifica il prezzo medio in modo casuale
+            float prezzoMedio = (float) (Math.random() * 15 + Math.random() * 10 + 13);
+            float offset = (float) ((Math.random() > 0.5) ? 5 : -5);
+            prezzoMedio = Math.round(prezzoMedio * 10 + offset) / 10.0f;
+            frasi.get(i).set(3, String.valueOf(prezzoMedio));
+        }
+
+        return frasi;
+    }
+
+    /**
+     * Modifica i valori booleani nel file CSV, sostituendo i numeri 0 e 1 con "false" e "true".
+     */
+    private static void sostituisciValoriBooleani() {
+        List<List<String>> frasi = new ArrayList<>();
+        try {
+            frasi = FileRistorante.letturaCsv(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Modifica i valori booleani per i campi Delivery e PrenotazioneOnline
+        for (List<String> frase : frasi) {
+            if (Integer.parseInt(frase.get(8)) == 0) {
+                frase.set(8, "false");
+            } else if (Integer.parseInt(frase.get(8)) == 1) {
+                frase.set(8, "true");
+            }
+            if (Integer.parseInt(frase.get(11)) == 0) {
+                frase.set(11, "false");
+            } else if (Integer.parseInt(frase.get(11)) == 1) {
+                frase.set(11, "true");
+            }
+        }
+
+        // Scrive le modifiche nel file CSV
+        File file = new File(percorsoFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
+            for (List<String> riga : frasi) {
+                String linea = String.join(",", riga);
+                writer.write(linea);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Restituisce il percorso del file CSV contenente i dati dei ristoranti.
+     * 
+     * Ritorna il percorso del file CSV.
+     */
+    public static String getPercorsoFile() {
+        return percorsoFile;
+    }
+
+    /**
+     * Ottiene una mappa che associa il nome del ristorante all'oggetto {Ristorante}.
+     * 
+     * Ritorna una mappa con il nome del ristorante come chiave e l'oggetto {Ristorante} come valore.
+     */
+    @Override
+    public HashMap<String, Ristorante> ottieniHashMap() {
+        List<List<String>> ristorantiList = new ArrayList<>();
+        try {
+            ristorantiList = FileRistorante.letturaCsv(FileRistorante.getPercorsoFile());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileRistorante.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HashMap<String, Ristorante> ristoranti = new HashMap<>();
+        for (List<String> ristoranteList : ristorantiList) {
+            Ristorante ristorante = new Ristorante(
+                    ristoranteList.get(0), ristoranteList.get(1), ristoranteList.get(2),
+                    Float.parseFloat(ristoranteList.get(3)), ristoranteList.get(4),
+                    Float.parseFloat(ristoranteList.get(5)), Float.parseFloat(ristoranteList.get(6)),
+                    ristoranteList.get(7), Boolean.parseBoolean(ristoranteList.get(8)),
+                    ristoranteList.get(9), ristoranteList.get(10),
+                    Boolean.parseBoolean(ristoranteList.get(11)), ristoranteList.get(12));
+            ristoranti.put(ristorante.getNome(), ristorante);
+        }
+        return ristoranti;
+    }
+
+    /**
+     * Scrive un nuovo ristorante nel file CSV.
+     * 
+     *  ristorante: l'oggetto {Ristorante} da scrivere nel file.
+     */
+    @Override
+    public void scrittura(Ristorante ristorante) {
+        List<String> ristoranteList = new ArrayList<>();
+        ristoranteList.add(ristorante.getNome());
+        ristoranteList.add(ristorante.getIndirizzo());
+        ristoranteList.add(ristorante.getLocazione());
+        ristoranteList.add(String.valueOf(ristorante.getPrezzo()));
+        ristoranteList.add(ristorante.getCucina());
+        ristoranteList.add(String.valueOf(ristorante.getLongitudine()));
+        ristoranteList.add(String.valueOf(ristorante.getLatitudine()));
+        ristoranteList.add(ristorante.getNumeroTelefono());
+        ristoranteList.add(Boolean.toString(ristorante.isDelivery()));
+        ristoranteList.add(ristorante.getUrl());
+        ristoranteList.add(ristorante.getWebSiteUrl());
+        ristoranteList.add(Boolean.toString(ristorante.isPrenotazione()));
+        ristoranteList.add(ristorante.getDescrizione());
+
+        GestioneFile.scrittura(getPercorsoFile(), ristoranteList);
+    }
+
+    /**
+     * Sovrascrive il file CSV con i dati aggiornati dei ristoranti.
+     * Questo metodo non e\' supportato nella classe `FileRistorante` e solleva un'eccezione.
+     * 
+     *  map: la mappa contenente i dati aggiornati dei ristoranti.
+     * @throws UnsupportedOperationException Poiché il metodo non e\' implementato.
+     */
+    @Override
+    public void sovraScrivi(HashMap<String, Ristorante> map) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package gestioneFile;
+
+import entita.dominio.Cliente;
+import entita.dominio.Gestore;
+import entita.dominio.Utente;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * La classe {FileUtenti} gestisce la lettura, scrittura e manipolazione dei dati
+ * degli utenti (sia clienti che gestori) contenuti in un file CSV.
+ * 
+ * @author armuh
+ */
+public class FileUtenti extends GestioneFile<String, Utente> {
+
+    /** Percorso del file CSV contenente i dati degli utenti */
+    private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
+
+    /**
+     * Restituisce il percorso del file CSV contenente i dati degli utenti.
+     * 
+     * Ritorna il percorso del file CSV.
+     */
+    public static String getPercorsoFile() {
+        return percorsoFile;
+    }
+
+    /**
+     * Scrive i dati di un singolo utente nel file CSV.
+     * 
+     *  utente l'oggetto {Utente} da scrivere nel file.
+     */
+    @Override
+    public void scrittura(Utente utente) {
+        List<String> utenteList = new ArrayList<>();
+        utenteList.add(utente.getNome());
+        utenteList.add(utente.getCognome());
+        utenteList.add(utente.getUsername());
+        utenteList.add(utente.getPassword());
+        utenteList.add(utente.getDataNascita().toString());
+        utenteList.add(utente.getLuogodomicilio());
+        utenteList.add(utente.getRuolo());
+        
+        // Scrive i dati dell'utente nel file CSV
+        GestioneFile.scrittura(getPercorsoFile(), utenteList);
+    }
+
+    /**
+     * Legge il file CSV e crea una mappa di utenti, con la chiave come {username}.
+     * La mappa contiene oggetti {Utente}, che possono essere di tipo {Cliente} o {Gestore}.
+     * 
+     * Ritorna una mappa di utenti con username come chiave.
+     */
+    @Override
+    public HashMap<String, Utente> ottieniHashMap() {
+        List<List<String>> utentiList = new ArrayList<>();
+        try {
+            utentiList = FileUtenti.letturaCsv(FileUtenti.getPercorsoFile());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileUtenti.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Crea una mappa di utenti
+        HashMap<String, Utente> utenti = new HashMap<>();
+        for (List<String> utenteList : utentiList) {
+            Utente utente = null;
+
+            // A seconda del ruolo dell'utente, crea un oggetto Cliente o Gestore
+            if (utenteList.get(6).equals("gestore")) {
+                utente = new Gestore(utenteList.get(0), utenteList.get(1),
+                        utenteList.get(2), utenteList.get(3),
+                        LocalDate.parse(utenteList.get(4)), utenteList.get(5),
+                        utenteList.get(6));
+            } else if (utenteList.get(6).equals("cliente")) {
+                utente = new Cliente(utenteList.get(0), utenteList.get(1),
+                        utenteList.get(2), utenteList.get(3),
+                        LocalDate.parse(utenteList.get(4)), utenteList.get(5),
+                        utenteList.get(6));
+            }
+            utenti.put(utente.getUsername(), utente);
+        }
+        return utenti;
+    }
+
+    /**
+     * Restituisce una mappa di {Gestore} con username come chiave.
+     * Solo gli utenti con il ruolo "gestore" sono inclusi in questa mappa.
+     * 
+     * Ritorna una mappa di gestori con username come chiave.
+     */
+    public HashMap<String, Gestore> ottieniHashMapGestori() {
+        List<List<String>> utentiList = new ArrayList<>();
+        try {
+            utentiList = FileUtenti.letturaCsv(FileUtenti.getPercorsoFile());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileUtenti.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Crea una mappa di gestori
+        HashMap<String, Gestore> gestoriMap = new HashMap<>();
+        for (List<String> utenteList : utentiList) {
+            Gestore gestore = null;
+
+            // Aggiunge solo gli utenti con il ruolo "gestore" alla mappa
+            if (utenteList.get(6).equals("gestore")) {
+                gestore = new Gestore(utenteList.get(0), utenteList.get(1),
+                        utenteList.get(2), utenteList.get(3),
+                        LocalDate.parse(utenteList.get(4)), utenteList.get(5),
+                        utenteList.get(6));
+
+                gestoriMap.put(gestore.getUsername(), gestore);
+            }
+        }
+        return gestoriMap;
+    }
+
+    /**
+     * Sovrascrive il file CSV con i nuovi dati degli utenti. 
+     * Questo metodo non e\' implementato e solleva un'eccezione.
+     * 
+     *  map: la mappa di utenti da sovrascrivere nel file.
+     * @throws UnsupportedOperationException Poiché il metodo non e\' implementato.
+     */
+    @Override
+    public void sovraScrivi(HashMap<String, Utente> map) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Classe astratta per la gestione di operazioni di lettura e scrittura sui file CSV.
+ * Questa classe fornisce metodi generici per la lettura e la scrittura di dati in formato CSV.
+ * Le classi concrete devono implementare i metodi astratti per gestire specifici oggetti di tipo {K} (chiave) e {V} (valore).
+ *
+ *  <K> Tipo della chiave (ad esempio, String per il nome di un ristorante).
+ *  <V> Tipo del valore (ad esempio, Ristorante, Utente, ecc.).
+ */
+public abstract class GestioneFile<K, V> {
+
+    /**
+     * Scrive una lista di stringhe nel file CSV specificato dal percorso.
+     * Ogni campo viene "escape-ato" per evitare problemi con caratteri speciali come virgole o virgolette.
+     *
+     *  percorsoFile Il percorso del file CSV.
+     *  oggetto La lista di stringhe da scrivere nel file.
+     */
+    protected static void scrittura(String percorsoFile, List<String> oggetto) {
+        File file = new File(percorsoFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile, true))) {
+            List<String> campiCorretti = new ArrayList<>();
+            for (String campo : oggetto) {
+                campiCorretti.add(escapeCSV(campo));
+            }
+            String linea = String.join(",", campiCorretti);
+            writer.write(linea);
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Escape-a i campi CSV, racchiudendo in virgolette i valori che contengono caratteri speciali
+     * come virgole, virgolette o nuove righe.
+     *
+     *  campo: il campo da "escape-are".
+     * Ritorna il campo "escape-ato", pronto per essere scritto nel file CSV.
+     */
+    private static String escapeCSV(String campo) {
+        if (campo.contains(",") || campo.contains("\"") || campo.contains("\n")) {
+            campo = campo.replace("\"", "\"\"");
+            return "\"" + campo + "\"";
+        }
+        return campo;
+    }
+
+    /**
+     * Legge la prima riga di un file CSV (intestazione).
+     *
+     *  percorsoFile Il percorso del file CSV.
+     * Ritorna una lista contenente le colonne dell'intestazione.
+     * @throws FileNotFoundException Se il file non viene trovato.
+     */
+    public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException {
+        List<String> intestazione = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(percorsoFile))) {
+            intestazione.add(scanner.nextLine());
+        }
+        return intestazione;
+    }
+
+    /**
+     * Legge il contenuto di un file CSV, restituendo una lista di righe, dove ogni riga e\' una lista di stringhe.
+     * La prima riga (intestazione) viene ignorata.
+     *
+     *  percorsoFile Il percorso del file CSV.
+     * Ritorna Una lista di righe, dove ogni riga e\' una lista di stringhe (campi).
+     * @throws FileNotFoundException Se il file non viene trovato.
+     */
+    public static List<List<String>> letturaCsv(String percorsoFile) throws FileNotFoundException {
+        List<List<String>> frasi = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(percorsoFile))) {
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();  // Salta l'intestazione
+            }
+            while (scanner.hasNext()) {
+                frasi.add(leggiRiga(scanner.nextLine()));
+            }
+        }
+        return frasi;
+    }
+
+    /**
+     * Suddivide una riga del CSV in una lista di stringhe, gestendo i campi tra virgolette che potrebbero contenere virgole.
+     *
+     *  riga: la riga del CSV da leggere.
+     * Ritorna una lista di stringhe, ciascuna rappresentante un campo della riga.
+     */
+    protected static List<String> leggiRiga(String riga) {
+        List<String> rigaSpezzata = new ArrayList<>();
+        String campo;
+        String parole;
+        try (Scanner leggiRiga = new Scanner(riga)) {
+            leggiRiga.useDelimiter(",");
+            while (leggiRiga.hasNext()) {
+                campo = leggiRiga.next();
+                if (campo.startsWith("\"") && !campo.endsWith("\"")) {
+                    do {
+                        parole = leggiRiga.next();
+                        campo = campo + "," + parole;
+                    } while (!parole.endsWith("\""));
+                }
+                rigaSpezzata.add(campo);
+            }
+        }
+        return rigaSpezzata;
+    }
+
+    /**
+     * Sovrascrive un file CSV con una nuova lista di righe, mantenendo l'intestazione originale.
+     *
+     *  percorsoFile Il percorso del file CSV.
+     *  oggetti La lista di righe da scrivere nel file.
+     */
+    public static void sovraScrivi(String percorsoFile, LinkedList<List<String>> oggetti) {
+        File file = new File(percorsoFile);
+        List<String> intestazione = null;
+        try {
+            intestazione = letturaIntestazione(percorsoFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GestioneFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        oggetti.addFirst(intestazione);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile))) {
+            for (List<String> oggetto : oggetti) {
+                String riga = String.join(",", oggetto);
+                writer.write(riga);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Ottiene una mappa di oggetti di tipo  {K} e {V}.
+     * Questo metodo deve essere implementato dalla sottoclasse per restituire una mappa di oggetti.
+     *
+     * Ritorna la mappa contenente gli oggetti di tipo {K} e {V}.
+     */
+    abstract public HashMap<K, V> ottieniHashMap();
+
+    /**
+     * Scrive un singolo oggetto di tipo {V} nel file.
+     * Questo metodo deve essere implementato dalla sottoclasse per scrivere un oggetto di tipo {V}.
+     *
+     *  oggetto: l'oggetto da scrivere nel file.
+     */
+    abstract public void scrittura(V oggetto);
+
+    /**
+     * Sovrascrive il file con i dati contenuti nella mappa.
+     * Questo metodo deve essere implementato dalla sottoclasse per gestire la sovrascrittura dei dati nel file.
+     *
+     *  map: la mappa contenente gli oggetti da scrivere nel file.
+     */
+    abstract public void sovraScrivi(HashMap<K, V> map);
+}
+
+
+
+
+
+
+
+package menu;
+
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import repository.AssGestoreRistorantiService;
+import repository.RistoranteService;
+
+/**
+ * Interfaccia utente per la gestione delle associazioni tra i gestori e i ristoranti.
+ * Questa classe consente di aggiungere e modificare le associazioni tra i gestori (utenti) e i ristoranti.
+ * Le operazioni di aggiunta, visualizzazione e modifica sono gestite tramite questa interfaccia.
+ *
+ * @author armuh
+ */
+public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRistoranti> {
+
+    private AssGestoreRistorantiService assGestoreRistorantiServ;
+    private Scanner scanner;
+    private RistoranteService ristoranteServ;
+
+    /**
+     * Costruttore che inizializza il servizio per la gestione delle associazioni, il servizio dei ristoranti
+     * e lo scanner per l'input dell'utente.
+     * 
+     *  scanner: lo scanner per l'input.
+     *  assGestoreRistorantiServ Il servizio per la gestione delle associazioni.
+     *  ristoranteServ Il servizio per la gestione dei ristoranti.
+     */
+    public AssGestoreRistoranteUI(Scanner scanner, AssGestoreRistorantiService assGestoreRistorantiServ, RistoranteService ristoranteServ) {
+        this.scanner = scanner;
+        this.assGestoreRistorantiServ = assGestoreRistorantiServ;
+        this.ristoranteServ = ristoranteServ;
+    }
+
+    /**
+     * Chiede all'utente di inserire il nome di un ristorante, finché non viene inserito un nome valido.
+     * 
+     * Ritorna il ristorante selezionato dall'utente.
+     */
+    public Ristorante chiediRistorante() {
+        String nomeRistorante;
+        do {
+            System.out.println("Scrivere il nome del ristorante: ");
+            nomeRistorante = scanner.next();
+        } while (!ristoranteServ.containsKey(nomeRistorante));
+        return ristoranteServ.get(nomeRistorante);
+    }
+
+    /**
+     * Aggiunge una nuova associazione tra un utente e un ristorante, oppure aggiorna l'associazione esistente.
+     * 
+     *  utente: l'utente (gestore) da associare al ristorante.
+     */
+    public void aggiungi(Utente utente) {
+        if (get(utente) != null) {
+            put(utente);
+        } else {
+            add(utente);
+        }
+    }
+
+    /**
+     * Aggiunge una nuova associazione tra un utente e un ristorante.
+     * 
+     *  utente: l'utente da associare a un ristorante.
+     * Ritorna {true} se l'associazione e\' stata aggiunta con successo, {false} altrimenti.
+     */
+    @Override
+    public boolean add(Utente utente) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        ristorantiList.add(r);
+        AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(utente.getUsername(), ristorantiList);
+        return assGestoreRistorantiServ.add(assGestoreRistoranti);
+    }
+
+    /**
+     * Restituisce l'associazione tra un utente e il ristorante.
+     * 
+     *  valore: l'utente per il quale si cerca l'associazione.
+     * Ritorna l'associazione trovata, o {null} se non esiste alcuna associazione per quell'utente.
+     */
+    @Override
+    public AssGestoreRistoranti get(Utente valore) {
+        return assGestoreRistorantiServ.get(valore.getUsername());
+    }
+
+    /**
+     * Rimuove l'associazione tra un utente e un ristorante.
+     * Metodo non ancora implementato.
+     * 
+     *  valore L'utente per il quale rimuovere l'associazione.
+     * Ritorna {true} se l'associazione e\' stata rimossa con successo, {false} altrimenti.
+     */
+    @Override
+    public boolean remove(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Modifica l'associazione esistente tra un utente e un ristorante.
+     * 
+     *  valore: l'utente per il quale aggiornare l'associazione.
+     * Ritorna {true} se l'associazione e\' stata aggiornata con successo, {false} altrimenti.
+     */
+    @Override
+    public boolean put(Utente valore) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        ristorantiList.add(r);
+        AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(valore.getUsername(), ristorantiList);
+        return assGestoreRistorantiServ.put(assGestoreRistoranti.getUsernameRistoratore(), assGestoreRistoranti);
+    }
+
+    /**
+     * Visualizza tutte le associazioni. Metodo non ancora implementato.
+     */
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Visualizza una specifica associazione tra un utente e un ristorante. Metodo non ancora implementato.
+     * 
+     *  valore: l'associazione da visualizzare.
+     */
+    @Override
+    public void visualizza(AssGestoreRistoranti valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Visualizza le associazioni di un determinato utente. Metodo non ancora implementato.
+     * 
+     *  chiave:l'utente di cui visualizzare le associazioni.
+     */
+    @Override
+    public void visualizza(Utente chiave) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package menu;
+/**
+ * Interfaccia di base per i comandi dell'interfaccia utente.
+ * Definisce i metodi per la visualizzazione di informazioni generali o specifiche in un contesto UI.
+ * Le classi che implementano questa interfaccia possono specificare come visualizzare un insieme di dati
+ * o visualizzare un singolo valore.
+ *
+ *  <V> Il tipo del valore che sara\' visualizzato.
+ * 
+ * @author armuh
+ */
+public interface ComandiBaseUI<V> {
+
+    /**
+     * Visualizza tutte le informazioni o dati disponibili.
+     * Il comportamento di questo metodo dipende dall'implementazione specifica.
+     */
+    public void visualizza();
+
+    /**
+     * Visualizza un valore specifico.
+     * Il comportamento di questo metodo dipende dall'implementazione specifica.
+     * 
+     *  valore Il valore da visualizzare.
+     */
+    public void visualizza(V valore);
+}
+
+package menu;
+import entita.Dominio;
+/**
+ * Interfaccia che definisce i comandi specifici per la gestione degli oggetti UI,
+ * estendendo le funzionalita\' di base di visualizzazione. 
+ * Questa interfaccia permette di aggiungere, ottenere, rimuovere e modificare elementi 
+ * in una collezione, oltre a fornire metodi per visualizzare informazioni specifiche
+ * legate alla chiave e al valore.
+ * 
+ *  <K> Il tipo della chiave, che deve estendere {entita.Dominio}.
+ *  <V> Il tipo del valore, che rappresenta l'entita\' associata alla chiave.
+ * 
+ * @author armuh
+ */
+public interface ComandiUI<K extends Dominio, V> extends ComandiBaseUI<V> {
+
+    /**
+     * Aggiunge un oggetto alla collezione associata alla chiave fornita.
+     * 
+     *  chiave: la chiave per la quale l'oggetto viene aggiunto.
+     * Ritorna true se l'oggetto e\' stato aggiunto con successo, false altrimenti.
+     */
+    public boolean add(K chiave);
+
+    /**
+     * Ottiene l'oggetto associato alla chiave fornita.
+     * 
+     *  chiave: la chiave per la quale ottenere l'oggetto associato.
+     * Ritorna l'oggetto associato alla chiave, oppure null se non esiste.
+     */
+    public V get(K chiave);
+
+    /**
+     * Rimuove l'oggetto associato alla chiave fornita.
+     * 
+     *  chiave: la chiave per la quale l'oggetto viene rimosso.
+     * Ritorna true se l'oggetto e\' stato rimosso con successo, false altrimenti.
+     */
+    public boolean remove(K chiave);
+
+    /**
+     * Modifica l'oggetto associato alla chiave fornita.
+     * 
+     *  chiave: la chiave per la quale modificare l'oggetto.
+     * Ritorna true se l'oggetto e\' stato modificato con successo, false altrimenti.
+     */
+    public boolean put(K chiave);
+
+    /**
+     * Visualizza informazioni relative alla chiave fornita.
+     * 
+     *  chiave La chiave per la quale visualizzare le informazioni.
+     */
+    public void visualizza(K chiave);
+}
+
+
+package menu;
+
+/**
+ * Interfaccia che definisce i comandi per la gestione degli oggetti UI senza l'utilizzo
+ * di parametri. Questa interfaccia fornisce i metodi per aggiungere, ottenere, rimuovere 
+ * e modificare oggetti, senza necessitare una chiave o altri parametri esterni.
+ * 
+ *  <V> Il tipo del valore, che rappresenta l'entita\' che verra\' manipolata.
+ * 
+ * @author armuh
+ */
+public interface ComandiUISenzaParametri<V> extends ComandiBaseUI<V> {
+
+    /**
+     * Aggiunge un nuovo oggetto di tipo V.
+     * 
+     * Ritorna l'oggetto aggiunto.
+     */
+    public V add();
+
+    /**
+     * Ottiene un oggetto di tipo V.
+     * 
+     * Ritorna l'oggetto ottenuto.
+     */
+    public V get();
+
+    /**
+     * Rimuove un oggetto di tipo V.
+     * 
+     * Ritorna l'oggetto rimosso.
+     */
+    public V remove();
+
+    /**
+     * Modifica un oggetto di tipo V.
+     * 
+     * Ritorna l'oggetto modificato.
+     */
+    public V put();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package menu;
+
+import entita.dominio.*;
+import java.util.Scanner;
+import repository.*;
+
+/**
+ * La classe <code>GestioneMenu</code> gestisce il flusso principale dell'applicazione "The Knife",
+ * che consente agli utenti di registrarsi, effettuare il login, accedere come guest, o interagire 
+ * con il sistema a seconda del loro ruolo (cliente o gestore).
+ * 
+ * La classe gestisce l'interazione con l'utente attraverso un menu principale e specifico per ciascun ruolo.
+ * Include funzionalita\' per la gestione di ristoranti, recensioni, preferiti e altre azioni per utenti 
+ * e gestori.
+ * 
+ * @author armuh
+ */
+public class GestioneMenu {
+
+    private Scanner scanner = new Scanner(System.in);
+    private RistoranteService ristoranteServ = new RistoranteService();
+    private UtenteService utenteServ = new UtenteService();
+    private PreferitiClienteService prefClienteServ = new PreferitiClienteService();
+    private UtenteUI utenteUI = new UtenteUI(scanner, utenteServ);
+    private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
+    private PreferitiClienteUI preferitiClienteUI = new PreferitiClienteUI(scanner, prefClienteServ, ristoranteServ);
+    private RecensioneService recensioneServ = new RecensioneService();
+    private RecensioneUI recensioneUI = new RecensioneUI(scanner, recensioneServ, ristoranteServ);
+    private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
+    private GestoreService gestoreServ = new GestoreService();
+    private AssGestoreRistoranteUI assGestoreRistoranteUI = new AssGestoreRistoranteUI(scanner, assGestoreRistorantiServ, ristoranteServ);
+    private RispostaRecensioniService rispostaRecensioniServ = new RispostaRecensioniService();
+    private RispostaRecensioniUI rispostaRecensioniUI = new RispostaRecensioniUI(scanner, rispostaRecensioniServ, recensioneServ, assGestoreRistorantiServ);
+
+    /**
+     * Costruttore che inizializza il menu di benvenuto per l'utente.
+     */
+    public GestioneMenu() {
+        benvenuto();
+    }
+
+    /**
+     * Metodo che visualizza il menu di benvenuto e gestisce le scelte iniziali
+     * per l'accesso degli utenti. L'utente puo\' scegliere se registrarsi, fare login 
+     * o entrare come guest.
+     */
+    public void benvenuto() {
+        int scelta;
+
+        do {
+            System.out.println("Benvenuto su The Knife, scegliere l'opzione");
+            System.out.println("1. Registrati");
+            System.out.println("2. Login");
+            System.out.println("3. Entra come guest");
+            System.out.println("0. Esci");
+            Scanner scanner = new Scanner(System.in);
+            scelta = scanner.nextInt();
+            Utente u;
+            switch (scelta) {
+                case 1:
+                    u = utenteUI.add();
+                    if (u != null) {
+                        benvenutoUtente(u);
+                    }
+                    break;
+                case 2:
+                    u = utenteUI.get();
+                    if (u != null) {
+                        benvenutoUtente(u);
+                    }
+                    break;
+                case 3:
+                    benvenutoGuest();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Scegliere l'opzione corretta");
+                    break;
+            }
+        } while (scelta != 0);
+    }
+
+    /**
+     * Metodo che gestisce l'ingresso di un utente dopo il login o la registrazione.
+     * Viene controllato se l'utente e\' un gestore o un cliente, e vengono visualizzati
+     * i menu corrispondenti.
+     * 
+     *  utente: l'utente che si e\' autenticato o registrato.
+     */
+    public void benvenutoUtente(Utente utente) {
+        if (utente instanceof Gestore) {
+            System.out.println("Benvenuto sig. " + utente.getCognome());
+            benvenutoGestore((Gestore) utente);
+        } else {
+            System.out.println("Benvenuto " + utente.getNome());
+            benvenutoCliente((Cliente) utente);
+        }
+    }
+
+    /**
+     * Metodo che gestisce il menu per gli utenti guest. I guest possono visualizzare i ristoranti
+     * senza poter interagire con altre funzionalita\'.
+     */
+    public void benvenutoGuest() {
+        int scelta;
+        do {
+            System.out.println("1. Visualizza ristoranti");
+            System.out.println("0. Esci");
+            scelta = scanner.nextInt();
+            switch (scelta) {
+                case 1:
+                    ristoranteUI.cerca();
+                    break;
+            }
+        } while (scelta != 0);
+    }
+
+    /**
+     * Metodo che gestisce il menu per i gestori. I gestori possono aggiungere ristoranti, rispondere
+     * alle recensioni, visualizzare la media delle recensioni e altro.
+     * 
+     *  utente: il gestore che sta utilizzando il sistema.
+     */
+    public void benvenutoGestore(Gestore utente) {
+        int scelta;
+        String nomeRistorante = "";
+        do {
+            System.out.println("1. Aggiungi ristorante");
+            System.out.println("2. Ricerca ristoranti");
+            System.out.println("3. Visualizza media valutazioni");
+            System.out.println("4. Rispondi alle recensioni");
+            System.out.println("0. Esci");
+            scelta = scanner.nextInt();
+            switch (scelta) {
+                case 1:
+                    assGestoreRistoranteUI.aggiungi(utente);
+                    break;
+                case 2:
+                    ristoranteUI.cerca();
+                    break;
+                case 3:
+                    recensioneUI.mediaStelle(utente);
+                    break;
+                case 4:
+                    rispostaRecensioniUI.add(utente);
+                    break;
+                default:
+                    System.out.println("Inserisci il numero corretto");
+                    break;
+            }
+        } while (scelta != 0);
+    }
+
+    /**
+     * Metodo che gestisce il menu per i clienti. I clienti possono aggiungere ristoranti ai preferiti,
+     * scrivere recensioni, modificarle, eliminarle e altro.
+     * 
+     *  utente: il cliente che sta utilizzando il sistema.
+     */
+    public void benvenutoCliente(Cliente utente) {
+        int scelta;
+        String c;
+        do {
+            System.out.println("1. Aggiungi ristorante ai preferiti");
+            System.out.println("2. Rimuovi ristorante dai preferiti");
+            System.out.println("3. Visualizza preferiti");
+            System.out.println("4. Aggiungi recensione");
+            System.out.println("5. Modifica recensione");
+            System.out.println("6. Elimina recensione");
+            System.out.println("7. Ricerca ristoranti");
+            System.out.println("0. Esci");
+            Ristorante r;
+            c = scanner.next();
+            scelta = Integer.parseInt(c);
+            scanner.nextLine();
+            switch (scelta) {
+                case 1:
+                    if (prefClienteServ.containsKey(utente.getUsername())) {
+                        preferitiClienteUI.put(utente);
+                    } else {
+                        preferitiClienteUI.add(utente);
+                    }
+                    break;
+                case 2:
+                    preferitiClienteUI.remove(utente);
+                    break;
+                case 3:
+                    preferitiClienteUI.visualizza(utente);
+                    break;
+                case 4:
+                    recensioneUI.add(utente);
+                    break;
+                case 5:
+                    recensioneUI.put(utente);
+                    break;
+                case 6:
+                    recensioneUI.remove(utente);
+                    break;
+                case 7:
+                    ristoranteUI.cerca();
+                    break;
+                default:
+                    System.out.println("inserisci il numero corretto");
+                    break;
+            }
+        } while (scelta != 0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package menu;
+
+import java.util.Scanner;
+import repository.GestoreService;
+
+/**
+ * La classe {GestoreUI} si occupa della gestione delle operazioni
+ * relative all'interfaccia utente per la gestione dei {Gestore} 
+ * attraverso il servizio {GestoreService}.
+ * 
+ * Questa classe consente di interagire con il servizio per i gestori, e 
+ * offre funzionalita\' per la visualizzazione e gestione dei dati di un 
+ * gestore nel sistema.
+ * 
+ * @author armuh
+ */
+public class GestoreUI {
+
+    /**
+     * Il servizio che gestisce le operazioni relative ai gestori.
+     */
+    private GestoreService gestoreServ;
+
+    /**
+     * Scanner per leggere l'input dell'utente .
+     */
+    private Scanner scanner;
+
+    /**
+     * Costruttore della classe {GestoreUI}.
+     * 
+     *  scanner un oggetto {Scanner} per leggere l'input dell'utente.
+     *  gestoreServ: servizio {GestoreService} che gestisce le operazioni sui gestori.
+     */
+    public GestoreUI(Scanner scanner, GestoreService gestoreServ) {
+        this.scanner = scanner;
+        this.gestoreServ = gestoreServ;
+    }
+    
+    // I metodi per gestire le operazioni relative ai gestori possono essere aggiunti qui
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package menu;
+
+import entita.associazioni.PreferitiCliente;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import repository.PreferitiClienteService;
+import repository.RistoranteService;
+
+/**
+ * La classe {PreferitiClienteUI} gestisce le operazioni dell'interfaccia utente
+ * relative alla gestione dei ristoranti preferiti di un {Utente} (di tipo {Cliente}).
+ * 
+ * In particolare, permette di aggiungere, rimuovere e visualizzare i ristoranti preferiti
+ * di un cliente attraverso l'interazione con il servizio {PreferitiClienteService}.
+ * Le operazioni di gestione avvengono tramite l'input, 
+ * con l'ausilio di un oggetto {Scanner}.
+ * 
+ * @author armuh
+ */
+public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
+
+    /**
+     * Scanner per leggere l'input dell'utente.
+     */
+    private Scanner scanner;
+
+    /**
+     * Il servizio che gestisce le operazioni relative ai preferiti dei clienti.
+     */
+    private PreferitiClienteService PCS;
+
+    /**
+     * Il servizio che gestisce le operazioni relative ai ristoranti.
+     */
+    private RistoranteService ristoranteServ;
+
+    /**
+     * Costruttore della classe {PreferitiClienteUI}.
+     * 
+     *  scanner: un oggetto {Scanner} per leggere l'input dell'utente.
+     *  PCS: il servizio {PreferitiClienteService} per gestire i preferiti.
+     *  ristoranteServ: il servizio {RistoranteService} per la gestione dei ristoranti.
+     */
+    public PreferitiClienteUI(Scanner scanner, PreferitiClienteService PCS, RistoranteService ristoranteServ) {
+        this.PCS = PCS;
+        this.scanner = scanner;
+        this.ristoranteServ = ristoranteServ;
+    }
+
+    /**
+     * Chiede il nome di un ristorante e lo restituisce se esistente nel sistema.
+     * 
+     * Ritorna il ristorante corrispondente al nome inserito.
+     */
+    private Ristorante chiediRistorante() {
+        String nomeRistorante;
+        do {
+            System.out.println("Inserire il nome del ristorante: ");
+            nomeRistorante = scanner.nextLine();
+        } while (!ristoranteServ.containsKey(nomeRistorante));
+        return ristoranteServ.get(nomeRistorante);
+    }
+
+    /**
+     * Aggiunge un ristorante ai preferiti del cliente specificato.
+     * 
+     *  valore: il cliente {Utente} per cui aggiungere il ristorante ai preferiti.
+     * Ritorna {true} se l'operazione e\' andata a buon fine, altrimenti {false}.
+     */
+    @Override
+    public boolean add(Utente valore) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        ristorantiList.add(r);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiList);
+        return PCS.add(preferitiCliente);
+    }
+
+    /**
+     * Rimuove un ristorante dai preferiti del cliente specificato.
+     * 
+     *  utente: il cliente {Utente} per cui rimuovere il ristorante dai preferiti.
+     * Ritorna {true} se l'operazione e\' andata a buon fine, altrimenti {false}.
+     */
+    @Override
+    public boolean remove(Utente utente) {
+        Ristorante ristorante = chiediRistorante();
+        PreferitiCliente preferitiCliente = get(utente);
+        List<Ristorante> ristorantiList = preferitiCliente.getRistorantiPreferiti();
+        ristorantiList.remove(ristorante);
+        String username = preferitiCliente.getUsernameCliente();
+        return PCS.put(username, preferitiCliente);
+    }
+
+    /**
+     * Restituisce l'oggetto {PreferitiCliente} corrispondente al cliente specificato.
+     * 
+     *  valore: il cliente {Utente} di cui ottenere i preferiti.
+     * Ritorna l'oggetto {PreferitiCliente} associato al cliente.
+     */
+    @Override
+    public PreferitiCliente get(Utente valore) {
+        return PCS.get(valore.getUsername());
+    }
+
+    /**
+     * Aggiunge un ristorante ai preferiti esistenti del cliente specificato.
+     * 
+     *  valore Il cliente {Utente} per cui aggiungere il ristorante ai preferiti.
+     * Ritorna {true} se l'operazione e\' andata a buon fine, altrimenti {false}.
+     */
+    @Override
+    public boolean put(Utente valore) {
+        Ristorante r = chiediRistorante();
+        List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
+        ristorantiListValore.add(r);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiListValore);
+        return PCS.put(valore.getUsername(), preferitiCliente);
+    }
+
+    /**
+     * Visualizza i dettagli dei ristoranti preferiti di un cliente.
+     * 
+     *  valore: il cliente {Utente} di cui visualizzare i ristoranti preferiti.
+     */
+    @Override
+    public void visualizza(Utente valore) {
+        String username = valore.getUsername();
+        if (PCS.get().containsKey(username)) {
+            List<Ristorante> listaRistoranti = PCS.get().get(username).getRistorantiPreferiti();
+            for (Ristorante r : listaRistoranti) {
+                System.out.println("Nome: " + r.getNome());
+                System.out.println("Locazione: " + r.getLocazione());
+                System.out.println("Prezzo: " + r.getPrezzo() + " euro");
+                System.out.println("Tipo cucina: " + r.getCucina());
+                System.out.println("Servizio delivery: " + r.isDelivery());
+                System.out.println("Servizio prenotazione: " + r.isPrenotazione() + "\n\n");
+            }
+        }
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     * @throws UnsupportedOperationException Se viene chiamato, viene sollevata un'eccezione.
+     */
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     * @throws UnsupportedOperationException Se viene chiamato, viene sollevata un'eccezione.
+     */
+    @Override
+    public void visualizza(PreferitiCliente valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+
+
+
+
+
+
+
+
+package menu;
+
+import entita.dominio.Gestore;
+import entita.associazioni.Recensione;
+import entita.dominio.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+import repository.RecensioneService;
+import repository.RistoranteService;
+
+/**
+ * La classe {RecensioneUI} fornisce l'interfaccia utente per la gestione delle recensioni
+ * sui ristoranti. Permette agli utenti di aggiungere, modificare, rimuovere e visualizzare le recensioni,
+ * oltre a calcolare la media delle stelle per ciascun ristorante.
+ * 
+ * Le operazioni di gestione avvengono tramite input, con l'ausilio di un oggetto {Scanner}.
+ * La classe interagisce con i servizi {RecensioneService} e {RistoranteService} per gestire i dati.
+ * 
+ * @author armuh
+ */
+public class RecensioneUI implements ComandiUI<Utente, Recensione> {
+
+    /**
+     * Scanner per leggere l'input dell'utente .
+     */
+    private Scanner scanner;
+
+    /**
+     * Il servizio che gestisce le operazioni relative alle recensioni.
+     */
+    private RecensioneService recServ;
+
+    /**
+     * Il servizio che gestisce le operazioni relative ai ristoranti.
+     */
+    private RistoranteService ristoranteServ;
+
+    /**
+     * Il formato di data utilizzato per la visualizzazione e la gestione delle date.
+     */
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    /**
+     * Costruttore della classe {RecensioneUI}.
+     * 
+     *  scanner: un oggetto {Scanner} per leggere l'input dell'utente.
+     *  recensioneServ: il servizio {RecensioneService} per la gestione delle recensioni.
+     *  ristoranteServ: il servizio {RistoranteService} per la gestione dei ristoranti.
+     */
+    public RecensioneUI(Scanner scanner, RecensioneService recensioneServ, RistoranteService ristoranteServ) {
+        this.scanner = scanner;
+        this.recServ = recensioneServ;
+        this.ristoranteServ = ristoranteServ;
+    }
+
+    /**
+     * Modifica una recensione esistente.
+     * Permette all'utente di cambiare le stelle e il testo della recensione.
+     * 
+     *  recensione: la recensione da modificare.
+     * Ritorna la recensione modificata.
+     */
+    private Recensione modificaInformazioni(Recensione recensione) {
+        System.out.println("Modifica la tua recensione");
+        LocalDate data = LocalDate.now();
+        System.out.println("Scegli il numero di stelle (1-5): ");
+        short stelle = scanner.nextShort();
+        scanner.nextLine();
+        recensione.setStelle(stelle);
+        System.out.println("Modifica il testo: ");
+        String testo = scanner.nextLine();
+        recensione.setTesto(testo);
+        return recensione;
+    }
+
+    /**
+     * Aggiunge una nuova recensione per un ristorante.
+     * 
+     *  utente: l'utente che sta aggiungendo la recensione.
+     * Ritorna {true} se l'operazione e\' riuscita, altrimenti {false}.
+     */
+    @Override
+    public boolean add(Utente utente) {
+        System.out.println("Recensione ristorante");
+        String nomeRistorante;
+        do {
+            System.out.println("Inserire il nome del ristorante: ");
+            nomeRistorante = scanner.nextLine();
+        } while (!ristoranteServ.containsKey(nomeRistorante));
+        short nStelle;
+        do {
+            System.out.println("Inserire il numero di stelle (1-5):");
+            nStelle = scanner.nextShort();
+            scanner.nextLine();
+        } while (nStelle > 5 || nStelle < 1);
+        System.out.println("Inserire il testo");
+        String testo = scanner.nextLine();
+        Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.now(), nomeRistorante);
+        return recServ.add(r);
+    }
+
+    /**
+     * Modifica una recensione esistente dell'utente.
+     * L'utente sceglie la recensione da modificare tramite ID.
+     * 
+     *  utente: l'utente che sta modificando una recensione.
+     * Ritorna {true} se l'operazione e\' riuscita, altrimenti {false}.
+     */
+    @Override
+    public boolean put(Utente utente) {
+        visualizza(utente);
+        Recensione recensioneNuova = new Recensione();
+        System.out.println("Scegliere la recensione da modificare (ID): ");
+        Integer sceltaID = scanner.nextInt();
+        recensioneNuova = modificaInformazioni(recServ.get().get(sceltaID));
+        return recServ.put(recensioneNuova.getID(), recensioneNuova);
+    }
+
+    /**
+     * Rimuove una recensione dell'utente tramite ID.
+     * 
+     *  utente: l'utente che sta rimuovendo una recensione.
+     * Ritorna {true} se l'operazione e\' riuscita, altrimenti {false}.
+     */
+    @Override
+    public boolean remove(Utente utente) {
+        visualizza(utente);
+        System.out.println("Scegliere la recensione da eliminare (ID): ");
+        Integer sceltaID = scanner.nextInt();
+        Recensione recensione = recServ.get(sceltaID);
+        return recServ.remove(sceltaID, recensione);
+    }
+
+    /**
+     * Calcola la media delle stelle per ciascun ristorante gestito dal gestore.
+     * Visualizza la media delle stelle per ogni ristorante.
+     * 
+     *  gestore: il gestore che possiede i ristoranti.
+     */
+    public void mediaStelle(Gestore gestore) {
+        HashMap<Ristorante, Float> mediaStelle = recServ.mediaStelle(gestore);
+        System.out.println("Ristorante\tMedia stelle");
+        float sommaTot = 0;
+        int count = 0;
+        for (Ristorante ristoranteChiave : mediaStelle.keySet()) {
+            System.out.println(ristoranteChiave.getNome() + "\t" + mediaStelle.get(ristoranteChiave));
+            count++;
+            sommaTot += mediaStelle.get(ristoranteChiave);
+        }
+        float mediaTot = 0;
+        try {
+            mediaTot = sommaTot / count;
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("Media totale: " + mediaTot);
+    }
+
+    /**
+     * Ottiene una recensione di un utente (metodo non implementato).
+     * 
+     *  valore: l'utente per cui ottenere la recensione.
+     * Ritorna l'oggetto {Recensione} dell'utente.
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public Recensione get(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Visualizza tutte le recensioni esistenti.
+     */
+    @Override
+    public void visualizza() {
+        HashMap<Integer, Recensione> recensioniMap = recServ.get();
+        List<Recensione> recensioniList = new ArrayList<>();
+        String[] intestazione = {"ID", "username", "stelle", "data", "ristorante", "testo"};
+        StringBuilder tabella = new StringBuilder();
+        tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
+                intestazione[0], intestazione[2],
+                intestazione[3], intestazione[4], intestazione[5]));
+        for (Recensione recensione : recensioniMap.values()) {
+            recensioniList.add(recensione);
+        }
+
+        for (Recensione recensione : recensioniList) {
+            tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
+                    recensione.getID(), recensione.getStelle(),
+                    recensione.getData(), recensione.getRistoranteRecensito(), recensione.getTesto()));
+        }
+        System.out.println(tabella.toString());
+    }
+
+    /**
+     * Visualizza le recensioni di un utente specifico.
+     * 
+     *  utente: l'utente di cui visualizzare le recensioni.
+     */
+    @Override
+    public void visualizza(Utente utente) {
+        HashMap<Integer, Recensione> recensioniMap = recServ.get();
+        List<Recensione> recensioniList = new ArrayList<>();
+        String[] intestazione = {"ID", "username", "stelle", "data", "ristorante", "testo"};
+        StringBuilder tabella = new StringBuilder();
+        tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
+                intestazione[0], intestazione[2],
+                intestazione[3], intestazione[4], intestazione[5]));
+        for (Recensione recensione : recensioniMap.values()) {
+            if (recensione.getUsername().equals(utente.getUsername())) {
+                recensioniList.add(recensione);
+            }
+        }
+
+        for (Recensione recensione : recensioniList) {
+            tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
+                    recensione.getID(), recensione.getStelle(),
+                    recensione.getData(), recensione.getRistoranteRecensito(), recensione.getTesto()));
+        }
+        System.out.println(tabella.toString());
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public void visualizza(Recensione valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package menu;
+
+import entita.associazioni.AssGestoreRistoranti;
+import entita.associazioni.Recensione;
+import entita.associazioni.RispostaRecensioni;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+import repository.AssGestoreRistorantiService;
+import repository.RecensioneService;
+import repository.RispostaRecensioniService;
+
+/**
+ * La classe {RispostaRecensioniUI} gestisce l'interfaccia utente per la gestione delle risposte alle recensioni
+ * dei ristoranti. Permette ai gestori di ristoranti di rispondere alle recensioni ricevute dai clienti.
+ * 
+ * L'interazione avviene tramite gli input dell'utente, e la classe utilizza i servizi {RispostaRecensioniService},
+ * {RecensioneService} e {AssGestoreRistorantiService} per gestire i dati.
+ * 
+ * @author armuh
+ */
+public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensioni> {
+
+    /**
+     * Scanner per leggere l'input dell'utente.
+     */
+    private Scanner scanner;
+
+    /**
+     * Il servizio che gestisce le operazioni relative alle risposte alle recensioni.
+     */
+    private RispostaRecensioniService rispostaRecensioniServ;
+
+    /**
+     * Il servizio che gestisce le operazioni relative alle recensioni.
+     */
+    private RecensioneService recensioneServ;
+
+    /**
+     * Il servizio che gestisce le operazioni relative alla relazione tra gestori e ristoranti.
+     */
+    private AssGestoreRistorantiService assGestoreRistorantiServ;
+
+    /**
+     * Il formato di data utilizzato per la visualizzazione e la gestione delle date.
+     */
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    /**
+     * Costruttore della classe {RispostaRecensioniUI}.
+     * 
+     *  scanner: un oggetto {Scanner} per leggere l'input dell'utente.
+     *  rispostaRecensioniServ: il servizio {RispostaRecensioniService} per la gestione delle risposte alle recensioni.
+     *  recensioneServ: il servizio {RecensioneService} per la gestione delle recensioni.
+     *  assGestoreRistorantiServ: il servizio {AssGestoreRistorantiService} per la gestione della relazione tra gestori e ristoranti.
+     */
+    public RispostaRecensioniUI(Scanner scanner, RispostaRecensioniService rispostaRecensioniServ,
+            RecensioneService recensioneServ, AssGestoreRistorantiService assGestoreRistorantiServ) {
+        this.scanner = scanner;
+        this.rispostaRecensioniServ = rispostaRecensioniServ;
+        this.recensioneServ = recensioneServ;
+        this.assGestoreRistorantiServ = assGestoreRistorantiServ;
+    }
+
+    /**
+     * Permette al gestore di rispondere a una recensione di uno dei suoi ristoranti.
+     * 
+     * Il gestore seleziona uno dei ristoranti che possiede e a cui e\' associata una recensione, quindi scrive una risposta.
+     * 
+     *  utente: il gestore che sta rispondendo alla recensione.
+     * Ritorna un oggetto {RispostaRecensioni} contenente la risposta del gestore alla recensione selezionata,
+     *         oppure {null} se non ci sono recensioni a cui rispondere.
+     */
+    private RispostaRecensioni chiedi(Gestore utente) {
+        int ID;
+        int idRif;
+        String username = utente.getUsername();
+        String testo;
+        LocalDate data;
+
+        HashMap<Integer, Recensione> recensioniMap = recensioneServ.get();
+        AssGestoreRistoranti assGestoreRistoranti = assGestoreRistorantiServ.get(username);
+        List<Ristorante> ristorantiPossedutiList = assGestoreRistoranti.getRistorantiList();
+        HashMap<Integer, Ristorante> ristorantiPossedutiRecensiti = new HashMap<>();
+        for (Ristorante ristorantePosseduto : ristorantiPossedutiList) {
+            for (Recensione recensione : recensioniMap.values()) {
+                if ((recensione.getRistoranteRecensito().compareTo(ristorantePosseduto.getNome())) == 0) {
+                    ristorantiPossedutiRecensiti.put(recensione.getID(), ristorantePosseduto);
+                }
+            }
+        }
+        if (!ristorantiPossedutiRecensiti.isEmpty()) {
+            System.out.println(ristorantiPossedutiRecensiti.toString());
+            int scelta = 0;
+            while (!ristorantiPossedutiRecensiti.containsKey(scelta) || ristorantiPossedutiRecensiti.isEmpty()) {
+                System.out.println("Scegliere uno tra questi ristoranti (ID): ");
+                scelta = scanner.nextInt();
+                scanner.nextLine();
+            }
+            idRif = scelta;
+            System.out.println("Scrivere una risposta: ");
+            testo = scanner.nextLine();
+            data = LocalDate.now();
+            return new RispostaRecensioni(-1, idRif, username, testo, data);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Aggiunge una risposta a una recensione di uno dei ristoranti del gestore.
+     * 
+     *  utente: il gestore che sta rispondendo alla recensione.
+     * Ritorna {true} se l'operazione e\' riuscita, altrimenti {false}.
+     */
+    @Override
+    public boolean add(Gestore utente) {
+        RispostaRecensioni rispostaRecensioni = chiedi(utente);
+        if (rispostaRecensioni != null) {
+            return rispostaRecensioniServ.add(rispostaRecensioni);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     *  utente: il gestore per cui ottenere la risposta.
+     * Ritorna {RispostaRecensioni} Non implementato.
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public RispostaRecensioni get(Gestore utente) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     *  utente: il gestore per cui rimuovere la risposta.
+     * Ritorna {false} sempre, poiché il metodo non e\' supportato.
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public boolean remove(Gestore utente) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     *  utente: il gestore per cui aggiornare la risposta.
+     * Ritorna {false} sempre, poiché il metodo non e\' supportato.
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public boolean put(Gestore utente) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     *  utente: il gestore per cui visualizzare la risposta.
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public void visualizza(Gestore utente) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non supportato.
+     * 
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    /**
+     * Metodo non supportato.
+     * 
+     *  valore: la risposta da visualizzare.
+     * @throws UnsupportedOperationException Se il metodo viene chiamato, solleva un'eccezione.
+     */
+    @Override
+    public void visualizza(RispostaRecensioni valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+package menu;
+
+import entita.dominio.Ristorante;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+import repository.RistoranteService;
+
+/**
+ * Classe che gestisce l'interfaccia utente per la gestione dei ristoranti.
+ * Permette di aggiungere nuovi ristoranti, cercarli in base a vari criteri e visualizzare i dettagli.
+ * Le opzioni di ricerca includono la localizzazione, la tipologia di cucina, il prezzo, il servizio di delivery e la prenotazione online.
+ * 
+ * @author armuh
+ */
+public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
+
+    private Scanner scanner;
+    private RistoranteService ristoranteServ;
+
+    /**
+     * Costruttore della classe RistoranteUI.
+     * 
+     *  scanner Scanner per leggere l'input dell'utente.
+     *  ristoranteServ Servizio che gestisce le operazioni sui ristoranti.
+     */
+    public RistoranteUI(Scanner scanner, RistoranteService ristoranteServ) {
+        this.scanner = scanner;
+        this.ristoranteServ = ristoranteServ;
+    }
+
+    /**
+     * Controlla se un ristorante esiste gia\' in base al nome e lo restituisce.
+     * 
+     * Ritorna ristorante selezionato dall'utente.
+     */
+    public Ristorante contains() {
+        String nomeRistorante;
+        do {
+            System.out.println("Scrivere il nome del ristorante: ");
+            nomeRistorante = scanner.next();
+        } while (ristoranteServ.containsKey(nomeRistorante));
+        return ristoranteServ.get(nomeRistorante);
+    }
+
+    /**
+     * Richiede all'utente di inserire le informazioni per un nuovo ristorante.
+     * 
+     * Ritorna un oggetto Ristorante con i dati inseriti dall'utente.
+     */
+    private Ristorante chiedi() {
+        String nome;
+        do {
+            System.out.println("Nome: ");
+            nome = scanner.next();
+        } while (ristoranteServ.containsKey(nome));
+
+        System.out.println("Indirizzo: ");
+        String indirizzo = scanner.next();
+
+        System.out.println("Locazione: ");
+        String locazione = scanner.next();
+
+        System.out.println("Prezzo: ");
+        float prezzo = scanner.nextFloat();
+
+        System.out.println("Cucina:");
+        String cucina = scanner.next();
+
+        System.out.println("Longitudine: ");
+        float longitudine = scanner.nextFloat();
+
+        System.out.println("Latitudine: ");
+        float latitudine = scanner.nextFloat();
+
+        System.out.println("Numero di telefono: ");
+        String numeroTelefono = scanner.next();
+
+        System.out.println("Delivery: ");
+        boolean delivery = scanner.nextBoolean();
+
+        System.out.println("Url:");
+        String url = scanner.next();
+
+        System.out.println("Website Url:");
+        String webSiteUrl = scanner.next();
+
+        System.out.println("Prenotazione: ");
+        boolean prenotazione = scanner.nextBoolean();
+
+        System.out.println("Descrizione: ");
+        String descrizione = scanner.next();
+
+        return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine, numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione);
+    }
+
+    /**
+     * Visualizza un elenco di ristoranti.
+     * 
+     *  ristoranti: lista di ristoranti da visualizzare.
+     */
+    public void visualizza(List<Ristorante> ristoranti) {
+        for (Ristorante ristorante : ristoranti) {
+            System.out.println("Locazione: " + ristorante.getLocazione());
+            System.out.println("Prezzo: " + ristorante.getPrezzo() + " euro");
+            System.out.println("Tipo cucina: " + ristorante.getCucina());
+            System.out.println("Servizio delivery: " + ristorante.isDelivery());
+            System.out.println("Servizio prenotazione: " + ristorante.isPrenotazione() + "\n\n");
+        }
+    }
+
+    /**
+     * Permette all'utente di cercare ristoranti in base a vari criteri.
+     */
+    public void cerca() {
+        int scelta = -1;
+        System.out.println("Inserire 1 per cercare un ristorante per locazione");
+        System.out.println("Inserire 2 per cercare un ristorante per tipologia di cucina");
+        System.out.println("Inserire 3 per cercare un ristorante per fascia di prezzo");
+        System.out.println("Inserire 4 per cercare un ristorante in base alla disponibilita' del servizio di delivery");
+        System.out.println("Inserire 5 per cercare un ristorante in base alla disponibilita' del servizio di prenotazione online");
+
+        try {
+            scelta = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+        }
+        switch (scelta) {
+            case 1:
+                cercaPerLocazione();
+                break;
+            case 2:
+                cercaPerCucina();
+                break;
+            case 3:
+                cercaPerPrezzo();
+                break;
+            case 4:
+                cercaPerDelivery();
+                break;
+            case 5:
+                cercaPerPrenotazione();
+                break;
+            default:
+                System.out.println("Scegliere l'opzione corretta");
+                break;
+        }
+    }
+
+    /**
+     * Cerca ristoranti in base alla localizzazione.
+     */
+    private void cercaPerLocazione() {
+        System.out.println("Inserire il nome della citta': ");
+        String locazione = scanner.next().toLowerCase();
+        Collection<Ristorante> ristorantiColl = ristoranteServ.values();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        for (Ristorante ristorante : ristorantiColl) {
+            String locazioneRistorante = ristorante.getLocazione().replace("\"", "");
+            if (locazioneRistorante.toLowerCase().startsWith(locazione)) {
+                ristorantiList.add(ristorante);
+            }
+        }
+        visualizza(ristorantiList);
+    }
+
+    /**
+     * Cerca ristoranti in base alla tipologia di cucina.
+     */
+    private void cercaPerCucina() {
+        System.out.println("Inserire la tipologia di cucina del ristorante : ");
+        String cucina = scanner.next().toLowerCase();
+        Collection<Ristorante> ristorantiColl = ristoranteServ.values();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        for (Ristorante ristorante : ristorantiColl) {
+            String cucinaRistorante = ristorante.getCucina().replace("\"", "");
+            if (cucinaRistorante.toLowerCase().startsWith(cucina)) {
+                ristorantiList.add(ristorante);
+            }
+        }
+        visualizza(ristorantiList);
+    }
+
+    /**
+     * Cerca ristoranti in base al prezzo.
+     */
+    private void cercaPerPrezzo() {
+        System.out.println("Visualizzare i ristoranti con un prezzo minore di: ");
+        Float prezzoLimite;
+        try {
+            prezzoLimite = scanner.nextFloat();
+        } catch (InputMismatchException e) {
+            System.out.println("Inserire un numero valido per il prezzo.");
+            return;
+        }
+        Collection<Ristorante> ristorantiColl = ristoranteServ.values();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        for (Ristorante ristorante : ristorantiColl) {
+            if (ristorante.getPrezzo() < prezzoLimite) {
+                ristorantiList.add(ristorante);
+            }
+        }
+        visualizza(ristorantiList);
+    }
+
+    /**
+     * Cerca ristoranti in base alla disponibilita\' del servizio di delivery.
+     */
+    private void cercaPerDelivery() {
+        boolean delivery;
+        while (true) {
+            System.out.print("Vuoi visualizzare solo i ristoranti con delivery? (si/no): ");
+            String risposta = scanner.next().trim().toLowerCase();
+            if (risposta.equals("sì") || risposta.equals("si")) {
+                delivery = true;
+                break;
+            } else if (risposta.equals("no")) {
+                delivery = false;
+                break;
+            } else {
+                System.out.println("Risposta non valida. Inserire 'si' o 'no'.");
+            }
+        }
+
+        Collection<Ristorante> ristorantiColl = ristoranteServ.values();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        for (Ristorante ristorante : ristorantiColl) {
+            if (ristorante.isDelivery() == delivery) {
+                ristorantiList.add(ristorante);
+            }
+        }
+        visualizza(ristorantiList);
+    }
+
+    /**
+     * Cerca ristoranti in base alla disponibilita\' del servizio di prenotazione online.
+     */
+    private void cercaPerPrenotazione() {
+        boolean prenotazione;
+        while (true) {
+            System.out.print("Vuoi visualizzare solo i ristoranti con prenotazione online? (si/no): ");
+            String risposta = scanner.next().trim().toLowerCase();
+            if (risposta.equals("sì") || risposta.equals("si")) {
+                prenotazione = true;
+                break;
+            } else if (risposta.equals("no")) {
+                prenotazione = false;
+                break;
+            } else {
+                System.out.println("Risposta non valida. Inserire 'si' o 'no'.");
+            }
+        }
+
+        Collection<Ristorante> ristorantiColl = ristoranteServ.values();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        for (Ristorante ristorante : ristorantiColl) {
+            if (ristorante.isPrenotazione() == prenotazione) {
+                ristorantiList.add(ristorante);
+            }
+        }
+        visualizza(ristorantiList);
+    }
+
+    /**
+     * Aggiunge un nuovo ristorante.
+     * 
+     * Ritorna il ristorante appena aggiunto.
+     */
+    @Override
+    public Ristorante add() {
+        Ristorante ristorante = chiedi();
+        ristoranteServ.add(ristorante);
+        return ristorante;
+    }
+
+    @Override
+    public Ristorante get() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Ristorante remove() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Ristorante put() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void visualizza(Ristorante valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+package menu;
+
+import entita.dominio.Cliente;
+import entita.dominio.Gestore;
+import entita.Ruolo;
+import entita.dominio.Utente;
+import gestioneFile.FileUtenti;
+import java.time.LocalDate;
+import java.util.Scanner;
+import repository.UtenteService;
+
+/**
+ * La classe `UtenteUI` gestisce l'interfaccia utente per le operazioni di registrazione, login e gestione degli utenti.
+ * La classe permette agli utenti di registrarsi, effettuare il login e selezionare un ruolo (gestore o cliente).
+ * Gestisce anche l'interazione con il servizio degli utenti e la scrittura dei dati degli utenti in un file CSV.
+ * 
+ * @author armuh
+ */
+public class UtenteUI implements ComandiUISenzaParametri<Utente> {
+
+    private static FileUtenti fileUtenti = new FileUtenti();
+    private Scanner scanner;
+    private UtenteService utenteServ;
+
+    /**
+     * Costruttore della classe `UtenteUI`.
+     * 
+     *  scanner Scanner per leggere l'input dell'utente.
+     *  utenteServ Servizio per la gestione degli utenti.
+     */
+    public UtenteUI(Scanner scanner, UtenteService utenteServ) {
+        this.scanner = scanner;
+        this.utenteServ = utenteServ;
+    }
+
+    /**
+     * Gestisce il processo di registrazione di un nuovo utente, inclusa la richiesta delle informazioni personali 
+     * e la selezione del ruolo (gestore o cliente). I dati dell'utente vengono poi restituiti come oggetto `Utente`.
+     * 
+     * Ritorna l'oggetto `Utente` creato con i dati connessi .
+     */
+    private Utente registrazione() {
+        String dataProvvisoria;
+
+        System.out.println("Nome: ");
+        String nome = scanner.next();
+
+        System.out.println("Cognome: ");
+        String cognome = scanner.next();
+
+        String username;
+        do {
+            System.out.println("Username (inesistente): ");
+            username = scanner.next();
+        } while (utenteServ.containsKey(username));
+
+        System.out.println("Password: ");
+        String password = scanner.next();
+
+        System.out.println("Data di nascita (YYYY-MM-DD): ");
+        dataProvvisoria = scanner.next();
+        LocalDate dataNascita = LocalDate.parse(dataProvvisoria);
+
+        System.out.println("Domicilio: ");
+        String luogoDomicilio = scanner.next();
+
+        System.out.println("Ruolo: ");
+        String ruolo = inserisciRuolo();
+
+        /* Scrivere il nuovo utente in file CSV usando gli opportuni metodi */
+        Utente utente = new Utente();
+        if (ruolo.compareTo("gestore") == 0) {
+            utente = new Gestore(nome, cognome, username, password, dataNascita, luogoDomicilio, ruolo);
+        } else if (ruolo.compareTo("cliente") == 0) {
+            utente = new Cliente(nome, cognome, username, password, dataNascita, luogoDomicilio, ruolo);
+        }
+        return utente;
+    }
+
+    /**
+     * Gestisce il processo di login dell'utente, verificando l'username e la password inseriti.
+     * Se le credenziali sono corrette, restituisce l'oggetto `Utente` associato all'username.
+     * 
+     * Ritorna l'oggetto `Utente` se il login ha avuto successo, altrimenti `null`.
+     */
+    private Utente login() {
+        System.out.println("Username: ");
+        String username = scanner.next();
+
+        System.out.println("Password: ");
+        String password = scanner.next();
+
+        if ((utenteServ.get(username) != null && (utenteServ.get(username).getPassword().compareTo(password)) == 0)) {
+            return utenteServ.get(username);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Gestisce l'inserimento del ruolo dell'utente (gestore o cliente), 
+     * assicurandosi che il ruolo sia valido e corrisponda a una delle opzioni disponibili.
+     * 
+     * Ritorna il ruolo selezionato come stringa in minuscolo ("gestore" o "cliente").
+     */
+    private String inserisciRuolo() {
+        Ruolo ruolo = null;
+
+        while (ruolo == null) {
+            System.out.println("Inserisci il tuo ruolo (gestore o cliente): ");
+            String input = scanner.next().toUpperCase();
+
+            try {
+                ruolo = Ruolo.valueOf(input);
+                System.out.println("Ruolo selezionato: " + ruolo);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ruolo non valido.");
+            }
+        }
+
+        return ruolo.toString().toLowerCase();
+    }
+
+    /**
+     * Metodo per aggiungere un nuovo utente.
+     * Gestisce la registrazione dell'utente e lo aggiunge al servizio degli utenti.
+     * 
+     * Ritorna l'oggetto `Utente` appena creato e aggiunto al servizio.
+     */
+    @Override
+    public Utente add() {
+        Utente utente = registrazione();
+        utenteServ.add(utente);
+        return utente;
+    }
+
+    /**
+     * Metodo per ottenere un utente attraverso il login.
+     * 
+     * Ritorna l'oggetto `Utente` che ha effettuato il login, oppure `null` se le credenziali sono errate.
+     */
+    @Override
+    public Utente get() {
+        Utente utente = login();
+        return utente;
+    }
+
+    /**
+     * Metodo non implementato per la rimozione di un utente.
+     * Lancia un'eccezione di tipo `UnsupportedOperationException`.
+     * 
+     * @throws UnsupportedOperationException Se il metodo viene invocato.
+     */
+    @Override
+    public Utente remove() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non implementato per aggiornare un utente.
+     * Lancia un'eccezione di tipo `UnsupportedOperationException`.
+     * 
+     * @throws UnsupportedOperationException Se il metodo viene invocato.
+     */
+    @Override
+    public Utente put() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non implementato per visualizzare tutte le informazioni sugli utenti.
+     * Lancia un'eccezione di tipo `UnsupportedOperationException`.
+     * 
+     * @throws UnsupportedOperationException Se il metodo viene invocato.
+     */
+    @Override
+    public void visualizza() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Metodo non implementato per visualizzare le informazioni di un singolo utente.
+     * Lancia un'eccezione di tipo `UnsupportedOperationException`.
+     * 
+     *  valore L'utente da visualizzare.
+     * @throws UnsupportedOperationException Se il metodo viene invocato.
+     */
+    @Override
+    public void visualizza(Utente valore) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}
+
+
+package repository;
+
+import repository.generico.HashMapService;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
+import gestioneFile.FileGestoreRistorante;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * La classe `AssGestoreRistorantiService` fornisce i metodi per la gestione delle associazioni tra 
+ * i gestori di ristoranti (Utente) e i ristoranti (Ristorante) che gestiscono.
+ * Questa classe estende `HashMapService` e implementa operazioni di aggiunta, lettura e scrittura 
+ * per gestire le associazioni tra utenti e ristoranti, utilizzando un file di supporto per la persistenza dei dati.
+ * 
+ * @author armuh
+ */
+public class AssGestoreRistorantiService extends HashMapService<String, AssGestoreRistoranti> {
+
+    private static final FileGestoreRistorante FGR = new FileGestoreRistorante();
+
+    /**
+     * Aggiunge un ristorante alla lista dei ristoranti gestiti da un utente specifico (gestore).
+     * Se l'utente e\' gia\' associato a uno o piu\' ristoranti, il nuovo ristorante viene aggiunto alla sua lista.
+     * Se l'utente non esiste, viene creata una nuova associazione.
+     * 
+     *  utente: l'utente (gestore) al quale aggiungere il ristorante.
+     *  ristorante: il ristorante da associare all'utente.
+     */
+    public void add(Utente utente, Ristorante ristorante) {
+        String username = utente.getUsername();
+        FileGestoreRistorante fileAss = new FileGestoreRistorante();
+        if (ristorante != null) {
+            if (map.containsKey(username)) {
+                AssGestoreRistoranti g = map.get(username);
+                g.addRistorantiList(ristorante);
+                map.replace(username, g);
+                fileAss.sovraScrivi(map);
+
+            } else {
+                List<Ristorante> l = new ArrayList<>();
+                l.add(ristorante);
+                AssGestoreRistoranti assGestore = new AssGestoreRistoranti(username, l);
+                map.put(username, assGestore);
+
+                fileAss.scrittura(assGestore);
+            }
+        }
+    }
+
+    /**
+     * Restituisce la chiave (username) dell'associazione `AssGestoreRistoranti`.
+     * 
+     *  assGestoreRistoranti: l'associazione tra gestore e ristoranti.
+     * Ritorna la chiave dell'associazione, che e\' l'username del gestore.
+     */
+    protected String getKey(AssGestoreRistoranti assGestoreRistoranti) {
+        return assGestoreRistoranti.getUsernameRistoratore();
+    }
+
+    /**
+     * Legge e restituisce la mappa delle associazioni tra gestori e ristoranti.
+     * Questa mappa viene ottenuta tramite il file di supporto `FileGestoreRistorante`.
+     * 
+     * Ritorna una mappa che associa gli username dei gestori agli oggetti `AssGestoreRistoranti`.
+     */
+    @Override
+    protected HashMap<String, AssGestoreRistoranti> lettura() {
+        return FGR.ottieniHashMap();
+    }
+
+    /**
+     * Scrive un oggetto `AssGestoreRistoranti` nel file di supporto tramite la classe `FileGestoreRistorante`.
+     * 
+     *  valore: l'oggetto `AssGestoreRistoranti` da scrivere nel file.
+     */
+    @Override
+    protected void scrittura(AssGestoreRistoranti valore) {
+        FGR.scrittura(valore);
+    }
+
+    /**
+     * Sovrascrive la mappa delle associazioni nel file di supporto, utilizzando la classe `FileGestoreRistorante`.
+     * 
+     *  map: la mappa delle associazioni da sovrascrivere nel file.
+     */
+    @Override
+    protected void sovrascrittura(HashMap<String, AssGestoreRistoranti> map) {
+        FGR.sovraScrivi(map);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package repository;
+
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import gestioneFile.FileGestoreRistorante;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * La classe `GestoreService` fornisce metodi per la gestione delle operazioni relative ai gestori di ristoranti
+ * e alle loro recensioni. Essa interagisce con i servizi associati per ottenere informazioni sui ristoranti gestiti 
+ * dai singoli gestori e calcolare la media delle recensioni per ciascun ristorante.
+ * 
+ * @author Nikoro02
+ */
+public class GestoreService {
+
+    private RecensioneService recensioneServ = new RecensioneService();
+    private FileGestoreRistorante FGR = new FileGestoreRistorante();
+    private HashMap<String, AssGestoreRistoranti> gesRisMap = FGR.ottieniHashMap();
+    private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
+
+    /**
+     * Costruttore della classe `GestoreService`.
+     * Inizializza il servizio delle recensioni e la mappa degli associati tra gestori e ristoranti.
+     */
+    public GestoreService() {
+    }
+
+    /**
+     * Calcola la media delle stelle delle recensioni per ciascun ristorante gestito da un determinato gestore.
+     * 
+     *  gestore: il gestore per il quale si desidera calcolare la media delle recensioni dei suoi ristoranti.
+     * Ritorna una mappa che associa ciascun ristorante alla sua media delle stelle.
+     */
+    public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
+        AssGestoreRistoranti AGR = assGestoreRistorantiServ.get().get(gestore.getUsername());
+        List<Ristorante> listaRistoranti = AGR.getRistorantiList();
+        HashMap<Ristorante, Float> mediaStelleMap = new HashMap<Ristorante, Float>();
+        for (Ristorante ristorante : listaRistoranti) {
+            float media = recensioneServ.mediaStelle(ristorante);
+            mediaStelleMap.put(ristorante, media);
+        }
+        return mediaStelleMap;
+    }
+
+    /**
+     * Restituisce la mappa degli associamenti tra gestori e ristoranti.
+     * 
+     * Ritorna la mappa che associa gli username dei gestori agli oggetti `AssGestoreRistoranti`.
+     */
+    public HashMap<String, AssGestoreRistoranti> getGesRisMap() {
+        return gesRisMap;
+    }
+
+    /**
+     * Imposta la mappa degli associamenti tra gestori e ristoranti.
+     * 
+     *  gesRisMap La mappa da impostare per gli associamenti tra gestori e ristoranti.
+     */
+    public void setGesRisMap(HashMap<String, AssGestoreRistoranti> gesRisMap) {
+        this.gesRisMap = gesRisMap;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package repository;
+
+import repository.generico.HashMapService;
+import entita.associazioni.PreferitiCliente;
+import entita.dominio.Ristorante;
+import entita.dominio.Utente;
+import gestioneFile.FilePreferitiCliente;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * La classe `PreferitiClienteService` gestisce le operazioni relative ai ristoranti preferiti di un cliente. 
+ * Essa consente di aggiungere, rimuovere e salvare i ristoranti preferiti per ogni cliente, interagendo con il sistema 
+ * di gestione dei file per memorizzare e recuperare i dati.
+ * 
+ * @author armuh
+ */
+public class PreferitiClienteService extends HashMapService<String, PreferitiCliente> {
+
+    private static final FilePreferitiCliente FPC = new FilePreferitiCliente();
+
+    /**
+     * Aggiunge un ristorante alla lista dei preferiti di un cliente. Se il ristorante e\' gia\' presente, non viene aggiunto.
+     * 
+     *  utente: il cliente a cui aggiungere il ristorante preferito.
+     *  ristorante: il ristorante da aggiungere ai preferiti del cliente.
+     */
+    public void add(Utente utente, Ristorante ristorante) {
+        FilePreferitiCliente file = new FilePreferitiCliente();
+        String username = utente.getUsername();
+        if (map.containsKey(username)) {
+            PreferitiCliente preferenze = map.get(username);
+            Collection<PreferitiCliente> preferitiLista = map.values();
+            boolean assente = true;
+            // Verifica se il ristorante e\' gia\' nei preferiti
+            for (PreferitiCliente ristorantePreferito : preferitiLista) {
+                if (ristorantePreferito.getRistorantiPreferiti().contains(ristorante)) {
+                    assente = false;
+                }
+            }
+            if (assente) {
+                preferenze.addRistorantePreferito(ristorante);
+                map.put(username, preferenze);
+                file.sovraScrivi(map); // Sovrascrive il file con le modifiche
+            }
+        } else {
+            // Crea una nuova lista di preferiti e aggiungi il ristorante
+            List<Ristorante> nuoviPreferiti = new ArrayList<>();
+            nuoviPreferiti.add(ristorante);
+
+            PreferitiCliente nuovaAss = new PreferitiCliente(username, nuoviPreferiti);
+            map.put(username, nuovaAss);
+
+            file.scrittura(nuovaAss); // Scrive il nuovo cliente e preferito nel file
+        }
+    }
+
+    /**
+     * Rimuove un ristorante dalla lista dei preferiti di un cliente.
+     * 
+     *  utente: il cliente da cui rimuovere il ristorante preferito.
+     *  ristorante: il ristorante da rimuovere dai preferiti del cliente.
+     */
+    public void remove(Utente utente, Ristorante ristorante) {
+        FilePreferitiCliente file = new FilePreferitiCliente();
+        String username = utente.getUsername();
+        if (map.containsKey(username)) {
+            PreferitiCliente preferenze = map.get(username);
+
+            if (preferenze.getRistorantiPreferiti().contains(ristorante)) {
+                preferenze.getRistorantiPreferiti().remove(ristorante); // Rimuove il ristorante dai preferiti
+                map.put(username, preferenze);
+                file.sovraScrivi(map); // Sovrascrive il file con le modifiche
+            }
+        }
+    }
+
+    /**
+     * Restituisce la chiave (username) dell'oggetto `PreferitiCliente`.
+     * 
+     *  preferitiCliente: l'oggetto `PreferitiCliente` di cui si vuole ottenere la chiave.
+     * Ritorna la chiave (username) dell'oggetto `PreferitiCliente`.
+     */
+    protected String getKey(PreferitiCliente preferitiCliente) {
+        return preferitiCliente.getUsernameCliente();
+    }
+
+    /**
+     * Legge i dati dal file e restituisce una mappa degli oggetti `PreferitiCliente`.
+     * 
+     * Ritorna la mappa contenente le associazioni tra username dei clienti e i loro ristoranti preferiti.
+     */
+    @Override
+    protected HashMap<String, PreferitiCliente> lettura() {
+        return FPC.ottieniHashMap(); // Ottiene la mappa dal file
+    }
+
+    /**
+     * Scrive un oggetto `PreferitiCliente` nel file.
+     * 
+     *  valore: l'oggetto `PreferitiCliente` da scrivere nel file.
+     */
+    @Override
+    protected void scrittura(PreferitiCliente valore) {
+        FPC.scrittura(valore); // Scrive il valore nel file
+    }
+
+    /**
+     * Sovrascrive la mappa completa degli oggetti `PreferitiCliente` nel file.
+     * 
+     *  map: la mappa da sovrascrivere nel file.
+     */
+    @Override
+    protected void sovrascrittura(HashMap<String, PreferitiCliente> map) {
+        FPC.sovraScrivi(map); // Sovrascrive la mappa nel file
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package repository;
+
+import repository.generico.HashMapService;
+import entita.dominio.Gestore;
+import entita.associazioni.Recensione;
+import entita.dominio.Ristorante;
+import gestioneFile.FileRecensioni;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * La classe `RecensioneService` gestisce le operazioni relative alle recensioni dei ristoranti, 
+ * consentendo di aggiungere recensioni, calcolare la media delle stelle per un ristorante e gestire 
+ * i dati delle recensioni attraverso la lettura e la scrittura in un file.
+ * 
+ * @author armuh
+ */
+public class RecensioneService extends HashMapService<Integer, Recensione> {
+
+    private static final FileRecensioni FR = new FileRecensioni();
+
+    private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
+    private static int ID = getID();
+
+    /**
+     * Calcola la media delle stelle per un ristorante specifico.
+     * 
+     *  r: il ristorante di cui si vuole calcolare la media delle stelle.
+     * Ritorna la media delle stelle per il ristorante, oppure 0 se non ci sono recensioni.
+     */
+    public float mediaStelle(Ristorante r) {
+        int somma = 0;
+        int ripetizioni = 0;
+        String nome = r.getNome();
+        // Calcola la somma delle stelle e il numero di recensioni per il ristorante
+        for (Recensione recensione : map.values()) {
+            if (recensione.getRistoranteRecensito().equals(nome)) {
+                somma += recensione.getStelle();
+                ripetizioni++;
+            }
+        }
+        try {
+            return (float) (somma / ripetizioni); // Restituisce la media delle stelle
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage()); // In caso di divisione per zero
+        }
+        return 0;
+    }
+
+    /**
+     * Calcola la media delle stelle di tutte le recensioni presenti.
+     * 
+     * Ritorna la media delle stelle di tutte le recensioni, oppure 0.0 se non ci sono recensioni.
+     */
+    public double mediaStelle() {
+        if (map == null || map.isEmpty()) {
+            return 0.0;  // nessuna recensione
+        }
+
+        double somma = 0.0;
+        // Calcola la somma di tutte le stelle delle recensioni
+        for (Recensione r : map.values()) {
+            somma += r.getStelle();
+        }
+
+        return somma / map.size(); // Restituisce la media di tutte le recensioni
+    }
+
+    /**
+     * Calcola la media delle stelle per ciascun ristorante posseduto da un gestore.
+     * 
+     *  gestore: il gestore per cui si vogliono calcolare le medie delle stelle dei suoi ristoranti.
+     * Ritorna una mappa contenente i ristoranti del gestore e la rispettiva media delle stelle.
+     */
+    public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
+        HashMap<Ristorante, Float> mediaStelleMap = new HashMap<>();
+        List<Ristorante> listaRistorantiPosseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
+        int sommaTot = 0;
+        int countTot = 0;
+        float mediaStelle = 0;
+        // Calcola la media delle stelle per ogni ristorante posseduto dal gestore
+        for (Ristorante ristoranteP : listaRistorantiPosseduti) {
+            int somma = 0;
+            int count = 0;
+            mediaStelle = 0;
+            for (Recensione recensione : map.values()) {
+                if (recensione.getRistoranteRecensito().equals(ristoranteP.getNome())) {
+                    somma += recensione.getStelle();
+                    count++;
+                }
+            }
+            try {
+                mediaStelle = somma / count;
+            } catch (ArithmeticException e) {
+                System.out.println("Il ristorante non ha recensioni");
+            }
+            mediaStelleMap.put(ristoranteP, mediaStelle); // Aggiunge la media per il ristorante
+            sommaTot += somma;
+            countTot++;
+        }
+        // da completare
+        return mediaStelleMap;
+    }
+
+    /**
+     * Restituisce la chiave (ID) dell'oggetto `Recensione`.
+     * 
+     *  recensione: l'oggetto `Recensione` di cui si vuole ottenere la chiave.
+     * Ritorna l'ID della recensione.
+     */
+    @Override
+    protected Integer getKey(Recensione recensione) {
+        return recensione.getID();
+    }
+
+    /**
+     * Ottiene l'ID massimo utilizzato per le recensioni.
+     * 
+     * Ritorna il prossimo ID disponibile per una nuova recensione.
+     */
+    public static int getID() {
+        HashMap<Integer, Recensione> map = FR.ottieniHashMap();
+        int id = 0;
+        for (Integer i : map.keySet()) {
+            if (i >= id) {
+                id = i; // Trova il massimo ID esistente
+            }
+        }
+        return id;
+    }
+
+    /**
+     * Incrementa e restituisce un nuovo ID per una recensione.
+     * 
+     * Ritorna il nuovo ID incrementato.
+     */
+    public static int incID() {
+        return ++ID;
+    }
+
+    /**
+     * Aggiunge una nuova recensione. Se la recensione e\' gia\' presente, solleva un'eccezione.
+     * 
+     *  valore: la recensione da aggiungere.
+     * Ritorna true se la recensione e\' stata aggiunta con successo, false altrimenti.
+     * @throws RuntimeException se la recensione e\' gia\' presente nel sistema.
+     */
+    @Override
+    public boolean add(Recensione valore) {
+        valore.setID(incID()); // Imposta un nuovo ID per la recensione
+        Integer chiave = getKey(valore);
+        if (map.containsKey(chiave)) {
+            throw new RuntimeException("Valore gia\' presente, utilizzare put");
+        }
+        map.put(chiave, valore);
+        scrittura(valore); // Scrive la recensione nel file
+        return true;
+    }
+
+    /**
+     * Legge i dati delle recensioni dal file e restituisce una mappa con tutte le recensioni.
+     * 
+     * Ritorna la mappa contenente tutte le recensioni con le loro chiavi (ID).
+     */
+    @Override
+    protected HashMap<Integer, Recensione> lettura() {
+        return FR.ottieniHashMap(); // Ottiene la mappa delle recensioni dal file
+    }
+
+    /**
+     * Scrive una recensione nel file.
+     * 
+     *  valore: la recensione da scrivere nel file.
+     */
+    @Override
+    protected void scrittura(Recensione valore) {
+        FR.scrittura(valore); // Scrive la recensione nel file
+    }
+
+    /**
+     * Sovrascrive l'intera mappa delle recensioni nel file.
+     * 
+     *  map: la mappa delle recensioni da sovrascrivere nel file.
+     */
+    @Override
+    protected void sovrascrittura(HashMap<Integer, Recensione> map) {
+        FR.sovraScrivi(map); // Sovrascrive la mappa nel file
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+package repository;
+
+import entita.associazioni.RispostaRecensioni;
+import gestioneFile.FileRispostaRecensioni;
+import java.util.HashMap;
+import repository.generico.HashMapService;
+
+/**
+ * La classe `RispostaRecensioniService` gestisce le operazioni relative alle risposte alle recensioni dei ristoranti, 
+ * permettendo di aggiungere risposte, e gestire i dati delle risposte attraverso la lettura e la scrittura in un file.
+ * 
+ * @author armuh
+ */
+public class RispostaRecensioniService extends HashMapService<Integer, RispostaRecensioni> {
+
+    private static final FileRispostaRecensioni FRR = new FileRispostaRecensioni();
+    private static int ID = 0;
+
+    /**
+     * Ottiene l'ID massimo utilizzato per le risposte alle recensioni.
+     * 
+     * Ritorna il prossimo ID disponibile per una nuova risposta alle recensioni.
+     */
+    public static int getID() {
+        HashMap<Integer, RispostaRecensioni> map = FRR.ottieniHashMap();
+        int id = 0;
+        for (Integer i : map.keySet()) {
+            if (i >= id) {
+                id = i; // Trova il massimo ID esistente
+            }
+        }
+        return id;
+    }
+
+    /**
+     * Incrementa e restituisce un nuovo ID per una risposta alla recensione.
+     * 
+     * Ritorna il nuovo ID incrementato.
+     */
+    public static int incID() {
+        return ++ID;
+    }
+
+    /**
+     * Aggiunge una nuova risposta alla recensione. Se la risposta e\' gia\' presente, solleva un'eccezione.
+     * 
+     *  valore La risposta da aggiungere.
+     * Ritorna true se la risposta e\' stata aggiunta con successo, false altrimenti.
+     * @throws RuntimeException se la risposta e\' gia\' presente nel sistema.
+     */
+    @Override
+    public boolean add(RispostaRecensioni valore) {
+        valore.setID(incID()); // Imposta un nuovo ID per la risposta
+        Integer chiave = getKey(valore);
+        if (map.containsKey(chiave)) {
+            throw new RuntimeException("Valore gia\' presente, utilizzare put");
+        }
+        map.put(chiave, valore);
+        scrittura(valore); // Scrive la risposta nel file
+        return true;
+    }
+
+    /**
+     * Restituisce la chiave (ID) dell'oggetto `RispostaRecensioni`.
+     * 
+     *  valore: l'oggetto `RispostaRecensioni` di cui si vuole ottenere la chiave.
+     * Ritorna l'ID della risposta alla recensione.
+     */
+    @Override
+    protected Integer getKey(RispostaRecensioni valore) {
+        return valore.getID();
+    }
+
+    /**
+     * Legge i dati delle risposte alle recensioni dal file e restituisce una mappa con tutte le risposte.
+     * 
+     * Ritorna la mappa contenente tutte le risposte con le loro chiavi (ID).
+     */
+    @Override
+    protected HashMap<Integer, RispostaRecensioni> lettura() {
+        return FRR.ottieniHashMap(); // Ottiene la mappa delle risposte dal file
+    }
+
+    /**
+     * Scrive una risposta alla recensione nel file.
+     * 
+     *  valore: la risposta da scrivere nel file.
+     */
+    @Override
+    protected void scrittura(RispostaRecensioni valore) {
+        FRR.scrittura(valore); // Scrive la risposta nel file
+    }
+
+    /**
+     * Sovrascrive l'intera mappa delle risposte nel file.
+     * 
+     *  map: la mappa delle risposte da sovrascrivere nel file.
+     */
+    @Override
+    protected void sovrascrittura(HashMap<Integer, RispostaRecensioni> map) {
+        FRR.sovraScrivi(map); // Sovrascrive la mappa nel file
+    }
+}
+
+
+
+
+
+
+
+
+
+
+package repository;
+
+import repository.generico.HashMapService;
+import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
+import entita.dominio.Ristorante;
+import gestioneFile.FileRistorante;
+import java.util.HashMap;
+
+/**
+ * La classe `RistoranteService` fornisce metodi per gestire i ristoranti, inclusi i controlli sul possesso e la proprieta\' dei ristoranti
+ * da parte dei gestori. Si occupa anche delle operazioni di lettura e scrittura su file per la gestione dei ristoranti.
+ * 
+ * @author armuh
+ */
+public class RistoranteService extends HashMapService<String, Ristorante> {
+
+    private static final FileRistorante FR = new FileRistorante();
+
+    /**
+     * Verifica se un ristorante e\' gia\' posseduto dal gestore specificato.
+     * 
+     *  utente: il gestore che si vuole verificare.
+     *  ristorante: il ristorante che si vuole verificare.
+     * Ritorna true se il ristorante e\' gia\' posseduto dal gestore, false altrimenti.
+     */
+    public boolean ristoranteGiaPossedutoDalGestore(Gestore utente, Ristorante ristorante) {
+        AssGestoreRistorantiService AGR = new AssGestoreRistorantiService();
+        HashMap<String, AssGestoreRistoranti> mappa = AGR.get();
+        AssGestoreRistoranti gestore = mappa.get(utente.getUsername());
+        return gestore != null && gestore.contains(ristorante);
+    }
+
+    /**
+     * Verifica se un ristorante ha un altro proprietario.
+     * 
+     *  utente: il gestore che si vuole verificare.
+     *  ristorante: il ristorante che si vuole verificare.
+     * Ritorna true se il ristorante ha un altro proprietario, false altrimenti.
+     */
+    public boolean ristoranteHaAltroProprietario(Gestore utente, Ristorante ristorante) {
+        AssGestoreRistorantiService AGRs = new AssGestoreRistorantiService();
+        HashMap<String, AssGestoreRistoranti> AGRsmap = AGRs.get();
+        for (AssGestoreRistoranti assGestoreRistoranti : AGRsmap.values()) {
+            if (assGestoreRistoranti.contains(ristorante)
+                    && !assGestoreRistoranti.getUsernameRistoratore().equals(utente.getUsername())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Ottiene la chiave (il nome) di un ristorante.
+     * 
+     *  ristorante: il ristorante di cui si vuole ottenere la chiave.
+     * Ritorna la chiave, ovvero il nome del ristorante.
+     */
+    protected String getKey(Ristorante ristorante) {
+        return ristorante.getNome();
+    }
+
+    /**
+     * Legge i dati dei ristoranti dal file e li restituisce come una mappa.
+     * 
+     * Ritorna la mappa dei ristoranti letta dal file.
+     */
+    @Override
+    protected HashMap<String, Ristorante> lettura() {
+        return FR.ottieniHashMap(); // Ottiene la mappa dei ristoranti dal file
+    }
+
+    /**
+     * Scrive un ristorante nel file.
+     * 
+     *  valore Il ristorante da scrivere nel file.
+     */
+    @Override
+    protected void scrittura(Ristorante valore) {
+        FR.scrittura(valore); // Scrive il ristorante nel file
+    }
+
+    /**
+     * Sovrascrive l'intera mappa dei ristoranti nel file.
+     * 
+     *  map: la mappa dei ristoranti da sovrascrivere nel file.
+     * @throws UnsupportedOperationException Se il metodo non e\' supportato.
+     */
+    @Override
+    protected void sovrascrittura(HashMap<String, Ristorante> map) {
+        throw new UnsupportedOperationException("Not supported yet."); // Il metodo non e\' supportato
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package repository;
+
+import repository.generico.HashMapService;
+import entita.dominio.Utente;
+import gestioneFile.FileUtenti;
+import java.util.HashMap;
+
+/**
+ * La classe `UtenteService` gestisce le operazioni relative agli utenti. Estende la classe generica `HashMapService`
+ * e si occupa delle operazioni di lettura e scrittura degli utenti, interagendo con il file di archiviazione.
+ * 
+ * @author armuh
+ */
+public class UtenteService extends HashMapService<String, Utente> {
+
+    private static final FileUtenti FU = new FileUtenti();
+
+    /**
+     * Ottiene la chiave per un dato utente, che in questo caso e\' il suo nome utente.
+     * 
+     *  utente: l'utente di cui si vuole ottenere la chiave.
+     * Ritorna la chiave dell'utente, che e\' il suo nome utente.
+     */
+    @Override
+    protected String getKey(Utente utente) {
+        return utente.getUsername();  // Restituisce il nome utente come chiave
+    }
+
+    /**
+     * Legge i dati degli utenti dal file e li restituisce come una mappa.
+     * 
+     * Ritorna la mappa degli utenti letta dal file.
+     */
+    @Override
+    protected HashMap<String, Utente> lettura() {
+        return FU.ottieniHashMap(); // Ottiene la mappa degli utenti dal file
+    }
+
+    /**
+     * Scrive un utente nel file.
+     * 
+     *  valore: l'utente da scrivere nel file.
+     */
+    @Override
+    protected void scrittura(Utente valore) {
+        FU.scrittura(valore);  // Scrive l'utente nel file
+    }
+
+    /**
+     * Sovrascrive l'intera mappa degli utenti nel file. 
+     * Questo metodo non e\' attualmente supportato e lancia un'eccezione.
+     * 
+     *  map: la mappa degli utenti da sovrascrivere nel file.
+     * @throws UnsupportedOperationException Se il metodo non e\' supportato.
+     */
+    @Override
+    protected void sovrascrittura(HashMap<String, Utente> map) {
+        throw new UnsupportedOperationException("Not supported yet."); // Il metodo non e\' supportato
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package repository.generico;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+/**
+ * La classe astratta `HashMapService` fornisce metodi generici per la gestione di un
+ * contenitore di tipo `HashMap`, supportando operazioni come l'aggiunta, la rimozione, 
+ * l'aggiornamento e la lettura degli elementi. Ogni operazione e\' interfacciata con un
+ * sistema di archiviazione tramite i metodi astratti `lettura()`, `scrittura()` e 
+ * `sovrascrittura()`, che devono essere implementati dalle classi concrete.
+ *
+ *  <K> Il tipo della chiave utilizzata nella mappa.
+ *  <V> Il tipo del valore memorizzato nella mappa.
+ * 
+ * @author armuh
+ */
+public abstract class HashMapService<K, V> implements Service<K, V> {
+
+    /**
+     * La mappa di oggetti che contiene le coppie chiave-valore.
+     */
+    protected HashMap<K, V> map = lettura();
+
+    /**
+     * Aggiunge un valore alla mappa se la chiave non esiste gia\'.
+     * Se la chiave e\' gia\' presente, non viene aggiunto nulla.
+     * 
+     *  valore: l'oggetto da aggiungere alla mappa.
+     * Ritorna `true` se l'oggetto e\' stato aggiunto, `false` se la chiave e\' gia\' presente.
+     */
+    @Override
+    public boolean add(V valore) {
+        K chiave = getKey(valore);
+        if (map.containsKey(chiave)) {
+            return false;
+        }
+        map.put(chiave, valore);
+        scrittura(valore);
+        return true;
+    }
+
+    /**
+     * Restituisce il valore associato alla chiave specificata.
+     * 
+     *  chiave: la chiave del valore da recuperare.
+     * Ritorna il valore associato alla chiave, oppure `null` se la chiave non esiste.
+     */
+    @Override
+    public V get(K chiave) {
+        return map.get(chiave);
+    }
+
+    /**
+     * Rimuove l'elemento dalla mappa associato alla chiave specificata.
+     * Dopo la rimozione, sovrascrive la mappa.
+     * 
+     *  chiave: la chiave dell'elemento da rimuovere.
+     *  elemento: l'elemento da rimuovere.
+     * Ritorna `true` se l'elemento e\' stato rimosso, `false` altrimenti.
+     */
+    @Override
+    public boolean remove(K chiave, V elemento) {
+        boolean b = map.remove(chiave, elemento);
+        sovrascrittura(map);
+        return b;
+    }
+
+    /**
+     * Aggiunge o sostituisce un valore nella mappa per la chiave specificata.
+     * Dopo l'aggiornamento, sovrascrive la mappa.
+     * 
+     *  chiave: la chiave associata al valore.
+     *  valore: il valore da inserire o aggiornare.
+     * Ritorna `true` se il valore era gia\' presente e stato sostituito, `false` se era nuovo.
+     */
+    @Override
+    public boolean put(K chiave, V valore) {
+        V v = map.put(chiave, valore);
+        sovrascrittura(map);
+        return v != null;
+    }
+
+    /**
+     * Imposta una nuova mappa di oggetti.
+     * 
+     *  map: la nuova mappa da impostare.
+     */
+    public void set(HashMap<K, V> map) {
+        this.map = map;
+    }
+
+    /**
+     * Restituisce la mappa corrente di oggetti.
+     * 
+     * Ritorna la mappa corrente.
+     */
+    public HashMap<K, V> get() {
+        return this.map;
+    }
+
+    /**
+     * Verifica se una chiave esiste nella mappa.
+     * 
+     *  chiave: la chiave da cercare nella mappa.
+     * Ritorna `true` se la chiave esiste, `false` altrimenti.
+     */
+    public boolean containsKey(K chiave) {
+        return map.containsKey(chiave);
+    }
+
+    /**
+     * Restituisce una collezione di tutti i valori presenti nella mappa.
+     * 
+     * Ritorna una collezione di tutti i valori della mappa.
+     */
+    public Collection<V> values() {
+        return map.values();
+    }
+
+    /**
+     * Metodo astratto per ottenere la chiave associata ad un dato valore.
+     * 
+     *  valore: il valore di cui ottenere la chiave.
+     * Ritorna la chiave associata al valore.
+     */
+    protected abstract K getKey(V valore);
+
+    /**
+     * Metodo astratto per leggere la mappa dal sistema di archiviazione.
+     * 
+     * Ritorna la mappa letta.
+     */
+    protected abstract HashMap<K, V> lettura();
+
+    /**
+     * Metodo astratto per scrivere un valore nel sistema di archiviazione.
+     * 
+     *  valore: il valore da scrivere.
+     */
+    protected abstract void scrittura(V valore);
+
+    /**
+     * Metodo astratto per sovrascrivere l'intera mappa nel sistema di archiviazione.
+     * 
+     *  map: la mappa da sovrascrivere.
+     */
+    protected abstract void sovrascrittura(HashMap<K, V> map);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package repository.generico;
+
+/**
+ * L'interfaccia `Service` definisce i metodi CRUD (Create, Read, Update, Delete) 
+ * di base per la gestione di un oggetto di tipo `V` associato a una chiave di tipo `K`.
+ * Le classi che implementano questa interfaccia devono fornire una logica per aggiungere, 
+ * ottenere, rimuovere e aggiornare elementi.
+ *
+ *  <K> Il tipo della chiave utilizzata per identificare un valore.
+ *  <V> Il tipo del valore che sara\' gestito dal servizio.
+ * 
+ * @author armuh
+ */
+public interface Service<K, V> {
+
+    /**
+     * Aggiunge un valore al servizio se la chiave non esiste gia\'.
+     * 
+     *  valore: l'oggetto da aggiungere.
+     * Ritorna `true` se il valore e\' stato aggiunto con successo, `false` se la chiave esiste gia\'.
+     */
+    public boolean add(V valore);
+
+    /**
+     * Recupera un valore associato alla chiave specificata.
+     * 
+     *  chiave: la chiave per cui si desidera ottenere il valore.
+     * Ritorna il valore associato alla chiave, o `null` se la chiave non esiste.
+     */
+    public V get(K chiave);
+
+    /**
+     * Rimuove un valore dalla mappa utilizzando la chiave specificata.
+     * 
+     *  chiave: la chiave dell'elemento da rimuovere.
+     *  elemento: l'elemento da rimuovere.
+     * Ritorna `true` se l'elemento e\' stato rimosso con successo, `false` se l'elemento non esiste.
+     */
+    public boolean remove(K chiave, V elemento);
+
+    /**
+     * Aggiunge o aggiorna un valore associato alla chiave specificata.
+     * 
+     *  chiave: la chiave a cui associare il valore.
+     *  valore: il valore da aggiungere o aggiornare.
+     * Ritorna `true` se l'elemento e\' stato aggiornato con successo, `false` altrimenti.
+     */
+    public boolean put(K chiave, V valore);
+}
+
+
+
+
+
+
+
+
+
+package theknife;
+
+import menu.GestioneMenu;
+
+/**
+ * La classe `TheKnife` e\' la classe principale che avvia l'applicazione. 
+ * Quando l'applicazione viene eseguita, crea un'istanza della classe `GestioneMenu` 
+ * per gestire il menu principale del programma.
+ * 
+ * Questa classe contiene il metodo `main` che funge da punto di ingresso per l'esecuzione 
+ * del programma. Il suo unico scopo e\' avviare l'interfaccia di gestione del menu.
+ * 
+ * @author armuh
+ */
+public class TheKnife {
+
+    /**
+     * Il metodo `main` e\' il punto di ingresso dell'applicazione. 
+     * Crea un'istanza della classe `GestioneMenu` per iniziare la gestione 
+     * del menu del programma.
+     * 
+     *  args Gli argomenti passati dalla linea di comando (non utilizzati in questo caso).
+     */
+    public static void main(String[] args) {
+        GestioneMenu menu = new GestioneMenu();
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
