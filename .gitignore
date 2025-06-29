@@ -1,18 +1,18 @@
 /build/
 /dist/
 # Ignora configurazioni locali di NetBeans
-#nbproject/private/
-#nbproject/genfiles.properties
-#nbproject/build-impl.xml
+nbproject/private/
+nbproject/genfiles.properties
+nbproject/build-impl.xml
 
 # Facoltativo: ignora file di proprietà utente se ne usi uno
 *.properties.local
 *.user.properties
 
-#git rm --cached nbproject/private/private.properties
-#git rm --cached nbproject/private/private.xml
-#git rm --cached nbproject/private/config.properties
-#git rm --cached nbproject/build-impl.xml
-#git rm --cached nbproject/genfiles.properties
-#git rm --cached nbproject/project.properties
-#git rm --cached nbproject/project.xml
+git rm --cached nbproject/private/private.properties
+git rm --cached nbproject/private/private.xml
+git rm --cached nbproject/private/config.properties
+git rm --cached nbproject/build-impl.xml
+git rm --cached nbproject/genfiles.properties
+git rm --cached nbproject/project.properties
+git rm --cached nbproject/project.xml
