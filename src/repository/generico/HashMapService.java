@@ -29,6 +29,7 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
 
     @Override
     public V get(K chiave) {
+        map = lettura();
         return map.get(chiave);
     }
 

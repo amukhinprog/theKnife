@@ -92,7 +92,7 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
         float sommaTot = 0;
         int count = 0;
         for (Ristorante ristoranteChiave : mediaStelle.keySet()) {
-            System.out.println(ristoranteChiave.getNome() + "\t" + mediaStelle.get(ristoranteChiave));
+            System.out.println(ristoranteChiave.getNome() + "\t\t\t" + mediaStelle.get(ristoranteChiave));
             count++;
             sommaTot += mediaStelle.get(ristoranteChiave);
         }

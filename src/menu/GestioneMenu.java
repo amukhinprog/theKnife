@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -110,6 +110,8 @@ public class GestioneMenu {
                 case 1:
                     ristoranteUI.cerca();
                     break;
+                case 0:
+                    break;
             }
         } while (scelta != 0);
     }
@@ -144,6 +146,8 @@ public class GestioneMenu {
                     break;
                 case 4:
                     rispostaRecensioniUI.add(utente);
+                    break;
+                case 0:
                     break;
                 default:
                     System.out.println("Inserisci il numero corretto");
@@ -200,6 +204,8 @@ public class GestioneMenu {
                     break;
                 case 8:
                     ristoranteUI.cerca();
+                    break;
+                case 0:
                     break;
                 default:
                     System.out.println("inserisci il numero corretto");
