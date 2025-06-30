@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -10,6 +10,7 @@ import entita.dominio.Gestore;
 import entita.Ruolo;
 import entita.dominio.Utente;
 import gestioneFile.FileUtenti;
+import java.io.Console;
 import java.time.LocalDate;
 import java.util.Scanner;
 import repository.UtenteService;
@@ -23,6 +24,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
     private static FileUtenti fileUtenti = new FileUtenti();
     private Scanner scanner;
     private UtenteService utenteServ;
+    private Console console = System.console();
 
     public UtenteUI(Scanner scanner, UtenteService utenteServ) {
         this.scanner = scanner;
@@ -43,9 +45,15 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
             System.out.println("Username (inesistente): ");
             username = scanner.next();
         } while (utenteServ.containsKey(username));
-
         System.out.println("Password: ");
-        String password = scanner.next();
+        String password;
+        if (console == null) {
+            password = scanner.next();
+
+        } else {
+            char[] passwordTemp = console.readPassword();
+            password = new String(passwordTemp);
+        }
 
         System.out.println("Data di nascita (YYYY-MM-DD): ");
         dataProvvisoria = scanner.next();
@@ -73,7 +81,14 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         String username = scanner.next();
 
         System.out.println("Password: ");
-        String password = scanner.next();
+        String password;
+        if (console == null) {
+            password = scanner.next();
+
+        } else {
+            char[] passwordTemp = console.readPassword();
+            password = new String(passwordTemp);
+        }
 
         if ((utenteServ.get(username) != null & (utenteServ.get(username).getPassword().compareTo(password)) == 0)) {
             return utenteServ.get(username);
