@@ -11,6 +11,7 @@ import entita.Ruolo;
 import entita.dominio.Utente;
 import gestioneFile.FileUtenti;
 import java.io.Console;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Scanner;
 import repository.UtenteService;
@@ -59,10 +60,18 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
             password = new String(passwordTemp);
         }
         scanner.nextLine();
-        System.out.println("Data di nascita (YYYY-MM-DD): ");
-        dataProvvisoria = scanner.next();
-        LocalDate dataNascita = LocalDate.parse(dataProvvisoria);
-
+        boolean dataNascitaValida = false;
+        LocalDate dataNascita = null;
+        do {
+            System.out.println("Data di nascita (YYYY-MM-DD): ");
+            dataProvvisoria = scanner.next();
+            try {
+                dataNascita = LocalDate.parse(dataProvvisoria);
+                dataNascitaValida = true;
+            } catch (DateTimeException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!dataNascitaValida);
         scanner.nextLine();
         System.out.println("Domicilio: ");
         String luogoDomicilio = scanner.nextLine();
