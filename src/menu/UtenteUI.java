@@ -55,6 +55,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
             for (int i = 0; i < passwordTemp.length; i++) {
                 System.out.print("*");
             }
+            System.out.println("");
             password = new String(passwordTemp);
         }
         scanner.nextLine();
@@ -85,7 +86,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         String username = scanner.next();
 
         System.out.println("Password: ");
-        String password = null;
+        String password;
         if (console == null) {
             password = scanner.nextLine();
 
@@ -95,6 +96,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
                 System.out.print("*");
             }
             System.out.println("");
+            password = new String(passwordTemp);
         }
 
         if ((utenteServ.get(username) != null & (utenteServ.get(username).getPassword().compareTo(password)) == 0)) {

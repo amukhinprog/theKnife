@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -59,7 +59,11 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
             }
         }
         if (!ristorantiPossedutiRecensiti.isEmpty()) {
-            System.out.println(ristorantiPossedutiRecensiti.toString());
+            for (Integer i : ristorantiPossedutiRecensiti.keySet()) {
+                System.out.println("ID: " + i);
+                System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i).getNome());
+                System.out.println("Recensione: "+ recensioniMap.get(i).getTesto());
+            }
             int scelta = 0;
             while (!ristorantiPossedutiRecensiti.containsKey(scelta) || ristorantiPossedutiRecensiti.isEmpty()) {
                 System.out.println("Scegliere uno tra questi ristoranti (ID): ");
