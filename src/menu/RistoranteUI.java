@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -40,20 +40,20 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         String nome;
         do {
             System.out.println("Nome: ");
-            nome = scanner.next();
+            nome = scanner.nextLine();
         } while (ristoranteServ.containsKey(nome));
 
         System.out.println("Indirizzo: ");
-        String indirizzo = scanner.next();
+        String indirizzo = scanner.nextLine();
 
         System.out.println("Locazione: ");
-        String locazione = scanner.next();
+        String locazione = scanner.nextLine();
 
         System.out.println("Prezzo: ");
         float prezzo = scanner.nextFloat();
 
         System.out.println("Cucina:");
-        String cucina = scanner.next();
+        String cucina = scanner.nextLine();
 
         System.out.println("Longitudine: ");
         float longitudine = scanner.nextFloat();
@@ -68,10 +68,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         boolean delivery = scanner.nextBoolean();
 
         System.out.println("Url:");
-        String url = scanner.next();
+        String url = scanner.nextLine();
 
         System.out.println("Website Url:");
-        String webSiteUrl = scanner.next();
+        String webSiteUrl = scanner.nextLine();
 
         System.out.println("Prenotazione: ");
         boolean prenotazione = scanner.nextBoolean();
@@ -88,6 +88,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 //        System.out.println(ristoranti);
 
         for (Ristorante ristorante : ristoranti) {
+            System.out.println("Nome: " + ristorante.getNome());
             System.out.println("Locazione: " + ristorante.getLocazione());
             System.out.println("Prezzo: " + ristorante.getPrezzo() + " euro");
             System.out.println("Tipo cucina: " + ristorante.getCucina());

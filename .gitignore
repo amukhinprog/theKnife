@@ -17,3 +17,4 @@ git rm --cached nbproject/build-impl.xml
 git rm --cached nbproject/genfiles.properties
 git rm --cached nbproject/project.properties
 git rm --cached nbproject/project.xml
+/build/

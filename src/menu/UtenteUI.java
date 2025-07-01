@@ -33,12 +33,12 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     private Utente registrazione() {
         String dataProvvisoria;
-
+        scanner.nextLine();
         System.out.println("Nome: ");
-        String nome = scanner.next();
+        String nome = scanner.nextLine();
 
         System.out.println("Cognome: ");
-        String cognome = scanner.next();
+        String cognome = scanner.nextLine();
 
         String username;
         do {
@@ -48,19 +48,23 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         System.out.println("Password: ");
         String password;
         if (console == null) {
-            password = scanner.next();
+            password = scanner.nextLine();
 
         } else {
             char[] passwordTemp = console.readPassword();
+            for (int i = 0; i < passwordTemp.length; i++) {
+                System.out.print("*");
+            }
             password = new String(passwordTemp);
         }
-
+        scanner.nextLine();
         System.out.println("Data di nascita (YYYY-MM-DD): ");
         dataProvvisoria = scanner.next();
         LocalDate dataNascita = LocalDate.parse(dataProvvisoria);
 
+        scanner.nextLine();
         System.out.println("Domicilio: ");
-        String luogoDomicilio = scanner.next();
+        String luogoDomicilio = scanner.nextLine();
 
         System.out.println("Ruolo: ");//impreciso
         String ruolo = inserisciRuolo();
@@ -81,13 +85,16 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         String username = scanner.next();
 
         System.out.println("Password: ");
-        String password;
+        String password = null;
         if (console == null) {
-            password = scanner.next();
+            password = scanner.nextLine();
 
         } else {
             char[] passwordTemp = console.readPassword();
-            password = new String(passwordTemp);
+            for (int i = 0; i < passwordTemp.length; i++) {
+                System.out.print("*");
+            }
+            System.out.println("");
         }
 
         if ((utenteServ.get(username) != null & (utenteServ.get(username).getPassword().compareTo(password)) == 0)) {

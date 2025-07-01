@@ -120,7 +120,7 @@ public class GestioneMenu {
         int scelta = 0;
         boolean valido = false;
         do {
-            System.out.println("1. Aggiungi ristorante di proprietà");
+            System.out.println("1. Aggiungi ristorante di proprietà (esistenti nel database)");
             System.out.println("2. Ricerca ristoranti");
             System.out.println("3. Visualizza media valutazioni");
             System.out.println("4. Rispondi alle recensioni");
