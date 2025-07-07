@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class FileUtenti extends GestioneFile<String, Utente> {
 
-    private static String percorsoFile = "..\\data\\utenti.csv";
+    private static String percorsoFile = "..\\theKnife\\data\\utenti.csv";
 
     public static String getPercorsoFile() {
         return percorsoFile;

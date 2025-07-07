@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class FileRecensioni extends GestioneFile<Integer, Recensione> {
 
-    private static String percorsoFile = "..\\data\\recensioni_ristoranti.csv";
+    private static String percorsoFile = "..\\theKnife\\data\\recensioni_ristoranti.csv";
 
     @Override
     public HashMap<Integer, Recensione> ottieniHashMap() {
