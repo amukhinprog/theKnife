@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 import repository.PreferitiClienteService;
 import repository.RistoranteService;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -32,13 +33,22 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
 
     private Ristorante chiediRistorante() {
         String nomeRistorante;
-        scanner.nextLine();
-        do {
+        try{
+            scanner.nextLine();
+            do {
             System.out.println("Inserire il nome del ristorante: ");
             nomeRistorante = scanner.nextLine();
-        } while (!ristoranteServ.containsKey(nomeRistorante));
+               if (!ristoranteServ.containsKey(nomeRistorante)){
+                System.out.println("Ristorante non trovato. Riprova.");
+               }
+            } while (!ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
+
+    } catch (NoSuchElementException | IllegalStateException e) {
+        System.out.println("Interruzione rilevata o input non valido. Operazione annullata.");
+        return null; 
     }
+}
 
     public void aggiungi(Utente utente) {
         if (get(utente) != null) {
@@ -51,6 +61,7 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     @Override
     public boolean add(Utente valore) {
         Ristorante r = chiediRistorante();
+        if (r == null) return false;
         List<Ristorante> ristorantiList = new ArrayList<>();
         ristorantiList.add(r);
         PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiList);
@@ -60,6 +71,7 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     @Override
     public boolean remove(Utente utente) {
         Ristorante ristorante = chiediRistorante();
+        if (ristorante == null) return false;
         PreferitiCliente preferitiCliente = get(utente);
         List<Ristorante> ristorantiList = preferitiCliente.getRistorantiPreferiti();
         ristorantiList.remove(ristorante);
@@ -75,6 +87,7 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     @Override
     public boolean put(Utente valore) {
         Ristorante r = chiediRistorante();
+        if (r == null) return false;
         List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
         if (!ristorantiListValore.contains(r)) {
             ristorantiListValore.add(r);

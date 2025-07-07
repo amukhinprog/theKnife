@@ -136,4 +136,8 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
         FR.sovraScrivi(map);
     }
 
+    public boolean remove(int sceltaID) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

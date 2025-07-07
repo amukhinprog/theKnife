@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 import repository.RecensioneService;
 import repository.RistoranteService;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -38,12 +39,33 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
         System.out.println("Modifica la tua recensione");
         LocalDate data = LocalDate.now();
         System.out.println("Scegli il numero di stelle (1-5): ");
-        short stelle = scanner.nextShort();
-        scanner.nextLine();
+        short stelle;
+
+        while (true) {
+            try {
+                System.out.print("Scegli il numero di stelle (1-5): ");
+                stelle = Short.parseShort(scanner.nextLine());
+                if (stelle >= 1 && stelle <= 5) {
+                    break;
+                }
+                System.out.println("Valore non valido. Inserisci un numero tra 1 e 5.");
+            } catch (NumberFormatException | NoSuchElementException e) {
+                System.out.println("Input non valido. Operazione annullata.");
+                return null;
+            }
+        }
+
         recensione.setStelle(stelle);
-        System.out.println("Modifica il testo: ");
-        String testo = scanner.nextLine();
-        recensione.setTesto(testo);
+
+        System.out.print("Modifica il testo: ");
+        try {
+            String testo = scanner.nextLine();
+            recensione.setTesto(testo);
+        } catch (NoSuchElementException e) {
+            System.out.println("Input interrotto. Operazione annullata.");
+            return null;
+        }
+
         return recensione;
     }
 
@@ -51,18 +73,34 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
     public boolean add(Utente utente) {
         System.out.println("Recensione ristorante");
         String nomeRistorante;
-        do {
-            System.out.println("Inserire il nome del ristorante: ");
-            nomeRistorante = scanner.nextLine();
-        } while (!ristoranteServ.containsKey(nomeRistorante));
+
+        try {
+            do {
+                System.out.print("Inserire il nome del ristorante: ");
+                nomeRistorante = scanner.nextLine();
+                if (!ristoranteServ.containsKey(nomeRistorante)) {
+                    System.out.println("Ristorante non trovato. Riprova.");
+                }
+            } while (!ristoranteServ.containsKey(nomeRistorante));
+        } catch (NoSuchElementException e) {
+            System.out.println("Input interrotto. Operazione annullata.");
+            return false;
+        }
         short nStelle;
         do {
             System.out.println("Inserire il numero di stelle (1-5):");
             nStelle = scanner.nextShort();
             scanner.nextLine();
         } while (nStelle > 5 || nStelle < 1);
-        System.out.println("Inserire il testo");
-        String testo = scanner.nextLine();
+        System.out.println("Inserire il testo:");
+        String testo;
+        try {
+            testo = scanner.nextLine();
+        } catch (NoSuchElementException e) {
+            System.out.println("Input interrotto. Operazione annullata.");
+            return false;
+        }
+
         Recensione r = new Recensione(-1, utente.getUsername(), nStelle, testo, LocalDate.now(), nomeRistorante);
         return recServ.add(r);
     }
@@ -72,7 +110,14 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
         visualizza(utente);
         Recensione recensioneNuova = new Recensione();
         System.out.println("Scegliere la recensione da modificare (ID): ");
-        Integer sceltaID = scanner.nextInt();
+        int sceltaID;
+        try {
+            sceltaID = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException | NoSuchElementException e) {
+            System.out.println("ID non valido. Operazione annullata.");
+            return false;
+        }
+
         recensioneNuova = modificaInformazioni(recServ.get().get(sceltaID));
         return recServ.put(recensioneNuova.getID(), recensioneNuova);
     }
@@ -81,28 +126,38 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
     public boolean remove(Utente utente) {
         visualizza(utente);
         System.out.println("Scegliere la recensione da eliminare (ID): ");
-        Integer sceltaID = scanner.nextInt();
-        Recensione recensione = recServ.get(sceltaID);
-        return recServ.remove(sceltaID, recensione);
+        int sceltaID;
+
+        try {
+            sceltaID = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException | NoSuchElementException e) {
+            System.out.println("ID non valido. Operazione annullata.");
+            return false;
+        }
+
+        return recServ.remove(sceltaID);
     }
 
     public void mediaStelle(Gestore gestore) {
         HashMap<Ristorante, Float> mediaStelle = recServ.mediaStelle(gestore);
         System.out.println("Ristorante\tMedia stelle");
+
         float sommaTot = 0;
         int count = 0;
-        for (Ristorante ristoranteChiave : mediaStelle.keySet()) {
-            System.out.println(ristoranteChiave.getNome() + "\t\t\t" + mediaStelle.get(ristoranteChiave));
+
+        for (Ristorante ristorante : mediaStelle.keySet()) {
+            Float media = mediaStelle.get(ristorante);
+            System.out.println(ristorante.getNome() + "\t\t\t" + media);
+            sommaTot += media;
             count++;
-            sommaTot += mediaStelle.get(ristoranteChiave);
         }
-        float mediaTot = 0;
-        try {
-            mediaTot = sommaTot / count;
-        } catch (ArithmeticException e) {
-            System.out.println(e.getMessage());
+
+        if (count > 0) {
+            float mediaTot = sommaTot / count;
+            System.out.printf("Media totale: %.2f%n", mediaTot);
+        } else {
+            System.out.println("Nessuna recensione disponibile.");
         }
-        System.out.println("Media totale: " + mediaTot);
     }
 
     @Override

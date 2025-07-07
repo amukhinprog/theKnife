@@ -51,7 +51,7 @@ public class Ristorante implements Dominio {
 
     public static final Ristorante ristoranteVuoto() {
         return new Ristorante();
-    }
+    }//il costruttore privato assicura che gli oggetti Ristorante vengano creati solo attraverso il metodo ristoranteVuoto()
 
     @Override
     public boolean equals(Object obj) {

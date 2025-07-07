@@ -44,8 +44,9 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         String username;
         do {
             System.out.print("Username: ");
-            username = scanner.next();
+            username = scanner.nextLine();
         } while (utenteServ.containsKey(username));
+        
         System.out.print("Password: ");
         String password;
         if (console == null) {

@@ -12,6 +12,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import repository.RistoranteService;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -43,45 +44,61 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             nome = scanner.nextLine();
         } while (ristoranteServ.containsKey(nome));
 
-        System.out.println("Indirizzo: ");
-        String indirizzo = scanner.nextLine();
+        try {
+            System.out.println("Indirizzo: ");
+            String indirizzo = scanner.nextLine();
 
-        System.out.println("Locazione: ");
-        String locazione = scanner.nextLine();
+            System.out.println("Locazione: ");
+            String locazione = scanner.nextLine();
 
-        System.out.println("Prezzo: ");
-        float prezzo = scanner.nextFloat();
+            float prezzo;
+            while (true) {
+                System.out.print("Prezzo: ");
+                String input = scanner.nextLine();
+                try {
+                    prezzo = Float.parseFloat(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Inserisci un numero valido per il prezzo.");
+                }
+            }
 
-        System.out.println("Cucina:");
-        String cucina = scanner.nextLine();
+            System.out.println("Cucina:");
+            String cucina = scanner.nextLine();
 
-        System.out.println("Longitudine: ");
-        float longitudine = scanner.nextFloat();
+            System.out.println("Longitudine: ");
+            float longitudine = scanner.nextFloat();
+            scanner.nextLine(); // Consuma newline
 
-        System.out.println("Latitudine: ");
-        float latitudine = scanner.nextFloat();
+            System.out.println("Latitudine: ");
+            float latitudine = scanner.nextFloat();
+            scanner.nextLine(); // Consuma newline
 
-        System.out.println("Numero di telefono: ");
-        String numeroTelefono = scanner.next();
+            System.out.println("Numero di telefono: ");
+            String numeroTelefono = scanner.nextLine();
 
-        System.out.println("Delivery: ");
-        boolean delivery = scanner.nextBoolean();
+            System.out.println("Delivery: ");
+            boolean delivery = scanner.nextBoolean();
 
-        System.out.println("Url:");
-        String url = scanner.nextLine();
+            System.out.println("Url:");
+            String url = scanner.nextLine();
 
-        System.out.println("Website Url:");
-        String webSiteUrl = scanner.nextLine();
+            System.out.println("Website Url:");
+            String webSiteUrl = scanner.nextLine();
 
-        System.out.println("Prenotazione: ");
-        boolean prenotazione = scanner.nextBoolean();
+            System.out.println("Prenotazione: ");
+            boolean prenotazione = scanner.nextBoolean();
 
-        System.out.println("Descrizione: ");
-        String descrizione = scanner.next();
-
+            System.out.println("Descrizione: ");
+            String descrizione = scanner.nextLine();
 //        System.out.println("Stelle: ");
 //        short stelle = scanner.nextShort();
-        return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine, numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione/*, stelle*/);
+            return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine,
+                    numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione);
+        } catch (NoSuchElementException e) {
+            System.out.println("Input interrotto. Operazione annullata.");
+            return null;
+        }
     }
 
     public void visualizza(List<Ristorante> ristoranti) {
@@ -115,10 +132,13 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         System.out.println("Inserire 7 per cercare un ristorante per combinazione dei precedenti criteri di ricerca")*;*/
 
         try {
-            scelta = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println(e.getMessage());
+            String input = scanner.nextLine();
+            scelta = Integer.parseInt(input);
+        } catch (NumberFormatException | NoSuchElementException e) {
+            System.out.println("Input non valido o interrotto. Operazione annullata.");
+            return;
         }
+
         switch (scelta) {
             case 1:
                 cercaPerLocazione();
@@ -150,7 +170,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     private void cercaPerLocazione() {
         System.out.println("Inserire il nome della citta': ");
-        String locazione = scanner.next();
+        String locazione = scanner.nextLine();
         locazione = locazione.toLowerCase();
         /////QKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
@@ -166,7 +186,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     private void cercaPerCucina() {
         System.out.println("Inserire la tipologia di cucina del ristorante : ");
-        String cucina = scanner.next();
+        String cucina = scanner.nextLine();
         cucina = cucina.toLowerCase();
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
         List<Ristorante> ristorantiList = new ArrayList<>();
@@ -286,6 +306,9 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     public Ristorante add() {
         Ristorante ristorante;
         ristorante = chiedi();
+        if (ristorante == null) {
+            return null;
+        }
         ristoranteServ.add(ristorante);
         return ristorante;
     }

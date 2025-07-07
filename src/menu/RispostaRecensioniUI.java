@@ -18,6 +18,7 @@ import java.util.Scanner;
 import repository.AssGestoreRistorantiService;
 import repository.RecensioneService;
 import repository.RispostaRecensioniService;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -49,6 +50,10 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
 //        System.out.println(recensioneServ.get());
         HashMap<Integer, Recensione> recensioniMap = recensioneServ.get();
         AssGestoreRistoranti assGestoreRistoranti = assGestoreRistorantiServ.get(username);
+        if (assGestoreRistoranti == null) {
+            System.out.println("Nessun ristorante associato al gestore.");
+            return null;
+        }
         List<Ristorante> ristorantiPossedutiList = assGestoreRistoranti.getRistorantiList();
         HashMap<Integer, Ristorante> ristorantiPossedutiRecensiti = new HashMap<>();
         for (Ristorante ristorantePosseduto : ristorantiPossedutiList) {
@@ -62,17 +67,30 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
             for (Integer i : ristorantiPossedutiRecensiti.keySet()) {
                 System.out.println("ID: " + i);
                 System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i).getNome());
-                System.out.println("Recensione: "+ recensioniMap.get(i).getTesto());
+                System.out.println("Recensione: " + recensioniMap.get(i).getTesto());
             }
             int scelta = 0;
             while (!ristorantiPossedutiRecensiti.containsKey(scelta) || ristorantiPossedutiRecensiti.isEmpty()) {
                 System.out.println("Scegliere uno tra questi ristoranti (ID): ");
-                scelta = scanner.nextInt();
-                scanner.nextLine();
+                try {
+                    scelta = scanner.nextInt();
+                    scanner.nextLine();
+                } catch (NumberFormatException e) {
+                    System.out.println("Input non valido. Inserire un numero.");
+                    scanner.nextLine();
+                } catch (NoSuchElementException e) {
+                    System.out.println("Input interrotto. Operazione annullata.");
+                    return null;
+                }
             }
             idRif = scelta;
             System.out.println("Scrivere una risposta: ");
-            testo = scanner.nextLine();
+            try {
+                testo = scanner.nextLine();
+            } catch (NoSuchElementException e) {
+                System.out.println("Input interrotto. Operazione annullata.");
+                return null;
+            }
             data = LocalDate.now();
             return new RispostaRecensioni(-1, idRif, username, testo, data);
         } else {

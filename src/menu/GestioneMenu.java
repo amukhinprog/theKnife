@@ -9,6 +9,7 @@ import entita.dominio.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import repository.*;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -32,8 +33,13 @@ public class GestioneMenu {
     private RispostaRecensioniUI rispostaRecensioniUI = new RispostaRecensioniUI(scanner, rispostaRecensioniServ, recensioneServ, assGestoreRistorantiServ);
 
     public GestioneMenu() {
+         try {
         benvenuto();
+    } catch (NoSuchElementException e) {
+        System.out.println("Input interrotto (es. con Ctrl+C). Uscita dal programma.");
     }
+}
+    
 
     public void benvenuto() {
         int scelta = 0;
@@ -46,7 +52,7 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             do {
                 try {
-                    System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
+                    System.out.print("Inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
                     valido = true;
                 } catch (InputMismatchException e) {
