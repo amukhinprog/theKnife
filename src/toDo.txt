@@ -4,3 +4,4 @@ Verificare anche per altri input non corretti. Fare una interfaccia utente migli
 3) Ricerca dei ristoranti per combinazione dei criteri di ricerca (slide specifiche progetto pag. 9)
 4) Visualizzare i ristoranti che un gestore/utente ha.
 5) Utilizzare un linguaggio coerente nel manuale utente. Utilizzare uno standard per la scrittura dei manuali (cosa relativa)
+6) rimozione file e cartelle non utili per pulizia
