@@ -46,10 +46,11 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             do {
                 try {
+                    System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
                     valido = true;
                 } catch (InputMismatchException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Errore: inserire un numero valido. \n");
                     scanner.nextLine();
                 }
             } while (!valido);
@@ -99,10 +100,11 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             do {
                 try {
+                    System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
                     valido = true;
                 } catch (InputMismatchException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Errore: inserire un numero valido. \n");
                     scanner.nextLine();
                 }
             } while (!valido);
@@ -127,10 +129,11 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             do {
                 try {
+                    System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
                     valido = true;
                 } catch (InputMismatchException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Errore: inserire un numero valido. \n");
                     scanner.nextLine();
                 }
             } while (!valido);
@@ -150,7 +153,7 @@ public class GestioneMenu {
                 case 0:
                     break;
                 default:
-                    System.out.println("Inserisci il numero corretto");
+                    System.out.println("Inserire il numero corretto");
                     break;
             }
         } while (scelta != 0);
@@ -159,7 +162,6 @@ public class GestioneMenu {
     public void benvenutoCliente(Cliente utente) {
         int scelta = 0;
         boolean valido = false;
-        String c;
         do {
             System.out.println("1. Aggiungi ristorante ai preferiti");
             System.out.println("2. Rimuovi ristorante dai preferiti");
@@ -167,19 +169,20 @@ public class GestioneMenu {
             System.out.println("4. Aggiungi recensione");
             System.out.println("5. Modifica recensione");
             System.out.println("6. Elimina recensione");
-            System.out.println("7. Visualizza recensione/i");
+            System.out.println("7. Visualizza recensioni");
             System.out.println("8. Ricerca ristoranti");
             System.out.println("0. Esci");
             do {
                 try {
-                    c = scanner.next();
-                    scelta = Integer.parseInt(c);
+                    System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
+                    scelta = scanner.nextInt();
                     valido = true;
                 } catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Errore: inserire un numero valido. \n");
+                    scanner.nextLine();
                 }
             } while (!valido);
-//            scanner.nextLine();
+
             switch (scelta) {
                 case 1:
                     preferitiClienteUI.aggiungi(utente);
@@ -208,7 +211,7 @@ public class GestioneMenu {
                 case 0:
                     break;
                 default:
-                    System.out.println("inserisci il numero corretto");
+                    System.out.println("inserire il numero corretto");
                     break;
             }
         } while (scelta != 0);

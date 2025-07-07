@@ -5,3 +5,4 @@ Verificare anche per altri input non corretti. Fare una interfaccia utente migli
 4) Visualizzare i ristoranti che un gestore/utente ha.
 5) Utilizzare un linguaggio coerente nel manuale utente. Utilizzare uno standard per la scrittura dei manuali (cosa relativa)
 6) rimozione file e cartelle non utili per pulizia
+7) dare la possibilità all'utente di uscire premendo "0" in qualsiasi momento

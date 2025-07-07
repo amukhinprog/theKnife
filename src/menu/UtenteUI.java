@@ -35,18 +35,18 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
     private Utente registrazione() {
         String dataProvvisoria;
         scanner.nextLine();
-        System.out.println("Nome: ");
+        System.out.print("Nome: ");
         String nome = scanner.nextLine();
 
-        System.out.println("Cognome: ");
+        System.out.print("Cognome: ");
         String cognome = scanner.nextLine();
 
         String username;
         do {
-            System.out.println("Username (inesistente): ");
+            System.out.print("Username: ");
             username = scanner.next();
         } while (utenteServ.containsKey(username));
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String password;
         if (console == null) {
             password = scanner.nextLine();
@@ -63,7 +63,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         boolean dataNascitaValida = false;
         LocalDate dataNascita = null;
         do {
-            System.out.println("Data di nascita (YYYY-MM-DD): ");
+            System.out.print("Data di nascita (YYYY-MM-DD): ");
             dataProvvisoria = scanner.next();
             try {
                 dataNascita = LocalDate.parse(dataProvvisoria);
@@ -73,10 +73,10 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
             }
         } while (!dataNascitaValida);
         scanner.nextLine();
-        System.out.println("Domicilio: ");
+        System.out.print("Domicilio: ");
         String luogoDomicilio = scanner.nextLine();
 
-        System.out.println("Ruolo: ");//impreciso
+        System.out.print("Ruolo: ");//impreciso
         String ruolo = inserisciRuolo();
 
         /*Scrivere il nuovo utente in file csv usando gli opportuni metodi*/
@@ -91,10 +91,10 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     private Utente login() {
 
-        System.out.println("Username: ");
+        System.out.print("Username: ");
         String username = scanner.next();
 
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String password;
         if (console == null) {
             password = scanner.nextLine();
@@ -119,14 +119,14 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         Ruolo ruolo = null;
 
         while (ruolo == null) {
-            System.out.println("Inserisci il tuo ruolo (gestore o cliente): ");
+            System.out.print("Inserisci il tuo ruolo (gestore o cliente): ");
             String input = scanner.next().toUpperCase();
 
             try {
                 ruolo = Ruolo.valueOf(input);
                 System.out.println("Ruolo selezionato: " + ruolo);
             } catch (IllegalArgumentException e) {
-                System.out.println("Ruolo non valido.");
+                System.out.print("Ruolo non valido. inserire di nuovo: ");
             }
         }
 
