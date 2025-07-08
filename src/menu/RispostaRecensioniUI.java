@@ -69,12 +69,19 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
                 System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i).getNome());
                 System.out.println("Recensione: " + recensioniMap.get(i).getTesto());
             }
-            int scelta = 0;
-            while (!ristorantiPossedutiRecensiti.containsKey(scelta) || ristorantiPossedutiRecensiti.isEmpty()) {
-                System.out.println("Scegliere uno tra questi ristoranti (ID): ");
+            int scelta = -1;
+            while (scelta != 0) {
+                System.out.println("Scegliere uno tra questi ristoranti (ID) oppure 0 per annullare: ");
                 try {
                     scelta = scanner.nextInt();
                     scanner.nextLine();
+                     if (scelta == 0) {
+                        System.out.println("Operazione annullata.");
+                        return null;  // User decided to cancel
+                    }
+                     if (!ristorantiPossedutiRecensiti.containsKey(scelta)) {
+                        System.out.println("ID non valido. Riprova.");
+                    }
                 } catch (NumberFormatException e) {
                     System.out.println("Input non valido. Inserire un numero.");
                     scanner.nextLine();

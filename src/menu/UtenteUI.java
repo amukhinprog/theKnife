@@ -1,4 +1,3 @@
-
 /** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
@@ -22,7 +21,6 @@ import java.util.NoSuchElementException;
  *
  * @author armuh
  */
-
 public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     private static FileUtenti fileUtenti = new FileUtenti();
@@ -35,29 +33,47 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         this.utenteServ = utenteServ;
     }
 
+    private boolean checkExit(String input) {
+        if ("0".equals(input)) {
+            System.out.println("Uscita... Grazie per aver utilizzato il sistema!");
+            return true;  
+        }
+        return false;  
+    }
+
     private Utente registrazione() {
         try {
             String dataProvvisoria;
             scanner.nextLine();
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
+            if (checkExit(nome)) return null; 
 
             System.out.print("Cognome: ");
             String cognome = scanner.nextLine();
+            if (checkExit(cognome)) return null; 
 
             String username;
             do {
                 System.out.print("Username: ");
                 username = scanner.nextLine();
+                if (checkExit(username)) return null; 
+                if (utenteServ.containsKey(username)) {
+                    System.out.println("ℹ️ Username \"" + username + "\" appartenente ad un altro utente, per favore scegliere un altro username.");
+                }
             } while (utenteServ.containsKey(username));
 
             String password = chiediPassword();
+            if (password == null) return null;
             LocalDate dataNascita = chiediDataNascita();
+            if (dataNascita == null) return null;
 
             System.out.print("Domicilio: ");
             String luogoDomicilio = scanner.nextLine();
+            if (checkExit(luogoDomicilio)) return null; 
 
             String ruolo = inserisciRuolo();
+            if (ruolo == null) return null;
 
             /*Scrivere il nuovo utente in file csv usando gli opportuni metodi*/
             Utente utente;
@@ -77,7 +93,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         String password;
         while (true) {
             System.out.print("Password: \n (almeno 1 maiuscola, 8 caratteri, 1 numero, 1 speciale (.!?)): ");
-
+            
             if (console != null) {
                 char[] passwordChars = console.readPassword();
                 password = new String(passwordChars);
@@ -85,6 +101,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
                 password = scanner.nextLine();
             }
 
+            if (checkExit(password)) return null;
             if (validaPassword(password)) {
                 break;
             } else {
@@ -122,6 +139,7 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         while (!dataNascitaValida) {
             System.out.print("Data di nascita (YYYY-MM-DD): ");
             String dataProvvisoria = scanner.nextLine();
+            if (checkExit(dataProvvisoria)) return null;
             try {
                 dataNascita = LocalDate.parse(dataProvvisoria);
                 dataNascitaValida = true;
@@ -138,7 +156,8 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
         while (ruolo == null) {
             System.out.print("Inserisci il tuo ruolo (gestore o cliente): ");
             String input = scanner.nextLine().toUpperCase();
-
+            if (checkExit(input)) return null;
+            
             try {
                 ruolo = Ruolo.valueOf(input);
                 System.out.println("Ruolo selezionato: " + ruolo.toString().toLowerCase());
@@ -151,48 +170,51 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     private Utente login() {
         try {
-        System.out.print("Username: ");
-        String username = scanner.next();
+            System.out.print("Username: ");
+            String username = scanner.next();
+            if (checkExit(username)) return null;
+            
+            System.out.print("Password: ");
+            String password;
+            if (console == null) {
+                password = scanner.nextLine();
 
-        System.out.print("Password: ");
-        String password;
-        if (console == null) {
-            password = scanner.nextLine();
-
-        } else {
-            char[] passwordTemp = console.readPassword();
-            for (int i = 0; i < passwordTemp.length; i++) {
-                System.out.print("*");
+            } else {
+                char[] passwordTemp = console.readPassword();
+                for (int i = 0; i < passwordTemp.length; i++) {
+                    System.out.print("*");
+                }
+                System.out.println("");
+                password = new String(passwordTemp);
             }
-            System.out.println("");
-            password = new String(passwordTemp);
-        }
+            
+            if (checkExit(password)) return null;
 
-        Utente utente = utenteServ.get(username);
-        if (utente != null && utente.getPassword().equals(password)) {
-            return utente;
-        } else {
-            System.out.println("Credenziali errate.");
+            Utente utente = utenteServ.get(username);
+            if (utente != null && utente.getPassword().equals(password)) {
+                return utente;
+            } else {
+                System.out.println("Credenziali errate.");
+                return null;
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Login interrotto.");
             return null;
         }
-    }catch (NoSuchElementException e) {
-            System.out.println("Login interrotto.");
-        return null;
     }
-}
 
     @Override
     public Utente add() {
         Utente utente = registrazione();
         if (utente != null) {
-        utenteServ.add(utente);
+            utenteServ.add(utente);
         }
         return utente;
     }
 
     @Override
     public Utente get() {
-        return login ();
+        return login();
     }
 
     @Override

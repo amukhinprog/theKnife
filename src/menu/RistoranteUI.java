@@ -33,6 +33,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         do {
             System.out.println("Scrivere il nome del ristorante: ");
             nomeRistorante = scanner.next();
+            if (nomeRistorante.equals("0")) {
+                System.out.println("Uscita richiesta. Operazione annullata.");
+                return null;
+            }
         } while (ristoranteServ.containsKey(nomeRistorante));
         return ristoranteServ.get(nomeRistorante);
     }
@@ -40,65 +44,111 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     private Ristorante chiedi() {
         String nome;
         do {
-            System.out.println("Nome: ");
+            System.out.println("Nome (o '0' per uscire): ");
             nome = scanner.nextLine();
-        } while (ristoranteServ.containsKey(nome));
-
-        try {
-            System.out.println("Indirizzo: ");
-            String indirizzo = scanner.nextLine();
-
-            System.out.println("Locazione: ");
-            String locazione = scanner.nextLine();
-
-            float prezzo;
-            while (true) {
-                System.out.print("Prezzo: ");
-                String input = scanner.nextLine();
-                try {
-                    prezzo = Float.parseFloat(input);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Inserisci un numero valido per il prezzo.");
+            if (nome.equals("0")) {
+                System.out.println("Uscita richiesta. Operazione annullata.");
+                return null;
+            }
+            while (ristoranteServ.containsKey(nome)) {
+                System.out.println("Il nome del ristorante esiste già, riprova (o '0' per uscire): ");
+                nome = scanner.nextLine();
+                if (nome.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
                 }
             }
 
-            System.out.println("Cucina:");
-            String cucina = scanner.nextLine();
+            try {
+                System.out.println("Indirizzo (o '0' per uscire): ");
+                String indirizzo = scanner.nextLine();
+                if (indirizzo.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
 
-            System.out.println("Longitudine: ");
-            float longitudine = scanner.nextFloat();
-            scanner.nextLine(); // Consuma newline
+                System.out.println("Locazione (o '0' per uscire): ");
+                String locazione = scanner.nextLine();
+                if (locazione.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
 
-            System.out.println("Latitudine: ");
-            float latitudine = scanner.nextFloat();
-            scanner.nextLine(); // Consuma newline
+                float prezzo;
+                while (true) {
+                    System.out.print("Prezzo (o '0' per uscire): ");
+                    String input = scanner.nextLine();
+                    if (input.equals("0")) {
+                        System.out.println("Uscita richiesta. Operazione annullata.");
+                        return null;
+                    }
+                    try {
+                        prezzo = Float.parseFloat(input);
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Inserisci un numero valido per il prezzo.");
+                    }
+                }
 
-            System.out.println("Numero di telefono: ");
-            String numeroTelefono = scanner.nextLine();
+                System.out.println("Cucina (o '0' per uscire):");
+                String cucina = scanner.nextLine();
+                if (cucina.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
 
-            System.out.println("Delivery: ");
-            boolean delivery = scanner.nextBoolean();
+                System.out.println("Longitudine (o '0' per uscire): ");
+                float longitudine = scanner.nextFloat();
+                scanner.nextLine();
 
-            System.out.println("Url:");
-            String url = scanner.nextLine();
+                System.out.println("Latitudine (o '0' per uscire): ");
+                float latitudine = scanner.nextFloat();
+                scanner.nextLine();
 
-            System.out.println("Website Url:");
-            String webSiteUrl = scanner.nextLine();
+                System.out.println("Numero di telefono (o '0' per uscire): ");
+                String numeroTelefono = scanner.nextLine();
+                if (numeroTelefono.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
 
-            System.out.println("Prenotazione: ");
-            boolean prenotazione = scanner.nextBoolean();
+                System.out.println("Delivery (o '0' per uscire): ");
+                boolean delivery = scanner.nextBoolean();
+                scanner.nextLine();
 
-            System.out.println("Descrizione: ");
-            String descrizione = scanner.nextLine();
+                System.out.println("Url (o '0' per uscire):");
+                String url = scanner.nextLine();
+                if (url.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
+
+                System.out.println("Website Url (o '0' per uscire):");
+                String webSiteUrl = scanner.nextLine();
+                if (webSiteUrl.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
+
+                System.out.println("Prenotazione (o '0' per uscire): ");
+                boolean prenotazione = scanner.nextBoolean();
+                scanner.nextLine();
+
+                System.out.println("Descrizione (o '0' per uscire): ");
+                String descrizione = scanner.nextLine();
+                if (descrizione.equals("0")) {
+                    System.out.println("Uscita richiesta. Operazione annullata.");
+                    return null;
+                }
 //        System.out.println("Stelle: ");
 //        short stelle = scanner.nextShort();
-            return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine,
-                    numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione);
-        } catch (NoSuchElementException e) {
-            System.out.println("Input interrotto. Operazione annullata.");
-            return null;
-        }
+                return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine,
+                        numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione);
+            } catch (NoSuchElementException e) {
+                System.out.println("Input interrotto. Operazione annullata.");
+                return null;
+            }
+        } while (true);
     }
 
     public void visualizza(List<Ristorante> ristoranti) {
@@ -118,7 +168,12 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     private String chiediNome(Scanner scanner) {
         System.out.println("Inserire il nome del ristorante: ");
         System.out.println("0. Esci");
-        return scanner.next();
+        String nome = scanner.nextLine();
+        if (nome.equals("0")) {
+            System.out.println("Uscita richiesta.");
+            return null;
+        }
+        return nome;
     }
 
     public void cerca() {
@@ -171,6 +226,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     private void cercaPerLocazione() {
         System.out.println("Inserire il nome della citta': ");
         String locazione = scanner.nextLine();
+        if (locazione.equals("0")) {
+            System.out.println("Uscita richiesta.");
+            return;
+        }
         locazione = locazione.toLowerCase();
         /////QKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
@@ -187,6 +246,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     private void cercaPerCucina() {
         System.out.println("Inserire la tipologia di cucina del ristorante : ");
         String cucina = scanner.nextLine();
+        if (cucina.equals("0")) {
+            System.out.println("Uscita richiesta.");
+            return; 
+        }
         cucina = cucina.toLowerCase();
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
         List<Ristorante> ristorantiList = new ArrayList<>();
@@ -204,6 +267,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         Float prezzoLimite;
         try {
             prezzoLimite = scanner.nextFloat();
+            scanner.nextLine();
         } catch (InputMismatchException e) {
             System.out.println("Inserire un numero valido per il prezzo.");
             return;
@@ -225,7 +289,8 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         while (true) {
             System.out.print("Vuoi visualizzare solo i ristoranti con delivery? (si/no): ");
             String risposta = scanner.next().trim().toLowerCase();
-
+            scanner.nextLine();
+            
             if (risposta.equals("sì") || risposta.equals("si")) {
                 delivery = true;
                 break;
@@ -255,7 +320,8 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         while (true) {
             System.out.print("Vuoi visualizzare solo i ristoranti con prenotazione online? (si/no): ");
             String risposta = scanner.next().trim().toLowerCase();
-
+            scanner.nextLine();
+            
             if (risposta.equals("sì") || risposta.equals("si")) {
                 prenotazione = true;
                 break;

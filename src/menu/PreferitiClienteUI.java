@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -33,22 +33,26 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
 
     private Ristorante chiediRistorante() {
         String nomeRistorante;
-        try{
+        try {
             scanner.nextLine();
             do {
-            System.out.println("Inserire il nome del ristorante: ");
-            nomeRistorante = scanner.nextLine();
-               if (!ristoranteServ.containsKey(nomeRistorante)){
-                System.out.println("Ristorante non trovato. Riprova.");
-               }
+                System.out.println("Inserire il nome del ristorante: ");
+                nomeRistorante = scanner.nextLine();
+                if (!ristoranteServ.containsKey(nomeRistorante)) {
+                    System.out.println("Ristorante non trovato. Riprova.");
+                    return null;
+                }
+                if (!ristoranteServ.containsKey(nomeRistorante)) {
+                    System.out.println("Ristorante non trovato. Riprova.");
+                }
             } while (!ristoranteServ.containsKey(nomeRistorante));
-        return ristoranteServ.get(nomeRistorante);
+            return ristoranteServ.get(nomeRistorante);
 
-    } catch (NoSuchElementException | IllegalStateException e) {
-        System.out.println("Interruzione rilevata o input non valido. Operazione annullata.");
-        return null; 
+        } catch (NoSuchElementException | IllegalStateException e) {
+            System.out.println("Interruzione rilevata o input non valido. Operazione annullata.");
+            return null;
+        }
     }
-}
 
     public void aggiungi(Utente utente) {
         if (get(utente) != null) {
@@ -61,7 +65,9 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     @Override
     public boolean add(Utente valore) {
         Ristorante r = chiediRistorante();
-        if (r == null) return false;
+        if (r == null) {
+            return false;
+        }
         List<Ristorante> ristorantiList = new ArrayList<>();
         ristorantiList.add(r);
         PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiList);
@@ -71,8 +77,15 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     @Override
     public boolean remove(Utente utente) {
         Ristorante ristorante = chiediRistorante();
-        if (ristorante == null) return false;
+        if (ristorante == null) {
+            return false;
+        }
+
         PreferitiCliente preferitiCliente = get(utente);
+        if (preferitiCliente == null) {
+            System.out.println("Nessun ristorante preferito trovato.");
+            return false;
+        }
         List<Ristorante> ristorantiList = preferitiCliente.getRistorantiPreferiti();
         ristorantiList.remove(ristorante);
         String username = preferitiCliente.getUsernameCliente();
@@ -87,7 +100,10 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
     @Override
     public boolean put(Utente valore) {
         Ristorante r = chiediRistorante();
-        if (r == null) return false;
+        if (r == null) {
+            return false;
+        }
+
         List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
         if (!ristorantiListValore.contains(r)) {
             ristorantiListValore.add(r);
@@ -115,6 +131,8 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
                 System.out.println("Servizio prenotazione: " + r.isPrenotazione() + "\n\n");
             }
 
+        } else {
+            System.out.println("Nessun ristorante preferito trovato per l'utente " + username);
         }
     }
 

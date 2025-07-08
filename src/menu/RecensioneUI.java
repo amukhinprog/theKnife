@@ -45,6 +45,10 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
             try {
                 System.out.print("Scegli il numero di stelle (1-5): ");
                 stelle = Short.parseShort(scanner.nextLine());
+                if (stelle == 0) {
+                    System.out.println("Operazione annullata.");
+                    return null;
+                }
                 if (stelle >= 1 && stelle <= 5) {
                     break;
                 }
@@ -57,9 +61,13 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
 
         recensione.setStelle(stelle);
 
-        System.out.print("Modifica il testo: ");
+        System.out.print("Modifica il testo (o 0 per annullare): ");
         try {
             String testo = scanner.nextLine();
+            if (testo.equals("0")) {
+                System.out.println("Operazione annullata.");
+                return null;  // Annulla l'operazione
+            }
             recensione.setTesto(testo);
         } catch (NoSuchElementException e) {
             System.out.println("Input interrotto. Operazione annullata.");
@@ -76,8 +84,12 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
 
         try {
             do {
-                System.out.print("Inserire il nome del ristorante: ");
+                System.out.print("Inserire il nome del ristorante (o 0 per annullare): ");
                 nomeRistorante = scanner.nextLine();
+                if (nomeRistorante.equals("0")) {
+                    System.out.println("Operazione annullata.");
+                    return false;
+                }
                 if (!ristoranteServ.containsKey(nomeRistorante)) {
                     System.out.println("Ristorante non trovato. Riprova.");
                 }
@@ -88,14 +100,22 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
         }
         short nStelle;
         do {
-            System.out.println("Inserire il numero di stelle (1-5):");
+            System.out.println("Inserire il numero di stelle (1-5) (o 0 per annullare):");
             nStelle = scanner.nextShort();
             scanner.nextLine();
+            if (nStelle == 0) {
+                System.out.println("Operazione annullata.");
+                return false;
+            }
         } while (nStelle > 5 || nStelle < 1);
-        System.out.println("Inserire il testo:");
+        System.out.println("Inserire il testo (o 0 per annullare):");
         String testo;
         try {
             testo = scanner.nextLine();
+            if (testo.equals("0")) {
+                System.out.println("Operazione annullata.");
+                return false;  // Annulla l'operazione
+            }
         } catch (NoSuchElementException e) {
             System.out.println("Input interrotto. Operazione annullata.");
             return false;

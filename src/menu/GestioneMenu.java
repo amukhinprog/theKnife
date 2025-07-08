@@ -33,13 +33,12 @@ public class GestioneMenu {
     private RispostaRecensioniUI rispostaRecensioniUI = new RispostaRecensioniUI(scanner, rispostaRecensioniServ, recensioneServ, assGestoreRistorantiServ);
 
     public GestioneMenu() {
-         try {
-        benvenuto();
-    } catch (NoSuchElementException e) {
-        System.out.println("Input interrotto (es. con Ctrl+C). Uscita dal programma.");
+        try {
+            benvenuto();
+        } catch (NoSuchElementException e) {
+            System.out.println("Input interrotto (es. con Ctrl+C). Uscita dal programma.");
+        }
     }
-}
-    
 
     public void benvenuto() {
         int scelta = 0;
@@ -54,6 +53,10 @@ public class GestioneMenu {
                 try {
                     System.out.print("Inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
+                    if (scelta == 0) {
+                        System.out.println("Uscita dal programma...");
+                        return;
+                    }
                     valido = true;
                 } catch (InputMismatchException e) {
                     System.out.println("Errore: inserire un numero valido. \n");
@@ -106,8 +109,12 @@ public class GestioneMenu {
             System.out.println("0. Esci");
             do {
                 try {
-                    System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
+                    System.out.print("Inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
+                    if (scelta == 0) {
+                        System.out.println("Uscita come guest...");
+                        return;
+                    }
                     valido = true;
                 } catch (InputMismatchException e) {
                     System.out.println("Errore: inserire un numero valido. \n");
@@ -120,6 +127,9 @@ public class GestioneMenu {
                     break;
                 case 0:
                     break;
+                default:
+                    System.out.println("Scegliere l'opzione corretta");
+                    break;
             }
         } while (scelta != 0);
     }
@@ -128,15 +138,20 @@ public class GestioneMenu {
         int scelta = 0;
         boolean valido = false;
         do {
-            System.out.println("1. Aggiungi ristorante di proprietà (esistenti nel database)");
+            System.out.println("1. Aggiungi ristorante di proprieta\' (esistenti nel database)");
             System.out.println("2. Ricerca ristoranti");
             System.out.println("3. Visualizza media valutazioni");
             System.out.println("4. Rispondi alle recensioni");
+            System.out.println("5. Visualizza i tuoi ristoranti");
             System.out.println("0. Esci");
             do {
                 try {
                     System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
+                    if (scelta == 0) {
+                        System.out.println("Uscita dal menu Gestore...");
+                        return;
+                    }
                     valido = true;
                 } catch (InputMismatchException e) {
                     System.out.println("Errore: inserire un numero valido. \n");
@@ -155,6 +170,9 @@ public class GestioneMenu {
                     break;
                 case 4:
                     rispostaRecensioniUI.add(utente);
+                    break;
+                case 5:
+                    gestoreServ.visualizzaRistoranti(utente);
                     break;
                 case 0:
                     break;
@@ -182,6 +200,10 @@ public class GestioneMenu {
                 try {
                     System.out.print("inserire il numero corrispondente al menu voluto e premere invio: ");
                     scelta = scanner.nextInt();
+                    if (scelta == 0) {
+                        System.out.println("Uscita dal menu Cliente...");
+                        return; 
+                    }
                     valido = true;
                 } catch (RuntimeException e) {
                     System.out.println("Errore: inserire un numero valido. \n");

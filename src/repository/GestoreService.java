@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -26,8 +26,6 @@ public class GestoreService {
     public GestoreService() {
     }
 
-    
-
     public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
         AssGestoreRistoranti AGR = assGestoreRistorantiServ.get().get(gestore.getUsername());
         List<Ristorante> listaRistoranti = AGR.getRistorantiList();
@@ -37,6 +35,20 @@ public class GestoreService {
             mediaStelleMap.put(ristorante, media);
         }
         return mediaStelleMap;
+    }
+
+    public void visualizzaRistoranti(Gestore gestore) {
+        AssGestoreRistoranti associazione = assGestoreRistorantiServ.get().get(gestore.getUsername());
+
+        if (associazione == null || associazione.getRistorantiList().isEmpty()) {
+            System.out.println("Non ci sono ristoranti associati al gestore.");
+            return;
+        }
+
+        System.out.println("Ristoranti associati al gestore " + gestore.getUsername() + ":");
+        for (Ristorante ristorante : associazione.getRistorantiList()) {
+            System.out.println("- " + ristorante.getNome() + " (" + ristorante.getIndirizzo() + ")");
+        }
     }
 
     public HashMap<String, AssGestoreRistoranti> getGesRisMap() {
