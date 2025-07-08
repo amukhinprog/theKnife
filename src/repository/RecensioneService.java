@@ -36,21 +36,24 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
             }
         }
         try {
+         if (ripetizioni == 0) {
+                throw new ArithmeticException("Il ristorante non ha recensioni.");
+            }
             return (float) (somma / ripetizioni);
         } catch (ArithmeticException e) {
             System.out.println(e.getMessage());
+            return 0; 
         }
-        return 0;
     }
 
     public double mediaStelle() {
         if (map == null || map.isEmpty()) {
-            return 0.0;  // nessuna recensione
+            return 0.0;  
         }
 
         double somma = 0.0;
         for (Recensione r : map.values()) {
-            somma += r.getStelle();  // supponendo che getStelle() ritorni un int o double
+            somma += r.getStelle();  
         }
         return somma / map.size();
     }
@@ -61,7 +64,7 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
         try {
             listaRistorantiPosseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
         } catch (NullPointerException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Errore: Gestore o ristoranti non trovati.");
         }
         int sommaTot = 0;
         int countTot = 0;
@@ -70,6 +73,7 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
             int somma = 0;
             int count = 0;
             mediaStelle = 0;
+            
             for (Recensione recensione : map.values()) {
                 if (recensione.getRistoranteRecensito().equals(ristoranteP.getNome())) {
                     somma += recensione.getStelle();
@@ -77,10 +81,14 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
                 }
             }
             try {
+                if (count == 0) {
+                    throw new ArithmeticException("Il ristorante " + ristoranteP.getNome() + " non ha recensioni.");
+                }
                 mediaStelle = somma / count;
             } catch (ArithmeticException e) {
                 System.out.println("Il ristorante non ha recensioni");
             }
+            
             mediaStelleMap.put(ristoranteP, mediaStelle);
             sommaTot += somma;
             countTot++;
