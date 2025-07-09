@@ -5,14 +5,17 @@
  */
 package menu;
 
+import entita.associazioni.Recensione;
 import entita.dominio.Ristorante;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import repository.RistoranteService;
 import java.util.NoSuchElementException;
+import repository.RecensioneService;
 
 /**
  *
@@ -22,10 +25,12 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     private Scanner scanner;
     private RistoranteService ristoranteServ;
+    private RecensioneService recensioneServ;
 
-    public RistoranteUI(Scanner scanner, RistoranteService ristoranteServ) {
+    public RistoranteUI(Scanner scanner, RistoranteService ristoranteServ, RecensioneService recensioneServ) {
         this.scanner = scanner;
         this.ristoranteServ = ristoranteServ;
+        this.recensioneServ = recensioneServ;
     }
 
     public Ristorante contains() {
@@ -152,16 +157,17 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     }
 
     public void visualizza(List<Ristorante> ristoranti) {
-//        System.out.println(ristoranti);
-
         for (Ristorante ristorante : ristoranti) {
-            System.out.println("Nome: " + ristorante.getNome());
-            System.out.println("Locazione: " + ristorante.getLocazione());
-            System.out.println("Prezzo: " + ristorante.getPrezzo() + " euro");
-            System.out.println("Tipo cucina: " + ristorante.getCucina());
-            System.out.println("Servizio delivery: " + ristorante.isDelivery());
-            System.out.println("Servizio prenotazione: " + ristorante.isPrenotazione() + "\n\n");
-            //System.out.println("Stelle: " + ristorante.getStelle());
+            visualizza(ristorante);
+            System.out.println("\n");
+        }
+        System.out.println("\n");
+    }
+
+    public void visualizza(HashMap<Ristorante, Float> map) {
+        for (Ristorante r : map.keySet()) {
+            visualizza(r);
+            System.out.println("Media stelle: " + map.get(r) + "\n\n");
         }
     }
 
@@ -183,11 +189,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         System.out.println("Inserire 3 per cercare un ristorante per fascia di prezzo");
         System.out.println("Inserire 4 per cercare un ristorante in base alla disponibilita' del servizio di delivery");
         System.out.println("Inserire 5 per cercare un ristorante in base alla disponibilita' del servizio di prenotazione online");
-        /*System.out.println("Inserire 6 per cercare un ristorante per media del numero di stelle");
-        System.out.println("Inserire 7 per cercare un ristorante per combinazione dei precedenti criteri di ricerca")*;*/
-
+        System.out.println("Inserire 6 per cercare un ristorante in base alla media del numero di stelle");
+        System.out.println("Inserire 7 per cercare un ristorante per combinazione dei precedenti criteri di ricerca");
         try {
-            String input = scanner.nextLine();
+            String input = scanner.next();
             scelta = Integer.parseInt(input);
         } catch (NumberFormatException | NoSuchElementException e) {
             System.out.println("Input non valido o interrotto. Operazione annullata.");
@@ -196,26 +201,26 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
         switch (scelta) {
             case 1:
-                cercaPerLocazione();
+                visualizza(cercaPerLocazione());
                 break;
             case 2:
-                cercaPerCucina();
+                visualizza(cercaPerCucina());
                 break;
             case 3:
-                cercaPerPrezzo();
+                visualizza(cercaPerPrezzo());
                 break;
             case 4:
-                cercaPerDelivery();
+                visualizza(cercaPerDelivery());
                 break;
             case 5:
-                cercaPerPrenotazione();
+                visualizza(cercaPerPrenotazione());
                 break;
-            /*case 6:
-                cercaPerStelle();
+            case 6:
+                visualizza(cercaPerStelle());
                 break;
-           /*case 7:
-                cercaCriteri();
-                break;*/
+            case 7:
+                visualizza(cercaPerCombinazioni());
+                break;
             default:
                 System.out.println("Scegliere l'opzione corretta");
                 break;
@@ -223,15 +228,14 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     }
 
-    private void cercaPerLocazione() {
+    private List<Ristorante> cercaPerLocazione() {
         System.out.println("Inserire il nome della citta': ");
         String locazione = scanner.nextLine();
         if (locazione.equals("0")) {
             System.out.println("Uscita richiesta.");
-            return;
+            return new ArrayList<>();
         }
         locazione = locazione.toLowerCase();
-        /////QKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
         List<Ristorante> ristorantiList = new ArrayList<>();
         for (Ristorante ristorante : ristorantiColl) {
@@ -240,15 +244,15 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
                 ristorantiList.add(ristorante);
             }
         }
-        visualizza(ristorantiList);
+        return ristorantiList;
     }
 
-    private void cercaPerCucina() {
+    private List<Ristorante> cercaPerCucina() {
         System.out.println("Inserire la tipologia di cucina del ristorante : ");
         String cucina = scanner.nextLine();
         if (cucina.equals("0")) {
             System.out.println("Uscita richiesta.");
-            return; 
+            return new ArrayList<>();
         }
         cucina = cucina.toLowerCase();
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
@@ -259,10 +263,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
                 ristorantiList.add(ristorante);
             }
         }
-        visualizza(ristorantiList);
+        return ristorantiList;
     }
 
-    private void cercaPerPrezzo() {
+    private List<Ristorante> cercaPerPrezzo() {
         System.out.println("Visualizzare i ristoranti con un prezzo minore di: ");
         Float prezzoLimite;
         try {
@@ -270,7 +274,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             scanner.nextLine();
         } catch (InputMismatchException e) {
             System.out.println("Inserire un numero valido per il prezzo.");
-            return;
+            return new ArrayList<>();
         }
         Collection<Ristorante> ristorantiColl = ristoranteServ.values();
         List<Ristorante> ristorantiList = new ArrayList<>();
@@ -280,17 +284,17 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
                 ristorantiList.add(ristorante);
             }
         }
-        visualizza(ristorantiList);
+        return ristorantiList;
     }
 
-    private void cercaPerDelivery() {
+    private List<Ristorante> cercaPerDelivery() {
         boolean delivery;
 
         while (true) {
             System.out.print("Vuoi visualizzare solo i ristoranti con delivery? (si/no): ");
             String risposta = scanner.next().trim().toLowerCase();
             scanner.nextLine();
-            
+
             if (risposta.equals("sì") || risposta.equals("si")) {
                 delivery = true;
                 break;
@@ -311,17 +315,17 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             }
         }
 
-        visualizza(ristorantiList);
+        return ristorantiList;
     }
 
-    private void cercaPerPrenotazione() {
+    private List<Ristorante> cercaPerPrenotazione() {
         boolean prenotazione;
 
         while (true) {
             System.out.print("Vuoi visualizzare solo i ristoranti con prenotazione online? (si/no): ");
             String risposta = scanner.next().trim().toLowerCase();
             scanner.nextLine();
-            
+
             if (risposta.equals("sì") || risposta.equals("si")) {
                 prenotazione = true;
                 break;
@@ -342,32 +346,38 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             }
         }
 
-        visualizza(ristorantiList);
+        return ristorantiList;
     }
 
-    /*private void cercaPerStelle() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Inserisci il numero esatto di stelle (da 1 a 5): ");
-        int numeroStelle;
-
+    private HashMap<Ristorante, Float> cercaPerStelle() {
+        System.out.println("Inserire la media del numero di stelle: ");
+        float media;
         try {
-            numeroStelle = scanner.nextInt();
+            media = scanner.nextFloat();
+            scanner.nextLine();
         } catch (InputMismatchException e) {
-            System.out.println("Inserire un numero intero valido per le stelle da 1 a 5.");
-            return;
+            System.out.println("Inserire un numero valido per la media.");
+            return new HashMap<>();
         }
+        Collection<Recensione> recensioneColl = recensioneServ.get().values();
 
-        Collection<Ristorante> ristorantiColl = ristoranti.values();
-        List<Ristorante> ristorantiList = new ArrayList<>();
-
-        for (Ristorante ristorante : ristorantiColl) {
-            if (ristorante.getStelle() == numeroStelle) {
-                ristorantiList.add(ristorante);
+        HashMap<Ristorante, Float> recensioniMediaMap = new HashMap<>();
+        for (Recensione recensione : recensioneColl) {
+            String nomeRistorante = recensione.getRistoranteRecensito();
+            Ristorante ristorante = ristoranteServ.get(nomeRistorante);
+            if (!recensioniMediaMap.containsKey(ristorante)
+                    && recensioneServ.mediaStelle(ristorante) > media - 0.5
+                    && recensioneServ.mediaStelle(ristorante) < media + 0.5) {
+                recensioniMediaMap.put(ristorante, recensioneServ.mediaStelle(ristorante));
             }
         }
+        return recensioniMediaMap;
+    }
 
-        visualizzaRistorante(ristorantiList);
-    }*/
+    private List<Ristorante> cercaPerCombinazioni() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     @Override
     public Ristorante add() {
         Ristorante ristorante;
@@ -401,7 +411,12 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     @Override
     public void visualizza(Ristorante valore) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("Nome: " + valore.getNome());
+        System.out.println("Locazione: " + valore.getLocazione());
+        System.out.println("Prezzo: " + valore.getPrezzo() + " euro");
+        System.out.println("Tipo cucina: " + valore.getCucina());
+        System.out.println("Servizio delivery: " + (valore.isDelivery() ? "si" : "no") + "\n");
+        System.out.print("Servizio prenotazione: " + (valore.isPrenotazione() ? "si" : "no") + "\n");
     }
 
 }

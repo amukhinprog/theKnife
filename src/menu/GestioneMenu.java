@@ -22,10 +22,10 @@ public class GestioneMenu {
     private UtenteService utenteServ = new UtenteService();
     private PreferitiClienteService prefClienteServ = new PreferitiClienteService();
     private UtenteUI utenteUI = new UtenteUI(scanner, utenteServ);
-    private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ);
     private PreferitiClienteUI preferitiClienteUI = new PreferitiClienteUI(scanner, prefClienteServ, ristoranteServ);
     private RecensioneService recensioneServ = new RecensioneService();
     private RecensioneUI recensioneUI = new RecensioneUI(scanner, recensioneServ, ristoranteServ);
+    private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ, recensioneServ);
     private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
     private GestoreService gestoreServ = new GestoreService();
     private AssGestoreRistoranteUI assGestoreRistoranteUI = new AssGestoreRistoranteUI(scanner, assGestoreRistorantiServ, ristoranteServ);
@@ -202,7 +202,7 @@ public class GestioneMenu {
                     scelta = scanner.nextInt();
                     if (scelta == 0) {
                         System.out.println("Uscita dal menu Cliente...");
-                        return; 
+                        return;
                     }
                     valido = true;
                 } catch (RuntimeException e) {

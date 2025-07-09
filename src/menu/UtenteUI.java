@@ -177,8 +177,8 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
             System.out.print("Password: ");
             String password;
             if (console == null) {
-                password = scanner.nextLine();
-
+                scanner.nextLine();
+                password = scanner.next();
             } else {
                 char[] passwordTemp = console.readPassword();
                 for (int i = 0; i < passwordTemp.length; i++) {
