@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -6,7 +6,6 @@
 package gestioneFile;
 
 import entita.associazioni.PreferitiCliente;
-import entita.dominio.Ristorante;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,82 +18,66 @@ import java.util.LinkedList;
  *
  * @author filod
  */
-public class FilePreferitiCliente extends GestioneFile<String, PreferitiCliente> {
+public class FilePreferitiCliente extends GestioneFile<String, List<PreferitiCliente>> {
 
-    private static String percorsoFile = "..\\theKnife\\data\\preferiti.csv";
+    private static final String percorsoFile = "..\\theKnife\\data\\preferiti.csv";
 
     public static String getPercorsoFile() {
         return percorsoFile;
     }
 
     @Override
-    public HashMap<String, PreferitiCliente> ottieniHashMap() {
-        HashMap<String, PreferitiCliente> preferitiMap = new HashMap<>();
-        HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
+    public HashMap<String, List<PreferitiCliente>> ottieniHashMap() {
+        HashMap<String, List<PreferitiCliente>> preferitiMap = new HashMap<>();
 
-        List<List<String>> preferitiList = new ArrayList<>();
+        List<List<String>> preferitiListAll = new ArrayList<>();
         try {
-            preferitiList = FilePreferitiCliente.letturaCsv(percorsoFile);
+            preferitiListAll = FilePreferitiCliente.letturaCsv(percorsoFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FilePreferitiCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        for (List<String> riga : preferitiList) {
+        for (List<String> riga : preferitiListAll) {
             if (riga.size() < 2) {
                 continue;
             }
 
             String usernameCliente = riga.get(0);
-            String[] nomiRistoranti = riga.get(1).split("\\$");
-
-            List<Ristorante> preferiti = new ArrayList<>();
-            for (String nome : nomiRistoranti) {
-                if (!nome.isBlank()) {
-                    Ristorante r = ristorantiMap.get(nome);
-                    if (r != null) {
-                        preferiti.add(r);
-                    }
-                }
+            String nomeRistorante = riga.get(1);
+            PreferitiCliente pc = new PreferitiCliente(usernameCliente, nomeRistorante);
+            List<PreferitiCliente> preferitiList = new ArrayList<>();
+            if (preferitiMap.containsKey(usernameCliente)) {
+                preferitiList = preferitiMap.get(usernameCliente);
+                preferitiList.add(pc);
+            } else {
+                preferitiList.add(pc);
             }
-
-            PreferitiCliente pc = new PreferitiCliente(usernameCliente, preferiti);
-            preferitiMap.put(usernameCliente, pc);
+            preferitiMap.put(usernameCliente, preferitiList);
         }
-
         return preferitiMap;
     }
 
     @Override
-    public void scrittura(PreferitiCliente preferitiCliente) {
+    public void scrittura(List<PreferitiCliente> preferitiCliente) {
         List<String> preferitiList = new ArrayList<>();
-        preferitiList.add(preferitiCliente.getUsernameCliente());
-
-        StringBuilder ristorantiConcatenati = new StringBuilder();
-        for (Ristorante ristorante : preferitiCliente.getRistorantiPreferiti()) {
-            ristorantiConcatenati.append(ristorante.getNome()).append("$");
+        for (PreferitiCliente preferito : preferitiCliente) {
+            preferitiList.add(preferito.getUsernameCliente());
+            preferitiList.add(preferito.getRistorantePreferito());
         }
-        preferitiList.add(ristorantiConcatenati.toString());
-
-        GestioneFile.scrittura(getPercorsoFile(), preferitiList);
+        GestioneFile.scrittura(percorsoFile, preferitiList);
     }
 
     @Override
-    public void sovraScrivi(HashMap<String, PreferitiCliente> preferitiMap) {
-        LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
-
-        for (PreferitiCliente pc : preferitiMap.values()) {
+    public void sovraScrivi(HashMap<String, List<PreferitiCliente>> preferitiMap) {
+        List<List<String>> righeDaScrivere = new LinkedList<>();
+        for (String utente : preferitiMap.keySet()) {
             List<String> riga = new ArrayList<>();
-            riga.add(pc.getUsernameCliente());
-
-            StringBuilder ristorantiConcatenati = new StringBuilder();
-            for (Ristorante ristorante : pc.getRistorantiPreferiti()) {
-                ristorantiConcatenati.append(ristorante.getNome()).append("$");
+            for (PreferitiCliente preferitiCliente : preferitiMap.get(utente)) {
+                riga.add(utente);
+                riga.add(preferitiCliente.getRistorantePreferito());
+                righeDaScrivere.add(riga);
             }
-
-            riga.add(ristorantiConcatenati.toString());
-            righeDaScrivere.add(riga);
         }
-
         GestioneFile.sovraScrivi(percorsoFile, righeDaScrivere);
     }
 }

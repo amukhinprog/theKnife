@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -6,26 +6,23 @@
 package entita.associazioni;
 
 import entita.Associazione;
-import entita.dominio.Ristorante;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author filod
  */
-public class PreferitiCliente  implements Associazione{
-    
+public class PreferitiCliente implements Associazione {
+
     private String usernameCliente;
-    private List<Ristorante> ristorantiPreferiti = new ArrayList<>();
-    
-    public PreferitiCliente(String usernameCliente, List<Ristorante> ristorantiPreferiti){
-        
+    private String ristorantePreferito;
+
+    public PreferitiCliente(String usernameCliente, String ristorantePreferito) {
         this.usernameCliente = usernameCliente;
-        this.ristorantiPreferiti = ristorantiPreferiti;
+        this.ristorantePreferito = ristorantePreferito;
     }
+
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -33,24 +30,10 @@ public class PreferitiCliente  implements Associazione{
             return false;
         }
         PreferitiCliente preferitiCliente = (PreferitiCliente) obj;
-        if (this.usernameCliente.equals(preferitiCliente.getUsernameCliente())) {
-            return ristorantiPreferiti.containsAll(preferitiCliente.getRistorantiPreferiti());
-        } else {
-            return false;
-        }
+        return this.usernameCliente.equals(preferitiCliente.getUsernameCliente())
+                && this.ristorantePreferito.equals(preferitiCliente.getRistorantePreferito());
     }
-    public List<Ristorante> getRistorantiPreferiti() {
-        return ristorantiPreferiti;
-    }
-        
-    public void setRistorantiPreferiti(List<Ristorante> ristorantiPreferiti) {
-        this.ristorantiPreferiti = ristorantiPreferiti;
-    }
-    
-    public void addRistorantePreferito(Ristorante ristorante) {
-        this.ristorantiPreferiti.add(ristorante);
-    }
-    
+
     public String getUsernameCliente() {
         return usernameCliente;
     }
@@ -58,5 +41,13 @@ public class PreferitiCliente  implements Associazione{
     public void setUsernameCliente(String usernameCliente) {
         this.usernameCliente = usernameCliente;
     }
-    
+
+    public String getRistorantePreferito() {
+        return ristorantePreferito;
+    }
+
+    public void setRistorantePreferito(String ristorantePreferito) {
+        this.ristorantePreferito = ristorantePreferito;
+    }
+
 }

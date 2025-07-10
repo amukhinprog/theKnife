@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
  *
  * @author armuh
  */
-public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
+public class PreferitiClienteUI implements ComandiUI<Utente, List<PreferitiCliente>> {
 
     Scanner scanner;
     PreferitiClienteService PCS;
@@ -54,90 +54,81 @@ public class PreferitiClienteUI implements ComandiUI<Utente, PreferitiCliente> {
         }
     }
 
-    public void aggiungi(Utente utente) {
-        if (get(utente) != null) {
-            put(utente);
-        } else {
-            add(utente);
-        }
-    }
-
     @Override
-    public boolean add(Utente valore) {
-        Ristorante r = chiediRistorante();
-        if (r == null) {
+    public boolean add(Utente chiave) {
+        Ristorante ristorante = chiediRistorante();
+        if (chiave == null) {
             return false;
         }
-        List<Ristorante> ristorantiList = new ArrayList<>();
-        ristorantiList.add(r);
-        PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiList);
-        return PCS.add(preferitiCliente);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(chiave.getUsername(), ristorante.getNome());
+        List<PreferitiCliente> preferitiClienteList = new ArrayList<>();
+        preferitiClienteList.add(preferitiCliente);
+        return PCS.add(preferitiClienteList);
     }
 
     @Override
-    public boolean remove(Utente utente) {
+    public boolean remove(Utente chiave) {
         Ristorante ristorante = chiediRistorante();
         if (ristorante == null) {
             return false;
         }
-
-        PreferitiCliente preferitiCliente = get(utente);
-        if (preferitiCliente == null) {
+        String username = chiave.getUsername();
+        List<PreferitiCliente> preferitiClienteList = get(chiave);
+        if (preferitiClienteList == null) {
             System.out.println("Nessun ristorante preferito trovato.");
             return false;
         }
-        List<Ristorante> ristorantiList = preferitiCliente.getRistorantiPreferiti();
-        ristorantiList.remove(ristorante);
-        String username = preferitiCliente.getUsernameCliente();
-        return PCS.put(username, preferitiCliente);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(username, ristorante.getNome());
+        preferitiClienteList.remove(preferitiCliente);
+        return PCS.put(username, preferitiClienteList);
     }
 
     @Override
-    public PreferitiCliente get(Utente valore) {
-        return PCS.get(valore.getUsername());
+    public List<PreferitiCliente> get(Utente chiave) {
+        return PCS.get(chiave.getUsername());
     }
 
     @Override
-    public boolean put(Utente valore) {
-        Ristorante r = chiediRistorante();
-        if (r == null) {
+    public boolean put(Utente chiave) {
+        Ristorante ristorante = chiediRistorante();
+        List<PreferitiCliente> preferitiClienteList = get(chiave);
+
+        if (ristorante == null || preferitiClienteList == null) {
             return false;
         }
-
-        List<Ristorante> ristorantiListValore = PCS.get(valore.getUsername()).getRistorantiPreferiti();
-        if (!ristorantiListValore.contains(r)) {
-            ristorantiListValore.add(r);
-        }
-        PreferitiCliente preferitiCliente = new PreferitiCliente(valore.getUsername(), ristorantiListValore);
-        return PCS.put(valore.getUsername(), preferitiCliente);
+        PreferitiCliente preferitiCliente = new PreferitiCliente(chiave.getUsername(), ristorante.getNome());
+        preferitiClienteList.add(preferitiCliente);
+        return PCS.put(chiave.getUsername(), preferitiClienteList);
     }
 
     @Override
     public void visualizza() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String[] intestazione = {""};
+
     }
 
     @Override
-    public void visualizza(Utente valore) {
-        String username = valore.getUsername();
-        if (PCS.get().containsKey(username)) {
-            List<Ristorante> listaRistoranti = PCS.get().get(username).getRistorantiPreferiti();
-            for (Ristorante r : listaRistoranti) {
-                System.out.println("Nome: " + r.getNome());
-                System.out.println("Locazione: " + r.getLocazione());
-                System.out.println("Prezzo: " + r.getPrezzo() + " euro");
-                System.out.println("Tipo cucina: " + r.getCucina());
-                System.out.println("Servizio delivery: " + r.isDelivery());
-                System.out.println("Servizio prenotazione: " + r.isPrenotazione() + "\n\n");
+    public void visualizza(List<PreferitiCliente> preferitiClienteList) {
+        if (preferitiClienteList != null) {
+            for (PreferitiCliente preferitiCliente : preferitiClienteList) {
+                Ristorante ristorante = ristoranteServ.get(preferitiCliente.getRistorantePreferito());
+                System.out.println("Nome: " + ristorante.getNome());
+                System.out.println("Locazione: " + ristorante.getLocazione());
+                System.out.println("Prezzo: " + ristorante.getPrezzo() + " euro");
+                System.out.println("Tipo cucina: " + ristorante.getCucina());
+                System.out.println("Servizio delivery: " + ristorante.isDelivery());
+                System.out.println("Servizio prenotazione: " + ristorante.isPrenotazione() + "\n\n");
             }
 
         } else {
-            System.out.println("Nessun ristorante preferito trovato per l'utente " + username);
+            System.out.println("Nessun ristorante preferito trovato per l'utente " + preferitiClienteList.getFirst().getUsernameCliente());
         }
     }
 
     @Override
-    public void visualizza(PreferitiCliente valore) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void visualizza(Utente chiave) {
+        List<PreferitiCliente> preferitiClienteList = get(chiave);
+        visualizza(preferitiClienteList);
     }
+
 }

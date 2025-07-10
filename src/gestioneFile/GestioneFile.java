@@ -140,7 +140,7 @@ la lista viene convertita in formato CSV e poi scritta nel file*/
         return rigaSpezzata;
     }
 
-    public static void sovraScrivi(String percorsoFile, LinkedList<List<String>> oggetti) {
+    public static void sovraScrivi(String percorsoFile, List<List<String>> oggetti) {
         File file = new File(percorsoFile);
         List<String> intestazione = null;
         try {

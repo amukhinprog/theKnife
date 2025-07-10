@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -9,32 +9,43 @@ import repository.generico.HashMapService;
 import entita.associazioni.PreferitiCliente;
 import gestioneFile.FilePreferitiCliente;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
  * @author armuh
  */
-public class PreferitiClienteService extends HashMapService<String, PreferitiCliente> {
+public class PreferitiClienteService extends HashMapService<String, List<PreferitiCliente>> {
 
     private static final FilePreferitiCliente FPC = new FilePreferitiCliente();
 
     @Override
-    protected String getKey(PreferitiCliente preferitiCliente) {
-        return preferitiCliente.getUsernameCliente();
+    public boolean add(List<PreferitiCliente> valore) {
+        String chiave = getKey(valore);
+        List<PreferitiCliente> preferitiClienteList = map.get(chiave);
+        preferitiClienteList.add(valore.getFirst());
+        map.put(chiave, preferitiClienteList);
+        scrittura(valore);
+        return true;
     }
 
     @Override
-    protected HashMap<String, PreferitiCliente> lettura() {
+    protected String getKey(List<PreferitiCliente> preferitiCliente) {
+        return preferitiCliente.getFirst().getUsernameCliente();
+    }
+
+    @Override
+    protected HashMap<String, List<PreferitiCliente>> lettura() {
         return FPC.ottieniHashMap();
     }
 
     @Override
-    protected void scrittura(PreferitiCliente valore) {
+    protected void scrittura(List<PreferitiCliente> valore) {
         FPC.scrittura(valore);
     }
 
     @Override
-    protected void sovrascrittura(HashMap<String, PreferitiCliente> map) {
+    protected void sovrascrittura(HashMap<String, List<PreferitiCliente>> map) {
         FPC.sovraScrivi(map);
     }
 }

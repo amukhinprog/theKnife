@@ -104,7 +104,7 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
             boolean b = assGestoreRistorantiServ.put(assGestoreRistoranti.getUsernameRistoratore(), assGestoreRistoranti);
             if (b) {
                 System.out.println("Il ristorante \"" + r.getNome() + "\" è stato aggiunto alla tua lista.");
-                return false;
+                return true;
             }
             return b;
         } else {
@@ -134,9 +134,9 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
 
     @Override
     public void visualizza(Utente chiave) {
-        AssGestoreRistoranti ass = assGestoreRistorantiServ.get(chiave.getUsername());
-        if (ass != null) {
-            visualizza(ass);
+        AssGestoreRistoranti associazione = assGestoreRistorantiServ.get(chiave.getUsername());
+        if (associazione != null) {
+            visualizza(associazione);
         } else {
             System.out.println("Nessun ristorante trovato per questo gestore.");
         }

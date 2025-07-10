@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
  *
  * @author armuh
  */
-public class RecensioneUI implements ComandiUI<Utente, Recensione> {
+public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
 
     Scanner scanner;
     RecensioneService recServ;
@@ -154,8 +154,8 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
             System.out.println("ID non valido. Operazione annullata.");
             return false;
         }
-
-        return recServ.remove(sceltaID);
+        Recensione recensione = recServ.get(sceltaID);
+        return recServ.remove(sceltaID, recensione);
     }
 
     public void mediaStelle(Gestore gestore) {
@@ -181,59 +181,47 @@ public class RecensioneUI implements ComandiUI<Utente, Recensione> {
     }
 
     @Override
-    public Recensione get(Utente valore) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Recensione> get(Utente valore) {
+        HashMap<Integer, Recensione> recensioniMap = recServ.get();
+        List<Recensione> recensioniList = new ArrayList<>();
+        for (Recensione recensione : recensioniMap.values()) {
+            if (recensione.getUsername().equals(valore.getUsername())) {
+                recensioniList.add(recensione);
+            }
+        }
+        return recensioniList;
     }
 
     @Override
     public void visualizza() {
         HashMap<Integer, Recensione> recensioniMap = recServ.get();
         List<Recensione> recensioniList = new ArrayList<>();
-        String[] intestazione = {"ID", "username", "stelle",
-            "data", "ristorante", "testo",};
-        StringBuilder tabella = new StringBuilder();
-        tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
-                intestazione[0], intestazione[2],
-                intestazione[3], intestazione[4], intestazione[5]));
         for (Recensione recensione : recensioniMap.values()) {
             recensioniList.add(recensione);
         }
-
-        for (Recensione recensione : recensioniList) {
-            tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
-                    recensione.getID(), recensione.getStelle(),
-                    recensione.getData(), recensione.getRistoranteRecensito(), recensione.getTesto()));
-        }
-        System.out.println(tabella.toString());
+        visualizza(recensioniList);
     }
 
     @Override
     public void visualizza(Utente utente) {
-        HashMap<Integer, Recensione> recensioniMap = recServ.get();
-        List<Recensione> recensioniList = new ArrayList<>();
+        List<Recensione> recensioniList = get(utente);   
+        visualizza(recensioniList);
+    }
+
+    @Override
+    public void visualizza(List<Recensione> valori) {
         String[] intestazione = {"ID", "username", "stelle",
             "data", "ristorante", "testo",};
         StringBuilder tabella = new StringBuilder();
         tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
                 intestazione[0], intestazione[2],
                 intestazione[3], intestazione[4], intestazione[5]));
-        for (Recensione recensione : recensioniMap.values()) {
-            if (recensione.getUsername().equals(utente.getUsername())) {
-                recensioniList.add(recensione);
-            }
-        }
 
-        for (Recensione recensione : recensioniList) {
+        for (Recensione recensione : valori) {
             tabella.append(String.format("%-5s %-10s %-10s %-30s %-10s%n",
                     recensione.getID(), recensione.getStelle(),
                     recensione.getData(), recensione.getRistoranteRecensito(), recensione.getTesto()));
         }
         System.out.println(tabella.toString());
-
-    }
-
-    @Override
-    public void visualizza(Recensione valore) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

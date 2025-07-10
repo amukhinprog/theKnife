@@ -27,7 +27,6 @@ public class GestioneMenu {
     private RecensioneUI recensioneUI = new RecensioneUI(scanner, recensioneServ, ristoranteServ);
     private RistoranteUI ristoranteUI = new RistoranteUI(scanner, ristoranteServ, recensioneServ);
     private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
-    private GestoreService gestoreServ = new GestoreService();
     private AssGestoreRistoranteUI assGestoreRistoranteUI = new AssGestoreRistoranteUI(scanner, assGestoreRistorantiServ, ristoranteServ);
     private RispostaRecensioniService rispostaRecensioniServ = new RispostaRecensioniService();
     private RispostaRecensioniUI rispostaRecensioniUI = new RispostaRecensioniUI(scanner, rispostaRecensioniServ, recensioneServ, assGestoreRistorantiServ);
@@ -172,7 +171,7 @@ public class GestioneMenu {
                     rispostaRecensioniUI.add(utente);
                     break;
                 case 5:
-                    gestoreServ.visualizzaRistoranti(utente);
+                    assGestoreRistoranteUI.visualizza(utente);
                     break;
                 case 0:
                     break;
@@ -213,7 +212,7 @@ public class GestioneMenu {
 
             switch (scelta) {
                 case 1:
-                    preferitiClienteUI.aggiungi(utente);
+                    preferitiClienteUI.add(utente);
                     break;
                 case 2:
                     preferitiClienteUI.remove(utente);
