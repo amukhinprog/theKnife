@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -17,22 +17,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.LinkedList;
 
 /**
+ * K: chiave, V: valore della chiave
  *
  * @author armuh
+ *
  */
-public abstract class GestioneFile<K, V> /*K: chiave, V: valore della chiave*/{
+public abstract class GestioneFile<K, V> {
 
-    protected static void scrittura(String percorsoFile, List<String> oggetto) 
- /*Altri metodi e classi che estendono la classe in cui 
-questo metodo è definito, o che appartengono allo stesso 
-pacchetto, possono utilizzare questa funzione.
-List<String> oggetto: lista (List) di stringhe (String) 
-che contiene i dati che devono essere scritti nel file. 
-la lista viene convertita in formato CSV e poi scritta nel file*/
-    {
+    /**
+     * Altri metodi e classi che estendono la classe in cui questo metodo è
+     * definito, o che appartengono allo stesso pacchetto, possono utilizzare
+     * questa funzione. List<String> oggetto: lista (List) di stringhe (String)
+     * che contiene i dati che devono essere scritti nel file. la lista viene
+     * convertita in formato CSV e poi scritta nel file
+     *
+     */
+    protected static void scrittura(String percorsoFile, List<String> oggetto) /**/ {
         File file = new File(percorsoFile); //crea un oggetto file che rappresenta il file che si vuole modificare
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(percorsoFile, true))) {
 //bufferwriter: permette di raccogliere i dati in memoria
@@ -57,7 +59,7 @@ la lista viene convertita in formato CSV e poi scritta nel file*/
             raddoppia eventuali virgolette interne.
             Ogni campo corretto viene poi aggiunto alla 
             nuova lista campiCorretti.*/
-            
+
             String linea = String.join(",", campiCorretti);
             /*Unisce tutti gli elementi della lista 
             campiCorretti in un'unica stringa separata 
@@ -87,20 +89,20 @@ la lista viene convertita in formato CSV e poi scritta nel file*/
         return campo;
     }
 
+    /**
+     * legge la prima riga di un file CSV (che di solito è l'intestazione, cioè
+     * i nomi delle colonne) e la restituisce come lista con una sola stringa.
+     * apre un file scanner per leggere riga per riga il file. try chiude
+     * automaticamente lo scanner alla fine. Legge la prima riga del file e la
+     * aggiunge alla lista intestazione.
+     *
+     */
     public static List<String> letturaIntestazione(String percorsoFile) throws FileNotFoundException {
-        /*legge la prima riga di un file CSV 
-        (che di solito è l'intestazione, 
-        cioè i nomi delle colonne) e la 
-        restituisce come lista con una sola stringa.
-*/
+        /*
+         */
         List<String> intestazione = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(percorsoFile))) {
-            /*apre un file scanner per leggere riga per riga il file.
-            try chiude automaticamente lo scanner alla fine.
-            */
-            
             intestazione.add(scanner.nextLine());
-            //Legge la prima riga del file e la aggiunge alla lista intestazione.
         }
         return intestazione;
     }

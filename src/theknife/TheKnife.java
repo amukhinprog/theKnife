@@ -5,12 +5,7 @@
  */
 package theknife;
 
-import java.util.Arrays;
-import java.util.Scanner;
 import menu.GestioneMenu;
-import menu.RistoranteUI;
-import repository.RecensioneService;
-import repository.RistoranteService;
 
 /**
  *
@@ -22,11 +17,6 @@ public class TheKnife {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        RistoranteService rs = new RistoranteService();
-//        RecensioneService recs = new RecensioneService();
-//        RistoranteUI r = new RistoranteUI(scanner, rs, recs);
-//        r.cercaPerStelle();
         GestioneMenu menu = new GestioneMenu();
     }
 

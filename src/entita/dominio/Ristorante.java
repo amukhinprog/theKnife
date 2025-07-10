@@ -8,7 +8,7 @@ package entita.dominio;
 import entita.Dominio;
 
 /**
- *
+ * Entità rappresentante un ristorante del mondo
  * @author armuh
  */
 public class Ristorante implements Dominio {

@@ -9,7 +9,7 @@ import entita.Dominio;
 import java.time.LocalDate;
 
 /**
- *
+ * Entità raffigurante una persona generica
  * @author armuh
  */
 public class Utente implements Dominio {
@@ -35,6 +35,11 @@ public class Utente implements Dominio {
     public Utente() {
     }
 
+    /**
+     * 
+     * @param obj
+     * @return Boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -44,11 +49,7 @@ public class Utente implements Dominio {
             return false;
         }
         Utente utente = (Utente) obj;
-        if (this.username.equals(utente.getUsername())) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.username.equals(utente.getUsername());
     }
 
     public String getLuogoDomicilio() {

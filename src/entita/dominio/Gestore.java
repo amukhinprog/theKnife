@@ -8,7 +8,7 @@ package entita.dominio;
 import java.time.LocalDate;
 
 /**
- *
+ * Entità rappresentate un gestore di un ristorante
  * @author armuh
  */
 public class Gestore extends Utente {

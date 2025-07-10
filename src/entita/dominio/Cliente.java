@@ -8,7 +8,7 @@ package entita.dominio;
 import java.time.LocalDate;
 
 /**
- *
+ * Entità rappresentante un cliente con privilegi differenti
  * @author armuh
  */
 public class Cliente extends Utente {
