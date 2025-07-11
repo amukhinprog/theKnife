@@ -18,7 +18,8 @@ import java.util.NoSuchElementException;
 import repository.RecensioneService;
 
 /**
- *
+ * Gestisce l'interfaccia utente per la ricerca e la visualizzazione dei ristoranti,
+ * offrendo diversi criteri di filtraggio.
  * @author armuh
  */
 public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
@@ -159,7 +160,10 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             System.out.println("Media stelle: " + map.get(r) + "\n\n");
         }
     }
-
+/**
+ * Mostra un menu all'utente per scegliere un criterio di ricerca per i ristoranti
+ * (es. per locazione, cucina, prezzo) e avvia la ricerca corrispondente.
+ */
     public void cerca() {
         int scelta;
         System.out.println("Inserire 1 per cercare un ristorante per locazione");

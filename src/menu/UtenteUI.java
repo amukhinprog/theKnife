@@ -18,7 +18,8 @@ import repository.UtenteService;
 import java.util.NoSuchElementException;
 
 /**
- *
+ * Gestisce l'interfaccia utente per le operazioni relative all'account:
+ * registrazione e login.
  * @author armuh
  */
 public class UtenteUI implements ComandiUISenzaParametri<Utente> {

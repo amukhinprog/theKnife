@@ -5,6 +5,11 @@
  */
 package entita;
 
+/**
+ * Definisce i ruoli possibili per un Utente all'interno del sistema.
+ * I ruoli determinano i privilegi e i menu accessibili.
+ * @author filod
+ */
 public enum Ruolo {
         GESTORE,
         CLIENTE
