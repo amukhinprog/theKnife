@@ -9,7 +9,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- *
+ * La classe astratta definisce i metodi dell'interfaccia Service.
+ * E' una classe fondamentale poichè la gestione delle 4 operazioni
+ * principali è definita in questa classe.
  * @author armuh
  */
 public abstract class HashMapService<K, V> implements Service<K, V> {
@@ -68,12 +70,26 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
     public Collection<V> values() {
         return map.values();
     }
-
+/**
+ * Specifica quale chiave ottenere da ogni oggetti. Ogni oggetto ha una chiave diversa
+ * per questo bisogna implementare diversamente il metodo.
+ * @param valore
+ * @return K
+ */
     protected abstract K getKey(V valore);
-
+/**
+ * Specifica da quale file bisogna leggere le informazioni
+ * @return HashMap<K, V>
+ */
     protected abstract HashMap<K, V> lettura();
-
+/**
+ * Specifica da quale file bisogna scrivere le informazioni
+ * @param valore 
+ */
     protected abstract void scrittura(V valore);
-
+/**
+ * Specifica da quale file bisogna scrivere da capo le informazioni
+ * @param map 
+ */
     protected abstract void sovrascrittura(HashMap<K, V> map);
 }
