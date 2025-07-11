@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -9,6 +9,7 @@ import entita.Dominio;
 
 /**
  * Entità rappresentante un ristorante del mondo
+ *
  * @author armuh
  */
 public class Ristorante implements Dominio {
@@ -67,6 +68,11 @@ public class Ristorante implements Dominio {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
     }
 
     public String getNome() {

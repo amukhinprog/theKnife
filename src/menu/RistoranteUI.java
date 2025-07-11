@@ -33,19 +33,6 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         this.recensioneServ = recensioneServ;
     }
 
-    public Ristorante contains() {
-        String nomeRistorante;
-        do {
-            System.out.println("Scrivere il nome del ristorante: ");
-            nomeRistorante = scanner.next();
-            if (nomeRistorante.equals("0")) {
-                System.out.println("Uscita richiesta. Operazione annullata.");
-                return null;
-            }
-        } while (ristoranteServ.containsKey(nomeRistorante));
-        return ristoranteServ.get(nomeRistorante);
-    }
-
     private Ristorante chiedi() {
         String nome;
         do {
@@ -145,8 +132,6 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
                     System.out.println("Uscita richiesta. Operazione annullata.");
                     return null;
                 }
-//        System.out.println("Stelle: ");
-//        short stelle = scanner.nextShort();
                 return new Ristorante(nome, indirizzo, locazione, prezzo, cucina, longitudine, latitudine,
                         numeroTelefono, delivery, url, webSiteUrl, prenotazione, descrizione);
             } catch (NoSuchElementException e) {
@@ -157,9 +142,13 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     }
 
     public void visualizza(List<Ristorante> ristoranti) {
-        for (Ristorante ristorante : ristoranti) {
-            visualizza(ristorante);
-            System.out.println("\n");
+        if (!ristoranti.isEmpty()) {
+            for (Ristorante ristorante : ristoranti) {
+                visualizza(ristorante);
+                System.out.println("\n");
+            }
+        } else {
+            System.out.print("Non è presente nessun ristorante");
         }
         System.out.println("\n");
     }
@@ -171,19 +160,8 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         }
     }
 
-    private String chiediNome(Scanner scanner) {
-        System.out.println("Inserire il nome del ristorante: ");
-        System.out.println("0. Esci");
-        String nome = scanner.nextLine();
-        if (nome.equals("0")) {
-            System.out.println("Uscita richiesta.");
-            return null;
-        }
-        return nome;
-    }
-
     public void cerca() {
-        int scelta = -1;
+        int scelta;
         System.out.println("Inserire 1 per cercare un ristorante per locazione");
         System.out.println("Inserire 2 per cercare un ristorante per tipologia di cucina");
         System.out.println("Inserire 3 per cercare un ristorante per fascia di prezzo");
@@ -198,7 +176,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             System.out.println("Input non valido o interrotto. Operazione annullata.");
             return;
         }
-
+        scanner.nextLine();
         switch (scelta) {
             case 1:
                 visualizza(cercaPerLocazione());
@@ -221,11 +199,13 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             case 7:
                 visualizza(cercaPerCombinazioni());
                 break;
+            case 0:
+                System.out.println("Uscita");
+                break;
             default:
                 System.out.println("Scegliere l'opzione corretta");
                 break;
         }
-
     }
 
     private List<Ristorante> cercaPerLocazione() {
@@ -375,7 +355,74 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
     }
 
     private List<Ristorante> cercaPerCombinazioni() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int scelta;
+        List<Ristorante> ristorantiListProvvisorio = new ArrayList<>();
+        HashMap<Ristorante, Float> ristorantiMap = new HashMap<>();
+        List<Ristorante> ristorantiList = new ArrayList<>();
+        int i = 0;
+        boolean cercaPerStelle = false;
+        do {
+            System.out.println("Inserire 1 per cercare un ristorante per locazione");
+            System.out.println("Inserire 2 per cercare un ristorante per tipologia di cucina");
+            System.out.println("Inserire 3 per cercare un ristorante per fascia di prezzo");
+            System.out.println("Inserire 4 per cercare un ristorante in base alla disponibilita' del servizio di delivery");
+            System.out.println("Inserire 5 per cercare un ristorante in base alla disponibilita' del servizio di prenotazione online");
+            System.out.println("Inserire 6 per cercare un ristorante in base alla media del numero di stelle");
+            System.out.println("Inserire 0 per terminare la ricerca combinata");
+            try {
+                String input = scanner.next();
+                scelta = Integer.parseInt(input);
+            } catch (NumberFormatException | NoSuchElementException e) {
+                System.out.println("Input non valido o interrotto. Operazione annullata.");
+                return new ArrayList<>();
+            }
+            scanner.nextLine();
+            switch (scelta) {
+                case 1:
+                    ristorantiListProvvisorio = cercaPerLocazione();
+                    break;
+                case 2:
+                    ristorantiListProvvisorio = cercaPerCucina();
+                    break;
+                case 3:
+                    ristorantiListProvvisorio = cercaPerPrezzo();
+                    break;
+                case 4:
+                    ristorantiListProvvisorio = cercaPerDelivery();
+                    break;
+                case 5:
+                    ristorantiListProvvisorio = cercaPerPrenotazione();
+                    break;
+                case 6:
+                    ristorantiMap = cercaPerStelle();
+                    cercaPerStelle = true;
+                    break;
+                case 0:
+                    System.out.println("Uscita");
+                    break;
+                default:
+                    System.out.println("Scegliere l'opzione corretta");
+                    break;
+            }
+            if (scelta != 0) {
+                if (i == 0) {
+                    if (cercaPerStelle) {
+                        ristorantiList.addAll(ristorantiMap.keySet());
+                    } else {
+                        ristorantiList.addAll(ristorantiListProvvisorio);
+                    }
+                    i++;
+                } else {
+                    if (cercaPerStelle) {
+                        ristorantiList.retainAll(ristorantiMap.keySet());
+                    } else {
+                        ristorantiList.retainAll(ristorantiListProvvisorio);
+                    }
+                }
+                cercaPerStelle = false;
+            }
+        } while (scelta != 0 && !ristorantiList.isEmpty());
+        return ristorantiList;
     }
 
     @Override
@@ -415,8 +462,8 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         System.out.println("Locazione: " + valore.getLocazione());
         System.out.println("Prezzo: " + valore.getPrezzo() + " euro");
         System.out.println("Tipo cucina: " + valore.getCucina());
-        System.out.println("Servizio delivery: " + (valore.isDelivery() ? "si" : "no") + "\n");
-        System.out.print("Servizio prenotazione: " + (valore.isPrenotazione() ? "si" : "no") + "\n");
+        System.out.println("Servizio delivery: " + (valore.isDelivery() ? "si" : "no"));
+        System.out.print("Servizio prenotazione: " + (valore.isPrenotazione() ? "si" : "no"));
     }
 
 }
