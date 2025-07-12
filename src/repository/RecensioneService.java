@@ -15,7 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *
+ * Servizio per la gestione della logica di business legata alle recensioni.
+ * Offre metodi per aggiungere recensioni, calcolare medie e gestire la persistenza.
  * @author armuh
  */
 public class RecensioneService extends HashMapService<Integer, Recensione> {
@@ -25,6 +26,11 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
     private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
     private static int ID = getID();
 
+/**
+ * Calcola la media delle valutazioni (stelle) per un singolo ristorante.
+ * @param r Il ristorante di cui calcolare la media. Non può essere nullo.
+ * @return La media delle stelle come numero in virgola mobile, o 0 se non ci sono recensioni.
+ */
     public float mediaStelle(Ristorante r) {
         int somma = 0;
         int ripetizioni = 0;
@@ -57,7 +63,11 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
         }
         return somma / map.size();
     }
-
+/**
+ * Calcola la media delle stelle per ogni ristorante posseduto da un dato gestore.
+ * @param gestore Il gestore per cui calcolare le medie.
+ * @return Una mappa che associa ogni Ristorante del gestore alla sua media di stelle.
+ */
     public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
         HashMap<Ristorante, Float> mediaStelleMap = new HashMap<>();
         List<Ristorante> listaRistorantiPosseduti = new ArrayList<>();

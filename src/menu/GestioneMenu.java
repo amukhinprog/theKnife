@@ -12,7 +12,9 @@ import repository.*;
 import java.util.NoSuchElementException;
 
 /**
- *
+ * Classe principale che agisce da Controller per l'applicazione.
+ * Gestisce il flusso di navigazione dell'utente attraverso i vari menu e
+ * orchestra le interazioni tra l'interfaccia utente e i servizi.
  * @author armuh
  */
 public class GestioneMenu {

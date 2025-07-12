@@ -6,7 +6,9 @@
 package entita.associazioni;
 
 /**
- *
+ * Rappresenta una recensione scritta da un Utente per un Ristorante.
+ * Agisce come classe di associazione, collegando un utente e un ristorante
+ * e aggiungendo informazioni specifiche come le stelle e il testo.
  * @author Nikoro02
  */
 import entita.Associazione;

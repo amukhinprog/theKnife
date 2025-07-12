@@ -17,7 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Gestisce la lettura e scrittura dei dati degli Utenti dal file utenti.csv.
+ * Implementa i metodi astratti di GestioneFile per operare specificamente con
+ * oggetti di tipo Utente, Cliente e Gestore.
  * @author armuh
  */
 public class FileUtenti extends GestioneFile<String, Utente> {
@@ -68,7 +70,11 @@ public class FileUtenti extends GestioneFile<String, Utente> {
         }
         return utenti;
     }
-
+/**
+ * Legge il file degli utenti e restituisce una mappa contenente solo gli utenti
+ * che hanno il ruolo di "gestore".
+ * @return Una HashMap contenente solo gli oggetti Gestore, con l'username come chiave.
+ */
     public HashMap<String, Gestore> ottieniHashMapGestori() {
         List<List<String>> utentiList = new ArrayList<>();
         try {

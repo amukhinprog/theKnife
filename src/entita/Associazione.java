@@ -6,7 +6,8 @@
 package entita;
 
 /**
- *
+ * Interfaccia marker usata per categorizzare le classi che rappresentano
+ * una relazione (associazione) tra due o più entità di dominio.
  * @author armuh
  */
 public interface Associazione {
