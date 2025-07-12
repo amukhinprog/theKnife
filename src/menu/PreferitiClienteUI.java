@@ -103,8 +103,7 @@ public class PreferitiClienteUI implements ComandiUI<Utente, List<PreferitiClien
 
     @Override
     public void visualizza() {
-        String[] intestazione = {""};
-
+        visualizza((Utente) ristoranteServ.get().values());
     }
 
     @Override

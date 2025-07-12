@@ -9,7 +9,6 @@ import entita.dominio.Cliente;
 import entita.dominio.Gestore;
 import entita.Ruolo;
 import entita.dominio.Utente;
-import gestioneFile.FileUtenti;
 import java.io.Console;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -23,7 +22,6 @@ import java.util.NoSuchElementException;
  */
 public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
-    private static FileUtenti fileUtenti = new FileUtenti();
     private Scanner scanner;
     private UtenteService utenteServ;
     private Console console = System.console();
@@ -219,12 +217,27 @@ public class UtenteUI implements ComandiUISenzaParametri<Utente> {
 
     @Override
     public Utente remove() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("Autenticati nuovamente");
+        Utente utenteVecchio = login();
+        if(utenteServ.remove(utenteVecchio.getUsername(), utenteVecchio)){
+            return utenteVecchio;
+        }
+        else{
+            return null;
+        }
     }
 
     @Override
     public Utente put() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("Autenticati nuovamente");
+        Utente utenteVecchio = login();
+        String usernameVecchio = utenteVecchio.getUsername();
+        Utente utenteNuovo = registrazione();
+        if(utenteServ.put(usernameVecchio, utenteNuovo)){
+            return utenteVecchio;
+        }else{
+            return null;
+        }
     }
 
     @Override

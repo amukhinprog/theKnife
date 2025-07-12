@@ -143,13 +143,22 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     public void visualizza(List<Ristorante> ristoranti) {
         if (!ristoranti.isEmpty()) {
-            for (Ristorante ristorante : ristoranti) {
-                visualizza(ristorante);
-                System.out.println("\n");
+            String[] intestazione = {"Nome", "Indirizzo", "Locazione", "Prezzo",
+                "Cucina", "S. delivery", "S. prenotazione"};
+            StringBuilder tabella = new StringBuilder();
+            tabella.append(String.format("%-30s %-80s %-30s %-10s %-30s %-10s %-15s %n", intestazione[0],
+                    intestazione[1], intestazione[2], intestazione[3],
+                    intestazione[4], intestazione[5], intestazione[6]));
+            for (Ristorante valore : ristoranti) {
+                tabella.append(String.format("%-30s %-80s %-30s %-10s %-30s %-10s %-15s %n", valore.getNome(),
+                        valore.getIndirizzo(), valore.getLocazione(), valore.getPrezzo(),
+                        valore.getCucina(), (valore.isDelivery() ? "si" : "no"), (valore.isPrenotazione() ? "si" : "no")));
             }
+            System.out.println(tabella.toString());
         } else {
             System.out.print("Non è presente nessun ristorante");
         }
+
         System.out.println("\n");
     }
 
@@ -458,12 +467,8 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     @Override
     public void visualizza(Ristorante valore) {
-        System.out.println("Nome: " + valore.getNome());
-        System.out.println("Locazione: " + valore.getLocazione());
-        System.out.println("Prezzo: " + valore.getPrezzo() + " euro");
-        System.out.println("Tipo cucina: " + valore.getCucina());
-        System.out.println("Servizio delivery: " + (valore.isDelivery() ? "si" : "no"));
-        System.out.print("Servizio prenotazione: " + (valore.isPrenotazione() ? "si" : "no"));
+        List<Ristorante> ristoranteList = new ArrayList<>();
+        ristoranteList.add(valore);
     }
 
 }
