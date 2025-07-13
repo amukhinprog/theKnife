@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -6,9 +6,6 @@
 package entita.associazioni;
 
 import entita.Associazione;
-import entita.dominio.Ristorante;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -17,32 +14,32 @@ import java.util.List;
 public class AssGestoreRistoranti implements Associazione {
 
     private String usernameRistoratore;
-    private List<Ristorante> ristorantiList = new ArrayList<>();
+    private String ristorantePosseduto;
 
-    public AssGestoreRistoranti(String usernameRistoratore, List<Ristorante> ristorantiList) {
+    public AssGestoreRistoranti(String usernameRistoratore, String ristorantePosseduto) {
         this.usernameRistoratore = usernameRistoratore;
-        this.ristorantiList = ristorantiList;
+        this.ristorantePosseduto = ristorantePosseduto;
     }
 
-    public boolean contains(Ristorante r) {
-        for (Ristorante rPosseduti : ristorantiList) {
-            if (rPosseduti.getNome().equals(r.getNome())) {
-                return true;
-            }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-        return false;
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        AssGestoreRistoranti assGestoreRistoranti = (AssGestoreRistoranti) obj;
+        return this.usernameRistoratore.equals(assGestoreRistoranti.getUsernameRistoratore())
+                && this.ristorantePosseduto.equals(assGestoreRistoranti.getRistorantePosseduto());
     }
 
-    public List<Ristorante> getRistorantiList() {
-        return ristorantiList;
+    public String getRistorantePosseduto() {
+        return ristorantePosseduto;
     }
 
-    public void setRistorantiList(List<Ristorante> ristorantiList) {
-        this.ristorantiList = ristorantiList;
-    }
-
-    public void addRistorantiList(Ristorante ristorante) {
-        this.ristorantiList.add(ristorante);
+    public void setRistorantePosseduto(String ristorantePosseduto) {
+        this.ristorantePosseduto = ristorantePosseduto;
     }
 
     public String getUsernameRistoratore() {

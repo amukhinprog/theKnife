@@ -8,6 +8,7 @@ package repository;
 import repository.generico.HashMapService;
 import entita.associazioni.PreferitiCliente;
 import gestioneFile.FilePreferitiCliente;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +23,13 @@ public class PreferitiClienteService extends HashMapService<String, List<Preferi
     @Override
     public boolean add(List<PreferitiCliente> valore) {
         String chiave = getKey(valore);
-        List<PreferitiCliente> preferitiClienteList = map.get(chiave);
+        List<PreferitiCliente> preferitiClienteList = new ArrayList<>();
+        if (map.containsKey(chiave)) {
+            preferitiClienteList = map.get(chiave);
+        }
+        if (valore == null || valore.isEmpty()) {
+            return false;
+        }
         preferitiClienteList.add(valore.getFirst());
         map.put(chiave, preferitiClienteList);
         scrittura(valore);

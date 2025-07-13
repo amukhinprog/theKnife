@@ -5,6 +5,8 @@
  */
 package repository;
 
+import entita.associazioni.AssGestoreRistoranti;
+import entita.associazioni.PreferitiCliente;
 import repository.generico.HashMapService;
 import entita.dominio.Gestore;
 import entita.associazioni.Recensione;
@@ -68,31 +70,32 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
  * @param gestore Il gestore per cui calcolare le medie.
  * @return Una mappa che associa ogni Ristorante del gestore alla sua media di stelle.
  */
-    public HashMap<Ristorante, Float> mediaStelle(Gestore gestore) {
-        HashMap<Ristorante, Float> mediaStelleMap = new HashMap<>();
-        List<Ristorante> listaRistorantiPosseduti = new ArrayList<>();
+    public HashMap<String, Float> mediaStelle(Gestore gestore) {
+        HashMap<String, Float> mediaStelleMap = new HashMap<>();
+        List<AssGestoreRistoranti> assGestoreRistoranteList = new ArrayList<>();
         try {
-            listaRistorantiPosseduti = assGestoreRistorantiServ.get(gestore.getUsername()).getRistorantiList();
+            assGestoreRistoranteList = assGestoreRistorantiServ.get(gestore.getUsername());
         } catch (NullPointerException e) {
             System.out.println("Errore: Gestore o ristoranti non trovati.");
         }
         int sommaTot = 0;
         int countTot = 0;
         float mediaStelle = 0;
-        for (Ristorante ristoranteP : listaRistorantiPosseduti) {
+        for (AssGestoreRistoranti assGestoreRistorante : assGestoreRistoranteList) {
+            String ristoranteP = assGestoreRistorante.getRistorantePosseduto();
             int somma = 0;
             int count = 0;
             mediaStelle = 0;
             
             for (Recensione recensione : map.values()) {
-                if (recensione.getRistoranteRecensito().equals(ristoranteP.getNome())) {
+                if (recensione.getRistoranteRecensito().equals(ristoranteP)) {
                     somma += recensione.getStelle();
                     count++;
                 }
             }
             try {
                 if (count == 0) {
-                    throw new ArithmeticException("Il ristorante " + ristoranteP.getNome() + " non ha recensioni.");
+                    throw new ArithmeticException("Il ristorante " + ristoranteP + " non ha recensioni.");
                 }
                 mediaStelle = somma / count;
             } catch (ArithmeticException e) {

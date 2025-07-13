@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -13,10 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.LinkedList;
 import repository.AssGestoreRistorantiService;
 
-public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistoranti> {
+public class FileGestoreRistorante extends GestioneFile<String, List<AssGestoreRistoranti>> {
 
     protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
 
@@ -25,71 +24,64 @@ public class FileGestoreRistorante extends GestioneFile<String, AssGestoreRistor
     }
 
     @Override
-    public void sovraScrivi(HashMap<String, AssGestoreRistoranti> assRistorantiGestore) {
-        LinkedList<List<String>> assRistorantiGestoreList = new LinkedList<>();
-        for (String chiave : assRistorantiGestore.keySet()) {
+    public void sovraScrivi(HashMap<String, List<AssGestoreRistoranti>> assGestoreRistoranteMap) {
+        List<List<String>> righeDaScrivere = new ArrayList<>();
+        for (String utente : assGestoreRistoranteMap.keySet()) {
             List<String> riga = new ArrayList<>();
-            List<Ristorante> ristorantiPosseduti = assRistorantiGestore.get(chiave).getRistorantiList();
-            riga.add(assRistorantiGestore.get(chiave).getUsernameRistoratore());
-            String stringaDiRistoranti = "";
-            for (Ristorante ristorantePosseduto : ristorantiPosseduti) {
-                stringaDiRistoranti += ristorantePosseduto.getNome() + "$";
+            for (AssGestoreRistoranti assGestoreRistorante : assGestoreRistoranteMap.get(utente)) {
+                riga.add(utente);
+                riga.add(assGestoreRistorante.getRistorantePosseduto());
+                righeDaScrivere.add(riga);
             }
-            riga.add(stringaDiRistoranti);
-            assRistorantiGestoreList.add(riga);
         }
-        GestioneFile.sovraScrivi(percorsoFile, assRistorantiGestoreList);
+        GestioneFile.sovraScrivi(percorsoFile, righeDaScrivere);
     }
 
-    public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
-        AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
-        HashMap<String, AssGestoreRistoranti> assGestoreRistorantiMap = assGestoreRistoranti.get();
-        List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
-
-        List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>();
-        for (String chiave : assGestoreRistorantiMap.keySet()) {
-            ristorantiPossedutiDaUtente = assGestoreRistorantiMap.get(chiave).getRistorantiList();
-            ristorantiPossedutiUtenti.addAll(ristorantiPossedutiDaUtente);
-        }
-        return ristorantiPossedutiUtenti;
-    }
+//    public List<Ristorante> ottieniListaRistorantiPossedutiUtenti() {
+//        AssGestoreRistorantiService assGestoreRistoranti = new AssGestoreRistorantiService();
+//        HashMap<String, AssGestoreRistoranti> assGestoreRistorantiMap = assGestoreRistoranti.get();
+//        List<Ristorante> ristorantiPossedutiUtenti = new ArrayList<>();
+//
+//        List<Ristorante> ristorantiPossedutiDaUtente = new ArrayList<>();
+//        for (String chiave : assGestoreRistorantiMap.keySet()) {
+//            ristorantiPossedutiDaUtente = assGestoreRistorantiMap.get(chiave).getRistorantiList();
+//            ristorantiPossedutiUtenti.addAll(ristorantiPossedutiDaUtente);
+//        }
+//        return ristorantiPossedutiUtenti;
+//    }
 
     @Override
-    public HashMap<String, AssGestoreRistoranti> ottieniHashMap() {
-        HashMap<String, AssGestoreRistoranti> assGestoreRistoranteMap = new HashMap<>();
-
-        HashMap<String, Ristorante> ristorantiMap = new FileRistorante().ottieniHashMap();
-
-        List<List<String>> assGestoreRistoranteList = new ArrayList<>();
+    public HashMap<String, List<AssGestoreRistoranti>> ottieniHashMap() {
+        HashMap<String, List<AssGestoreRistoranti>> assGestoreRistoranteMap = new HashMap<>();
+        List<List<String>> assGestoreRistorantiList = new ArrayList<>();
         try {
-            assGestoreRistoranteList = FileGestoreRistorante.letturaCsv(percorsoFile);
+            assGestoreRistorantiList = FileGestoreRistorante.letturaCsv(percorsoFile);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileGestoreRistorante.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (List<String> riga : assGestoreRistoranteList) {
+        for (List<String> riga : assGestoreRistorantiList) {
 
             String usernameGestore = riga.get(0);
-            String[] ristorantiSplittati = riga.get(1).split("\\$");
-            List<Ristorante> l = new ArrayList<>();
-            for (String nomeRistorante : ristorantiSplittati) {
-                Ristorante ristorante = ristorantiMap.get(nomeRistorante);
-                l.add(ristorante);
+            String ristorantePosseduto = riga.get(1);
+            List<AssGestoreRistoranti> assGestoreRistoranteList = new ArrayList<>();
+            AssGestoreRistoranti assGestoreRistorante = new AssGestoreRistoranti(usernameGestore, ristorantePosseduto);
+            if (assGestoreRistoranteMap.containsKey(usernameGestore)) {
+                assGestoreRistoranteList = assGestoreRistoranteMap.get(usernameGestore);
             }
-            AssGestoreRistoranti ristoratoreConRistoranti = new AssGestoreRistoranti(usernameGestore, l);
-            assGestoreRistoranteMap.put(usernameGestore, ristoratoreConRistoranti);
+            assGestoreRistoranteList.add(assGestoreRistorante);
+            assGestoreRistoranteMap.put(usernameGestore, assGestoreRistoranteList);
         }
         return assGestoreRistoranteMap;
     }
 
     @Override
-    public void scrittura(AssGestoreRistoranti assRistorantiGestore) {
-        List<String> assRistorantiGestoreList = new ArrayList<>();
-        assRistorantiGestoreList.add(assRistorantiGestore.getUsernameRistoratore());
-        for (entita.dominio.Ristorante ristorantePosseduto : assRistorantiGestore.getRistorantiList()) {
-            String nomeRistorantePosseduto = ristorantePosseduto.getNome() + "$";
-            assRistorantiGestoreList.add(nomeRistorantePosseduto);
+    public void scrittura(List<AssGestoreRistoranti> oggetto) {
+        for (AssGestoreRistoranti assGestoreRistorante : oggetto) {
+            List<String> rigaDaScrivere = new ArrayList<>();
+            rigaDaScrivere.add(assGestoreRistorante.getUsernameRistoratore());
+            rigaDaScrivere.add(assGestoreRistorante.getRistorantePosseduto());
+            GestioneFile.scrittura(percorsoFile, rigaDaScrivere);
         }
-        GestioneFile.scrittura(percorsoFile, assRistorantiGestoreList);
     }
 
 }

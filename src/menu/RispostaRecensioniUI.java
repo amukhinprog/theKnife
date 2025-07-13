@@ -49,24 +49,23 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
 
 //        System.out.println(recensioneServ.get());
         HashMap<Integer, Recensione> recensioniMap = recensioneServ.get();
-        AssGestoreRistoranti assGestoreRistoranti = assGestoreRistorantiServ.get(username);
-        if (assGestoreRistoranti == null) {
+        List<AssGestoreRistoranti> assGestoreRistorantiList = assGestoreRistorantiServ.get(username);
+        if (assGestoreRistorantiList == null) {
             System.out.println("Nessun ristorante associato al gestore.");
             return null;
         }
-        List<Ristorante> ristorantiPossedutiList = assGestoreRistoranti.getRistorantiList();
-        HashMap<Integer, Ristorante> ristorantiPossedutiRecensiti = new HashMap<>();
-        for (Ristorante ristorantePosseduto : ristorantiPossedutiList) {
+        HashMap<Integer, String> ristorantiPossedutiRecensiti = new HashMap<>();
+        for (AssGestoreRistoranti assGestoreRistoranti : assGestoreRistorantiList) {
             for (Recensione recensione : recensioniMap.values()) {
-                if ((recensione.getRistoranteRecensito().compareTo(ristorantePosseduto.getNome())) == 0) {
-                    ristorantiPossedutiRecensiti.put(recensione.getID(), ristorantePosseduto);
+                if ((recensione.getRistoranteRecensito().compareTo(assGestoreRistoranti.getRistorantePosseduto())) == 0) {
+                    ristorantiPossedutiRecensiti.put(recensione.getID(), assGestoreRistoranti.getRistorantePosseduto());
                 }
             }
         }
         if (!ristorantiPossedutiRecensiti.isEmpty()) {
             for (Integer i : ristorantiPossedutiRecensiti.keySet()) {
                 System.out.println("ID: " + i);
-                System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i).getNome());
+                System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i));
                 System.out.println("Recensione: " + recensioniMap.get(i).getTesto());
             }
             int scelta = -1;

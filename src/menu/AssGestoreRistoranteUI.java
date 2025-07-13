@@ -6,9 +6,11 @@
 package menu;
 
 import entita.associazioni.AssGestoreRistoranti;
+import entita.dominio.Gestore;
 import entita.dominio.Ristorante;
 import entita.dominio.Utente;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import repository.AssGestoreRistorantiService;
@@ -18,7 +20,7 @@ import repository.RistoranteService;
  *
  * @author armuh
  */
-public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRistoranti> {
+public class AssGestoreRistoranteUI implements ComandiUI<Utente, List<AssGestoreRistoranti>> {
 
     AssGestoreRistorantiService assGestoreRistorantiServ;
     Scanner scanner;
@@ -43,40 +45,33 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
         return ristoranteServ.get(nomeRistorante);
     }
 
-    public void aggiungi(Utente utente) {
-        if (get(utente) != null) {
-            put(utente);
-        } else {
-            add(utente);
-        }
-    }
-
     @Override
     public boolean add(Utente utente) {
-        Ristorante r = chiediRistorante();
-        if (r == null) {
+        Ristorante ristorante = chiediRistorante();
+        if (ristorante == null) {
             System.out.println("Operazione annullata.");
             return false;
         }
-
-        for (AssGestoreRistoranti ass : assGestoreRistorantiServ.get().values()) {
-            if (ass.getRistorantiList().contains(r)) {
-                System.out.println(" Il ristorante \"" + r.getNome() + "\" è già stato assegnato a un altro gestore.");
-                return false;
-            }
+        if (assGestoreRistorantiServ.ristoranteGiaPossedutoDalGestore((Gestore) utente, ristorante)) {
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in suo possesso.");
+            return false;
         }
-        List<Ristorante> ristorantiList = new ArrayList<>();
-        ristorantiList.add(r);
-        AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(utente.getUsername(), ristorantiList);
-        boolean b = assGestoreRistorantiServ.add(assGestoreRistoranti);
+        if (assGestoreRistorantiServ.ristoranteHaAltroProprietario((Gestore) utente, ristorante)) {
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in possesso da un altro gestore.");
+            return false;
+        }
+        AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(utente.getUsername(), ristorante.getNome());
+        List<AssGestoreRistoranti> assGestoreRistorantiList = new ArrayList<>();
+        assGestoreRistorantiList.add(assGestoreRistoranti);
+        boolean b = assGestoreRistorantiServ.add(assGestoreRistorantiList);
         if (b) {
-            System.out.println("Il ristorante \"" + r.getNome() + "\" è stato aggiunto alla tua lista.");
+            System.out.println("Il ristorante \"" + ristorante.getNome() + "\" è stato aggiunto alla tua lista.");
         }
         return b;
     }
 
     @Override
-    public AssGestoreRistoranti get(Utente valore) {
+    public List<AssGestoreRistoranti> get(Utente valore) {
         return assGestoreRistorantiServ.get(valore.getUsername());
     }
 
@@ -87,28 +82,25 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
 
     @Override
     public boolean put(Utente valore) {
-        Ristorante r = chiediRistorante();
-
-        for (AssGestoreRistoranti ass : assGestoreRistorantiServ.get().values()) {
-            if (!ass.getUsernameRistoratore().equals(valore.getUsername())
-                    && ass.getRistorantiList().contains(r)) {
-                System.out.println("️ Il ristorante \"" + r.getNome() + "\" è già stato assegnato a un altro gestore.");
-                return false;
-            }
+        Ristorante ristorante = chiediRistorante();
+        if (assGestoreRistorantiServ.ristoranteGiaPossedutoDalGestore((Gestore) valore, ristorante)) {
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in suo possesso.");
+            return false;
         }
-        List<Ristorante> ristorantiList = assGestoreRistorantiServ.get(valore.getUsername()).getRistorantiList();
-        if (ristorantiList.contains(r)) {
-            ristorantiList.add(r);
+        if (assGestoreRistorantiServ.ristoranteHaAltroProprietario((Gestore) valore, ristorante)) {
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in possesso da un altro gestore.");
+            return false;
+        }
 
-            AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(valore.getUsername(), ristorantiList);
-            boolean b = assGestoreRistorantiServ.put(assGestoreRistoranti.getUsernameRistoratore(), assGestoreRistoranti);
-            if (b) {
-                System.out.println("Il ristorante \"" + r.getNome() + "\" è stato aggiunto alla tua lista.");
-                return true;
-            }
-            return b;
+        AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(valore.getUsername(), ristorante.getNome());
+        List<AssGestoreRistoranti> assGestoreRistorantiList = new ArrayList<>();
+        assGestoreRistorantiList.add(assGestoreRistoranti);
+        boolean b = assGestoreRistorantiServ.put(valore.getUsername(), assGestoreRistorantiList);
+        if (b) {
+            System.out.println("Il ristorante " + ristorante.getNome() + " e' stato aggiunto alla sua lista");
+            return true;
         } else {
-            System.out.println("ℹ️ Il ristorante \"" + r.getNome() + "\" è già nella tua lista.");
+            System.out.println("Il ristorante " + ristorante.getNome() + " non e' stato aggiunto alla sua lista");
             return false;
         }
     }
@@ -116,25 +108,26 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, AssGestoreRisto
     @Override
     public void visualizza() {
         System.out.println("Ristoranti associati:");
-        for (AssGestoreRistoranti ass : assGestoreRistorantiServ.get().values()) {
-            System.out.println("Gestore: " + ass.getUsernameRistoratore());
-            for (Ristorante r : ass.getRistorantiList()) {
-                System.out.println("- " + r.getNome());
+        HashMap<String, List<AssGestoreRistoranti>> mappa = assGestoreRistorantiServ.get();
+        for (String username : mappa.keySet()) {
+            System.out.println("Username: " + username);
+            for (AssGestoreRistoranti assGestoreRistoranti : mappa.get(username)) {
+                System.out.println("- " + assGestoreRistoranti.getRistorantePosseduto());
             }
         }
     }
 
     @Override
-    public void visualizza(AssGestoreRistoranti valore) {
-        System.out.println("Gestore: " + valore.getUsernameRistoratore());
-        for (Ristorante r : valore.getRistorantiList()) {
-            System.out.println("- " + r.getNome());
+    public void visualizza(List<AssGestoreRistoranti> valore) {
+        System.out.println("Username: " + valore.getFirst().getUsernameRistoratore());
+        for (AssGestoreRistoranti assGestoreRistoranti : valore) {
+            System.out.println("- " + assGestoreRistoranti.getRistorantePosseduto());
         }
     }
 
     @Override
     public void visualizza(Utente chiave) {
-        AssGestoreRistoranti associazione = assGestoreRistorantiServ.get(chiave.getUsername());
+        List<AssGestoreRistoranti> associazione = assGestoreRistorantiServ.get(chiave.getUsername());
         if (associazione != null) {
             visualizza(associazione);
         } else {

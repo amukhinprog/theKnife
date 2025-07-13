@@ -151,7 +151,7 @@ public class GestioneMenu {
             } while (!valido);
             switch (scelta) {
                 case 1:
-                    assGestoreRistoranteUI.aggiungi(utente);
+                    assGestoreRistoranteUI.add(utente);
                     break;
                 case 2:
                     ristoranteUI.cerca();

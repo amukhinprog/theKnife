@@ -159,15 +159,15 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
     }
 
     public void mediaStelle(Gestore gestore) {
-        HashMap<Ristorante, Float> mediaStelle = recServ.mediaStelle(gestore);
+        HashMap<String, Float> mediaStelle = recServ.mediaStelle(gestore);
         System.out.println("Ristorante\tMedia stelle");
 
         float sommaTot = 0;
         int count = 0;
 
-        for (Ristorante ristorante : mediaStelle.keySet()) {
-            Float media = mediaStelle.get(ristorante);
-            System.out.println(ristorante.getNome() + "\t\t\t" + media);
+        for (String nomeRistorante : mediaStelle.keySet()) {
+            Float media = mediaStelle.get(nomeRistorante);
+            System.out.println(nomeRistorante + "\t\t\t" + media);
             sommaTot += media;
             count++;
         }

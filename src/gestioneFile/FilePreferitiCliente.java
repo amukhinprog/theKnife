@@ -49,9 +49,8 @@ public class FilePreferitiCliente extends GestioneFile<String, List<PreferitiCli
             if (preferitiMap.containsKey(usernameCliente)) {
                 preferitiList = preferitiMap.get(usernameCliente);
                 preferitiList.add(pc);
-            } else {
-                preferitiList.add(pc);
             }
+            preferitiList.add(pc);
             preferitiMap.put(usernameCliente, preferitiList);
         }
         return preferitiMap;
@@ -59,12 +58,12 @@ public class FilePreferitiCliente extends GestioneFile<String, List<PreferitiCli
 
     @Override
     public void scrittura(List<PreferitiCliente> preferitiCliente) {
-        List<String> preferitiList = new ArrayList<>();
         for (PreferitiCliente preferito : preferitiCliente) {
+            List<String> preferitiList = new ArrayList<>();
             preferitiList.add(preferito.getUsernameCliente());
             preferitiList.add(preferito.getRistorantePreferito());
+            GestioneFile.scrittura(percorsoFile, preferitiList);
         }
-        GestioneFile.scrittura(percorsoFile, preferitiList);
     }
 
     @Override
