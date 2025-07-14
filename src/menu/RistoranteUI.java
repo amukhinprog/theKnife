@@ -182,6 +182,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
         System.out.println("Inserire 5 per cercare un ristorante in base alla disponibilita' del servizio di prenotazione online");
         System.out.println("Inserire 6 per cercare un ristorante in base alla media del numero di stelle");
         System.out.println("Inserire 7 per cercare un ristorante per combinazione dei precedenti criteri di ricerca");
+        System.out.println("Inserire 0 per uscire dal menu");
         try {
             String input = scanner.next();
             scelta = Integer.parseInt(input);
