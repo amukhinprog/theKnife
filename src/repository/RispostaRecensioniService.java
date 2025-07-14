@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -7,24 +7,28 @@ package repository;
 
 import entita.associazioni.RispostaRecensioni;
 import gestioneFile.FileRispostaRecensioni;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import repository.generico.HashMapService;
 
 /**
  *
  * @author armuh
  */
-public class RispostaRecensioniService extends HashMapService<Integer, RispostaRecensioni> {
+public class RispostaRecensioniService extends HashMapService<String, List<RispostaRecensioni>> {
 
     private static final FileRispostaRecensioni FRR = new FileRispostaRecensioni();
     private static int ID = getID();
 
     public static int getID() {
-        HashMap<Integer, RispostaRecensioni> map = FRR.ottieniHashMap();
+        HashMap<String, List<RispostaRecensioni>> map = FRR.ottieniHashMap();
         int id = 0;
-        for (Integer i : map.keySet()) {
-            if (i >= id) {
-                id = i;
+        for (String username : map.keySet()) {
+            for (RispostaRecensioni rispostaRecensioni : map.get(username)) {
+                if (rispostaRecensioni.getID() >= id) {
+                    id = rispostaRecensioni.getID();
+                }
             }
         }
         return id;
@@ -35,34 +39,39 @@ public class RispostaRecensioniService extends HashMapService<Integer, RispostaR
     }
 
     @Override
-    public boolean add(RispostaRecensioni valore) {
-        valore.setID(incID());
-        Integer chiave = getKey(valore);
+    public boolean add(List<RispostaRecensioni> valore) {
+        valore.getFirst().setID(incID());
+        String chiave = getKey(valore);
+        List<RispostaRecensioni> rispostaRecensioniList = new ArrayList<>();
         if (map.containsKey(chiave)) {
-            throw new RuntimeException("Valore già presente, utilizzare put");
+            rispostaRecensioniList = map.get(chiave);
         }
-        map.put(chiave, valore);
+        if (valore == null || valore.isEmpty()) {
+            return false;
+        }
+        rispostaRecensioniList.add(valore.getFirst());
+        map.put(chiave, rispostaRecensioniList);
         scrittura(valore);
         return true;
     }
 
     @Override
-    protected Integer getKey(RispostaRecensioni valore) {
-        return valore.getID();
-    }
-
-    @Override
-    protected HashMap<Integer, RispostaRecensioni> lettura() {
-        return FRR.ottieniHashMap();
-    }
-
-    @Override
-    protected void scrittura(RispostaRecensioni valore) {
+    protected void scrittura(List<RispostaRecensioni> valore) {
         FRR.scrittura(valore);
     }
 
     @Override
-    protected void sovrascrittura(HashMap<Integer, RispostaRecensioni> map) {
+    protected String getKey(List<RispostaRecensioni> valore) {
+        return valore.getFirst().getUsername();
+    }
+
+    @Override
+    protected HashMap<String, List<RispostaRecensioni>> lettura() {
+        return FRR.ottieniHashMap();
+    }
+
+    @Override
+    protected void sovrascrittura(HashMap<String, List<RispostaRecensioni>> map) {
         FRR.sovraScrivi(map);
     }
 

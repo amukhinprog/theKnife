@@ -36,6 +36,7 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
     }
 
     private Recensione modificaInformazioni(Recensione recensione) {
+        scanner.nextLine();
         System.out.println("Modifica la tua recensione");
         LocalDate data = LocalDate.now();
         System.out.println("Scegli il numero di stelle (1-5): ");
@@ -84,6 +85,7 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
 
         try {
             do {
+                scanner.nextLine();
                 System.out.print("Inserire il nome del ristorante (o 0 per annullare): ");
                 nomeRistorante = scanner.nextLine();
                 if (nomeRistorante.equals("0")) {

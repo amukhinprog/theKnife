@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -19,28 +19,34 @@ import java.util.logging.Logger;
  *
  * @author armuh
  */
-public class FileRispostaRecensioni extends GestioneFile<Integer, RispostaRecensioni> {
+public class FileRispostaRecensioni extends GestioneFile<String, List<RispostaRecensioni>> {
 
     private static String percorsoFile = "..\\theKnife\\data\\risposta_recensioni.csv";
 
     @Override
-    public HashMap<Integer, RispostaRecensioni> ottieniHashMap() {
+    public HashMap<String, List<RispostaRecensioni>> ottieniHashMap() {
         List<List<String>> risposteList = new ArrayList<>();
-        HashMap<Integer, RispostaRecensioni> risposteMap = new HashMap<Integer, RispostaRecensioni>();
+        HashMap<String, List<RispostaRecensioni>> risposteMap = new HashMap<>();
         try {
             risposteList = FileRecensioni.letturaCsv(percorsoFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileRecensioni.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         try {
             for (List<String> campo : risposteList) {
+
                 int ID = Integer.parseInt(campo.get(0));
                 int idRif = Integer.parseInt(campo.get(1));
                 String username = campo.get(2);
                 String testo = campo.get(3);
                 LocalDate data = LocalDate.parse(campo.get(4));
                 RispostaRecensioni rispostaRecensioni = new RispostaRecensioni(ID, idRif, username, testo, data);
-                risposteMap.put(ID, rispostaRecensioni);
+                List<RispostaRecensioni> values = new ArrayList<>();
+                if (risposteMap.containsKey(username)) {
+                    values = risposteMap.get(username);
+                }
+                values.add(rispostaRecensioni);
+                risposteMap.put(username, values);
             }
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
@@ -49,29 +55,33 @@ public class FileRispostaRecensioni extends GestioneFile<Integer, RispostaRecens
     }
 
     @Override
-    public void scrittura(RispostaRecensioni oggetto) {
+    public void scrittura(List<RispostaRecensioni> oggetto) {
         List<String> rispostaRecensioniLista = new ArrayList<>();
-        rispostaRecensioniLista.add(String.valueOf(oggetto.getID()));
-        rispostaRecensioniLista.add(String.valueOf(oggetto.getIdRif()));
-        rispostaRecensioniLista.add(oggetto.getUsername());
-        rispostaRecensioniLista.add(oggetto.getTesto());
-        rispostaRecensioniLista.add(String.valueOf(oggetto.getData()));
-        GestioneFile.scrittura(percorsoFile, rispostaRecensioniLista);
+        for (RispostaRecensioni rispostaRecensioni : oggetto) {
+            rispostaRecensioniLista.add(String.valueOf(rispostaRecensioni.getID()));
+            rispostaRecensioniLista.add(String.valueOf(rispostaRecensioni.getIdRif()));
+            rispostaRecensioniLista.add(rispostaRecensioni.getUsername());
+            rispostaRecensioniLista.add(rispostaRecensioni.getTesto());
+            rispostaRecensioniLista.add(String.valueOf(rispostaRecensioni.getData()));
+            GestioneFile.scrittura(percorsoFile, rispostaRecensioniLista);
+        }
     }
 
     @Override
-    public void sovraScrivi(HashMap<Integer, RispostaRecensioni> map) {
-        LinkedList<List<String>> rispostaRecensioniLista = new LinkedList<>();
-        for (RispostaRecensioni risposta : map.values()) {
-            List<String> rispostaList = new ArrayList<>();
-            rispostaList.add(String.valueOf(risposta.getID()));
-            rispostaList.add(String.valueOf(risposta.getIdRif()));
-            rispostaList.add(risposta.getUsername());
-            rispostaList.add(risposta.getTesto());
-            rispostaList.add(String.valueOf(risposta.getData()));
-            rispostaRecensioniLista.add(rispostaList);
+    public void sovraScrivi(HashMap<String, List<RispostaRecensioni>> map) {
+        LinkedList<List<String>> righeDaScrivere = new LinkedList<>();
+        for (String username : map.keySet()) {
+            List<String> riga = new ArrayList<>();
+            for (RispostaRecensioni rispostaRecensioni : map.get(username)) {
+                riga.add(String.valueOf(rispostaRecensioni.getID()));
+                riga.add(String.valueOf(rispostaRecensioni.getIdRif()));
+                riga.add(rispostaRecensioni.getUsername());
+                riga.add(rispostaRecensioni.getTesto());
+                riga.add(String.valueOf(rispostaRecensioni.getData()));
+                righeDaScrivere.add(riga);
+            }
         }
-        GestioneFile.sovraScrivi(percorsoFile, rispostaRecensioniLista);
+        GestioneFile.sovraScrivi(percorsoFile, righeDaScrivere);
     }
 
 }

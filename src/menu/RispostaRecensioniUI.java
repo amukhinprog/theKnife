@@ -10,7 +10,7 @@ import entita.associazioni.Recensione;
 import entita.associazioni.RispostaRecensioni;
 import entita.dominio.Gestore;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -23,13 +23,12 @@ import java.util.NoSuchElementException;
  *
  * @author armuh
  */
-public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensioni> {
+public class RispostaRecensioniUI implements ComandiUI<Gestore, List<RispostaRecensioni>> {
 
     Scanner scanner;
     RispostaRecensioniService rispostaRecensioniServ;
     RecensioneService recensioneServ;
     AssGestoreRistorantiService assGestoreRistorantiServ;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public RispostaRecensioniUI(Scanner scanner, RispostaRecensioniService rispostaRecensioniServ,
             RecensioneService recensioneServ, AssGestoreRistorantiService assGestoreRistorantiServ) {
@@ -51,16 +50,28 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
             System.out.println("Nessun ristorante associato al gestore.");
             return null;
         }
+
+        boolean localeRecensitoUnaVolta = false;
         HashMap<Integer, String> ristorantiPossedutiRecensiti = new HashMap<>();
         for (AssGestoreRistoranti assGestoreRistoranti : assGestoreRistorantiList) {
             for (Recensione recensione : recensioniMap.values()) {
                 if ((recensione.getRistoranteRecensito().compareTo(assGestoreRistoranti.getRistorantePosseduto())) == 0) {
-                    ristorantiPossedutiRecensiti.put(recensione.getID(), assGestoreRistoranti.getRistorantePosseduto());
+                    for (RispostaRecensioni rispostaRecensioni : rispostaRecensioniServ.get(username)) {
+                        if (rispostaRecensioni.getIdRif() == recensione.getID()) {
+                            localeRecensitoUnaVolta = true;
+                        }
+                    }
+                    if (!localeRecensitoUnaVolta) {
+                        ristorantiPossedutiRecensiti.put(recensione.getID(), assGestoreRistoranti.getRistorantePosseduto());
+                    } else {
+                        System.out.println("Ha raggiunto il massimo numero di risposte per le sue recensioni");
+                    }
                 }
             }
         }
+
         if (!ristorantiPossedutiRecensiti.isEmpty()) {
-            for (Integer  i: ristorantiPossedutiRecensiti.keySet()) {
+            for (Integer i : ristorantiPossedutiRecensiti.keySet()) {
                 System.out.println("ID: " + i);
                 System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i));
                 System.out.println("Recensione: " + recensioniMap.get(i).getTesto());
@@ -97,7 +108,7 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
             data = LocalDate.now();
             return new RispostaRecensioni(-1, idRif, username, testo, data);
         } else {
-            System.out.println("Nessun ristorante in suo possesso è stato recensito");
+            System.out.println("Nessun ristorante da recensire");
             return null;
         }
     }
@@ -105,26 +116,18 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
     @Override
     public boolean add(Gestore utente) {
         RispostaRecensioni rispostaRecensioni = chiedi(utente);
+        List<RispostaRecensioni> rispostaRecensioniList = new ArrayList<>();
+        rispostaRecensioniList.add(rispostaRecensioni);
         if (rispostaRecensioni != null) {
-            return rispostaRecensioniServ.add(rispostaRecensioni);
+            return rispostaRecensioniServ.add(rispostaRecensioniList);
         } else {
             return false;
         }
     }
 
     @Override
-    public RispostaRecensioni get(Gestore utente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean remove(Gestore utente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean put(Gestore utente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<RispostaRecensioni> get(Gestore utente) {
+        return rispostaRecensioniServ.get(utente.getUsername());
     }
 
     @Override
@@ -138,7 +141,17 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
     }
 
     @Override
-    public void visualizza(RispostaRecensioni valore) {
+    public void visualizza(List<RispostaRecensioni> valore) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean remove(Gestore chiave) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean put(Gestore chiave) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

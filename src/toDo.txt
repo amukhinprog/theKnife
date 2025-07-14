@@ -7,3 +7,4 @@ Verificare anche per altri input non corretti. Fare una interfaccia utente migli
 6) rimozione file e cartelle non utili per pulizia
 7) dare la possibilità all'utente di uscire premendo "0" in qualsiasi momento
 8)fare in modo che se l'utente in fase di registrazione usa un username già presente possa passare direttamente al login (opzionale)
+9) controllare le recensioni dei clienti
