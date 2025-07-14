@@ -53,11 +53,11 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, List<AssGestore
             return false;
         }
         if (assGestoreRistorantiServ.ristoranteGiaPossedutoDalGestore((Gestore) utente, ristorante)) {
-            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in suo possesso.");
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" e' gia' in suo possesso.");
             return false;
         }
         if (assGestoreRistorantiServ.ristoranteHaAltroProprietario((Gestore) utente, ristorante)) {
-            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in possesso da un altro gestore.");
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" e' gia' in possesso da un altro gestore.");
             return false;
         }
         AssGestoreRistoranti assGestoreRistoranti = new AssGestoreRistoranti(utente.getUsername(), ristorante.getNome());
@@ -65,7 +65,7 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, List<AssGestore
         assGestoreRistorantiList.add(assGestoreRistoranti);
         boolean b = assGestoreRistorantiServ.add(assGestoreRistorantiList);
         if (b) {
-            System.out.println("Il ristorante \"" + ristorante.getNome() + "\" è stato aggiunto alla tua lista.");
+            System.out.println("Il ristorante \"" + ristorante.getNome() + "\" e' stato aggiunto alla tua lista.");
         }
         return b;
     }
@@ -84,11 +84,11 @@ public class AssGestoreRistoranteUI implements ComandiUI<Utente, List<AssGestore
     public boolean put(Utente valore) {
         Ristorante ristorante = chiediRistorante();
         if (assGestoreRistorantiServ.ristoranteGiaPossedutoDalGestore((Gestore) valore, ristorante)) {
-            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in suo possesso.");
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" e' già in suo possesso.");
             return false;
         }
         if (assGestoreRistorantiServ.ristoranteHaAltroProprietario((Gestore) valore, ristorante)) {
-            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" è già in possesso da un altro gestore.");
+            System.out.println(" Il ristorante \"" + ristorante.getNome() + "\" e' già in possesso da un altro gestore.");
             return false;
         }
 

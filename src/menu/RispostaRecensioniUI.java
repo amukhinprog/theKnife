@@ -9,7 +9,6 @@ import entita.associazioni.AssGestoreRistoranti;
 import entita.associazioni.Recensione;
 import entita.associazioni.RispostaRecensioni;
 import entita.dominio.Gestore;
-import entita.dominio.Ristorante;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -41,13 +40,11 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
     }
 
     private RispostaRecensioni chiedi(Gestore utente) {
-        int ID;
         int idRif;
         String username = utente.getUsername();
         String testo;
         LocalDate data;
 
-//        System.out.println(recensioneServ.get());
         HashMap<Integer, Recensione> recensioniMap = recensioneServ.get();
         List<AssGestoreRistoranti> assGestoreRistorantiList = assGestoreRistorantiServ.get(username);
         if (assGestoreRistorantiList == null) {
@@ -63,24 +60,16 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
             }
         }
         if (!ristorantiPossedutiRecensiti.isEmpty()) {
-            for (Integer i : ristorantiPossedutiRecensiti.keySet()) {
+            for (Integer  i: ristorantiPossedutiRecensiti.keySet()) {
                 System.out.println("ID: " + i);
                 System.out.println("Nome: " + ristorantiPossedutiRecensiti.get(i));
                 System.out.println("Recensione: " + recensioniMap.get(i).getTesto());
             }
             int scelta = -1;
-            while (scelta != 0) {
+            do {
                 System.out.println("Scegliere uno tra questi ristoranti (ID) oppure 0 per annullare: ");
                 try {
                     scelta = scanner.nextInt();
-                    scanner.nextLine();
-                     if (scelta == 0) {
-                        System.out.println("Operazione annullata.");
-                        return null;  // User decided to cancel
-                    }
-                     if (!ristorantiPossedutiRecensiti.containsKey(scelta)) {
-                        System.out.println("ID non valido. Riprova.");
-                    }
                 } catch (NumberFormatException e) {
                     System.out.println("Input non valido. Inserire un numero.");
                     scanner.nextLine();
@@ -88,7 +77,15 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
                     System.out.println("Input interrotto. Operazione annullata.");
                     return null;
                 }
-            }
+                scanner.nextLine();
+                if (scelta == 0) {
+                    System.out.println("Operazione annullata.");
+                    return null;  // User decided to cancel
+                }
+                if (!ristorantiPossedutiRecensiti.containsKey(scelta)) {
+                    System.out.println("ID non valido. Riprova.");
+                }
+            } while (!ristorantiPossedutiRecensiti.containsKey(scelta));
             idRif = scelta;
             System.out.println("Scrivere una risposta: ");
             try {
@@ -100,6 +97,7 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, RispostaRecensio
             data = LocalDate.now();
             return new RispostaRecensioni(-1, idRif, username, testo, data);
         } else {
+            System.out.println("Nessun ristorante in suo possesso è stato recensito");
             return null;
         }
     }

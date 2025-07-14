@@ -44,7 +44,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
                 return null;
             }
             while (ristoranteServ.containsKey(nome)) {
-                System.out.println("Il nome del ristorante esiste già, riprova (o '0' per uscire): ");
+                System.out.println("Il nome del ristorante esiste gia', riprova (o '0' per uscire): ");
                 nome = scanner.nextLine();
                 if (nome.equals("0")) {
                     System.out.println("Uscita richiesta. Operazione annullata.");
@@ -157,7 +157,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             }
             System.out.println(tabella.toString());
         } else {
-            System.out.print("Non è presente nessun ristorante");
+            System.out.print("Non e' presente nessun ristorante");
         }
 
         System.out.println("\n");
