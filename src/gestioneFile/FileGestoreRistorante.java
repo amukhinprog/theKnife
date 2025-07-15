@@ -17,7 +17,7 @@ import repository.AssGestoreRistorantiService;
 
 public class FileGestoreRistorante extends GestioneFile<String, List<AssGestoreRistoranti>> {
 
-    protected static String percorsoFile = "..\\theKnife\\data\\username_ristoranti.csv";
+    protected static String percorsoFile = "..\\data\\username_ristoranti.csv";
 
     public static String getPercorsoFile() {
         return percorsoFile;

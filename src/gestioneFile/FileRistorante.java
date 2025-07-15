@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class FileRistorante extends GestioneFile<String, Ristorante> {
 
-    private static String percorsoFile = "..\\theKnife\\data\\michelin_my_maps2.csv";
+    private static String percorsoFile = "..\\data\\michelin_my_maps2.csv";
 
     private static List<List<String>> aggiungiEliminaCampi(List<List<String>> frasi) throws FileNotFoundException {
 

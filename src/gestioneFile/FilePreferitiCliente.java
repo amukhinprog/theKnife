@@ -20,7 +20,7 @@ import java.util.LinkedList;
  */
 public class FilePreferitiCliente extends GestioneFile<String, List<PreferitiCliente>> {
 
-    private static final String percorsoFile = "..\\theKnife\\data\\preferiti.csv";
+    private static final String percorsoFile = "..\\data\\preferiti.csv";
 
     public static String getPercorsoFile() {
         return percorsoFile;
