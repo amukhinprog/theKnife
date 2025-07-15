@@ -39,7 +39,6 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
         scanner.nextLine();
         System.out.println("Modifica la tua recensione");
         LocalDate data = LocalDate.now();
-        System.out.println("Scegli il numero di stelle (1-5): ");
         short stelle;
 
         while (true) {
@@ -130,17 +129,18 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
     @Override
     public boolean put(Utente utente) {
         visualizza(utente);
-        Recensione recensioneNuova = new Recensione();
+        Recensione recensioneNuova;
         System.out.println("Scegliere la recensione da modificare (ID): ");
         int sceltaID;
+        scanner.nextLine();
         try {
-            sceltaID = Integer.parseInt(scanner.nextLine());
+            sceltaID = scanner.nextInt();
         } catch (NumberFormatException | NoSuchElementException e) {
             System.out.println("ID non valido. Operazione annullata.");
             return false;
         }
-
-        recensioneNuova = modificaInformazioni(recServ.get().get(sceltaID));
+        Recensione recensioneVecchia = new Recensione (recServ.get().get(sceltaID));
+        recensioneNuova = modificaInformazioni(recensioneVecchia);
         return recServ.put(recensioneNuova.getID(), recensioneNuova);
     }
 
@@ -149,7 +149,7 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
         visualizza(utente);
         System.out.println("Scegliere la recensione da eliminare (ID): ");
         int sceltaID;
-
+        scanner.nextLine();
         try {
             sceltaID = Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException | NoSuchElementException e) {
@@ -182,6 +182,16 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
         }
     }
 
+    public void numeroRecensioni(Gestore gestore) {
+        System.out.println("Numero di recensioni: " + recServ.getNumeroRecensioni(gestore));
+    }
+
+    public List<Recensione> get(String nomeRistorante) {
+        List<Recensione> recensioneList = recServ.get(nomeRistorante);
+        visualizza(recensioneList);
+        return recensioneList;
+    }
+
     @Override
     public List<Recensione> get(Utente valore) {
         HashMap<Integer, Recensione> recensioniMap = recServ.get();
@@ -206,7 +216,7 @@ public class RecensioneUI implements ComandiUI<Utente, List<Recensione>> {
 
     @Override
     public void visualizza(Utente utente) {
-        List<Recensione> recensioniList = get(utente);   
+        List<Recensione> recensioniList = get(utente);
         visualizza(recensioniList);
     }
 

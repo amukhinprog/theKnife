@@ -1,10 +1,5 @@
 id,username,stelle,testo,data,ristorante recensito
-1,mferri,4,borghese e posto aristocratico,2025-06-28,Smyth
-"2,mferri,4,""mi è piaciuto, con servizio efficiente"",2025-06-28,Amador"
-3,eleonoracaredda,2,troppi uccelli,2025-06-28,Gabbiano 3.0
-4,ccosta,5,molto colorato,2025-06-30,Masa
-"5,sdeluca,2,""ristorante italiano, ma la cucina non mi e' piaciuta"",2025-06-30,Per Se"
-"6,vmarini,3,""Mi e' piaciuto molto, ma lunga attesa"",2025-06-30,Noor"
-"7,sdeluca,1,""Servizio molto lento, personale non cordiale!"",2025-06-30,Masa"
-8,degio12,1,ristorante molto sporco,2025-07-01,Arzak
-9,mferri,2,tipico del posto,2025-07-14,Noor
+1,eleonoracaredda,5,"""locale molto borghese, prezzi onesti""",2025-07-15,Amador
+2,mferri,4,troppi uccelli in giro,2025-07-15,Gabbiano 3.0
+3,mferri,4,non mi e' piaciuto,2025-07-15,Arzak
+4,eleonoracaredda,4,"prezzi onesti, consiglio vivamente",2025-07-15,Smyth

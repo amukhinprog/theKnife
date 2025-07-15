@@ -56,11 +56,16 @@ public class RispostaRecensioniUI implements ComandiUI<Gestore, List<RispostaRec
         for (AssGestoreRistoranti assGestoreRistoranti : assGestoreRistorantiList) {
             for (Recensione recensione : recensioniMap.values()) {
                 if ((recensione.getRistoranteRecensito().compareTo(assGestoreRistoranti.getRistorantePosseduto())) == 0) {
-                    for (RispostaRecensioni rispostaRecensioni : rispostaRecensioniServ.get(username)) {
-                        if (rispostaRecensioni.getIdRif() == recensione.getID()) {
-                            localeRecensitoUnaVolta = true;
+                    try {
+                        for (RispostaRecensioni rispostaRecensioni : rispostaRecensioniServ.get(username)) {
+                            if (rispostaRecensioni.getIdRif() == recensione.getID()) {
+                                localeRecensitoUnaVolta = true;
+                            }
                         }
+                    } catch (NullPointerException e) {
+                        System.out.println("Non ha mai risposto ad una recensione");
                     }
+
                     if (!localeRecensitoUnaVolta) {
                         ristorantiPossedutiRecensiti.put(recensione.getID(), assGestoreRistoranti.getRistorantePosseduto());
                     } else {

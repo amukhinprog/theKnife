@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -18,7 +18,9 @@ import java.util.List;
 
 /**
  * Servizio per la gestione della logica di business legata alle recensioni.
- * Offre metodi per aggiungere recensioni, calcolare medie e gestire la persistenza.
+ * Offre metodi per aggiungere recensioni, calcolare medie e gestire la
+ * persistenza.
+ *
  * @author armuh
  */
 public class RecensioneService extends HashMapService<Integer, Recensione> {
@@ -28,48 +30,54 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
     private AssGestoreRistorantiService assGestoreRistorantiServ = new AssGestoreRistorantiService();
     private static int ID = getID();
 
-/**
- * Calcola la media delle valutazioni (stelle) per un singolo ristorante.
- * @param r Il ristorante di cui calcolare la media. Non può essere nullo.
- * @return La media delle stelle come numero in virgola mobile, o 0 se non ci sono recensioni.
- */
-    public float mediaStelle(Ristorante r) {
+    /**
+     * Calcola la media delle valutazioni (stelle) per un singolo ristorante.
+     *
+     * @param ristorante Il ristorante di cui calcolare la media. Non può essere
+     * nullo.
+     * @return La media delle stelle come numero in virgola mobile, o 0 se non
+     * ci sono recensioni.
+     */
+    public float mediaStelle(String ristorante) {
         int somma = 0;
         int ripetizioni = 0;
-        String nome = r.getNome();
         for (Recensione recensione : map.values()) {
-            if (recensione.getRistoranteRecensito().equals(nome)) {
+            if (recensione.getRistoranteRecensito().equals(ristorante)) {
                 somma += recensione.getStelle();
                 ripetizioni++;
             }
         }
         try {
-         if (ripetizioni == 0) {
+            if (ripetizioni == 0) {
                 throw new ArithmeticException("Il ristorante non ha recensioni.");
             }
             return (float) (somma / ripetizioni);
         } catch (ArithmeticException e) {
             System.out.println(e.getMessage());
-            return 0; 
+            return 0;
         }
     }
 
     public double mediaStelle() {
         if (map == null || map.isEmpty()) {
-            return 0.0;  
+            return 0.0;
         }
 
         double somma = 0.0;
         for (Recensione r : map.values()) {
-            somma += r.getStelle();  
+            somma += r.getStelle();
         }
         return somma / map.size();
     }
-/**
- * Calcola la media delle stelle per ogni ristorante posseduto da un dato gestore.
- * @param gestore Il gestore per cui calcolare le medie.
- * @return Una mappa che associa ogni Ristorante del gestore alla sua media di stelle.
- */
+
+    /**
+     * Calcola la media delle stelle per ogni ristorante posseduto da un dato
+     * gestore.
+     *
+     * @param gestore Il gestore per cui calcolare le medie.
+     * @return Una mappa che associa ogni Ristorante del gestore alla sua media
+     * di stelle.
+     */
     public HashMap<String, Float> mediaStelle(Gestore gestore) {
         HashMap<String, Float> mediaStelleMap = new HashMap<>();
         List<AssGestoreRistoranti> assGestoreRistoranteList = new ArrayList<>();
@@ -86,7 +94,7 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
             int somma = 0;
             int count = 0;
             mediaStelle = 0;
-            
+
             for (Recensione recensione : map.values()) {
                 if (recensione.getRistoranteRecensito().equals(ristoranteP)) {
                     somma += recensione.getStelle();
@@ -101,13 +109,31 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
             } catch (ArithmeticException e) {
                 System.out.println("Il ristorante non ha recensioni");
             }
-            
+
             mediaStelleMap.put(ristoranteP, mediaStelle);
             sommaTot += somma;
             countTot++;
         }
         //da completare
         return mediaStelleMap;
+    }
+
+    public int getNumeroRecensioni(Gestore gestore) {
+        List<AssGestoreRistoranti> assGestoreRistoranteList = new ArrayList<>();
+        try {
+            assGestoreRistoranteList = assGestoreRistorantiServ.get(gestore.getUsername());
+        } catch (NullPointerException e) {
+            System.out.println("Errore: Gestore o ristoranti non trovati.");
+        }
+        int count = 0;
+        for (AssGestoreRistoranti assGestoreRistoranti : assGestoreRistoranteList) {
+            for (Recensione recensione : map.values()) {
+                if (recensione.getRistoranteRecensito().equals(assGestoreRistoranti.getRistorantePosseduto())) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     @Override
@@ -140,6 +166,16 @@ public class RecensioneService extends HashMapService<Integer, Recensione> {
         map.put(chiave, valore);
         scrittura(valore);
         return true;
+    }
+
+    public List<Recensione> get(String nomeRistorante) {
+        List<Recensione> recensioniList = new ArrayList<>();
+        for (Recensione recensione : map.values()) {
+            if (recensione.getRistoranteRecensito().equals(nomeRistorante)) {
+                recensioniList.add(recensione);
+            }
+        }
+        return recensioniList;
     }
 
     @Override

@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -74,8 +74,8 @@ public class FileRecensioni extends GestioneFile<Integer, Recensione> {
             recensioneLista.add("\"" + recensione.getTesto() + "\"");
             recensioneLista.add(recensione.getData().toString());
             recensioneLista.add(recensione.getRistoranteRecensito());
+            recensioniLista.add(recensioneLista);
         }
-        recensioniLista.add(recensioneLista);
         GestioneFile.sovraScrivi(percorsoFile, recensioniLista);
     }
 

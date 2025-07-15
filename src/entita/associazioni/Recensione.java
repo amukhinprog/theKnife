@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -6,16 +6,19 @@
 package entita.associazioni;
 
 /**
- * Rappresenta una recensione scritta da un Utente per un Ristorante.
- * Agisce come classe di associazione, collegando un utente e un ristorante
- * e aggiungendo informazioni specifiche come le stelle e il testo.
+ * Rappresenta una recensione scritta da un Utente per un Ristorante. Agisce
+ * come classe di associazione, collegando un utente e un ristorante e
+ * aggiungendo informazioni specifiche come le stelle e il testo.
+ *
  * @author Nikoro02
  */
 import entita.Associazione;
 import entita.Dominio;
+import entita.dominio.Ristorante;
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class Recensione implements Dominio, Associazione{
+public class Recensione implements Dominio, Associazione {
 
     private int ID;
     private String username;
@@ -33,8 +36,41 @@ public class Recensione implements Dominio, Associazione{
         this.ristoranteRecensito = ristoranteRecensito;
     }
 
-    public Recensione() {
+    public Recensione(Recensione recensione) {
+        this.ID = recensione.getID();
+        this.username = recensione.getUsername();
+        this.stelle = recensione.getStelle();
+        this.testo = recensione.getTesto();
+        this.data = recensione.getData();
+        this.ristoranteRecensito = recensione.getRistoranteRecensito();
+    }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Recensione recensione = (Recensione) obj;
+        return this.ID == recensione.getID() && this.ristoranteRecensito.equals(recensione.ristoranteRecensito)
+                && this.testo.equals(recensione.getTesto()) && this.username.equals(recensione.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + this.ID;
+        hash = 47 * hash + Objects.hashCode(this.username);
+        hash = 47 * hash + Objects.hashCode(this.testo);
+        hash = 47 * hash + Objects.hashCode(this.ristoranteRecensito);
+        return hash;
     }
 
     public String getUsername() {
@@ -80,7 +116,8 @@ public class Recensione implements Dominio, Associazione{
     public void setRistoranteRecensito(String ristoranteRecensito) {
         this.ristoranteRecensito = ristoranteRecensito;
     }
-    public void setTesto(String testo){
+
+    public void setTesto(String testo) {
         this.testo = testo;
     }
 }

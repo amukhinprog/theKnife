@@ -1,4 +1,4 @@
-/**Mukhin Artur 760942 CO
+/** Mukhin Artur 760942 CO
  * De Giorgi Filippo 762388 CO
  * Magrin Nicolò 752721 CO
  * Caredda Anna Eleonora 762576 CO
@@ -9,10 +9,13 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * La classe astratta definisce i metodi dell'interfaccia Service.
- * E' una classe fondamentale poichè la gestione delle 4 operazioni
- * principali è definita in questa classe.
+ * La classe astratta definisce i metodi dell'interfaccia Service.E' una classe
+ * fondamentale poichè la gestione delle 4 operazioni principali è definita in
+ * questa classe.
+ *
  * @author armuh
+ * @param <K>
+ * @param <V>
  */
 public abstract class HashMapService<K, V> implements Service<K, V> {
 
@@ -44,15 +47,13 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
 
     @Override
     public boolean put(K chiave, V valore) {
-        V v;
         if (map.get(chiave).equals(valore)) {
-            v = valore;
+            return false;
         } else {
             map.put(chiave, valore);
-            v = null;
             sovrascrittura(map);
         }
-        return v != null;
+        return true;
     }
 
     public void set(HashMap<K, V> map) {
@@ -70,26 +71,34 @@ public abstract class HashMapService<K, V> implements Service<K, V> {
     public Collection<V> values() {
         return map.values();
     }
-/**
- * Specifica quale chiave ottenere da ogni oggetti. Ogni oggetto ha una chiave diversa
- * per questo bisogna implementare diversamente il metodo.
- * @param valore
- * @return K
- */
+
+    /**
+     * Specifica quale chiave ottenere da ogni oggetti. Ogni oggetto ha una
+     * chiave diversa per questo bisogna implementare diversamente il metodo.
+     *
+     * @param valore
+     * @return K
+     */
     protected abstract K getKey(V valore);
-/**
- * Specifica da quale file bisogna leggere le informazioni
- * @return HashMap<K, V>
- */
+
+    /**
+     * Specifica da quale file bisogna leggere le informazioni
+     *
+     * @return HashMap<K, V>
+     */
     protected abstract HashMap<K, V> lettura();
-/**
- * Specifica da quale file bisogna scrivere le informazioni
- * @param valore 
- */
+
+    /**
+     * Specifica da quale file bisogna scrivere le informazioni
+     *
+     * @param valore
+     */
     protected abstract void scrittura(V valore);
-/**
- * Specifica da quale file bisogna scrivere da capo le informazioni
- * @param map 
- */
+
+    /**
+     * Specifica da quale file bisogna scrivere da capo le informazioni
+     *
+     * @param map
+     */
     protected abstract void sovrascrittura(HashMap<K, V> map);
 }

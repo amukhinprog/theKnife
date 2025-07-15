@@ -58,6 +58,7 @@ public class GestioneMenu {
                 } catch (InputMismatchException e) {
                     System.out.println("Errore: inserire un numero valido. \n");
                     scanner.nextLine();
+                    valido = false;
                 }
             } while (!valido);
 
@@ -113,6 +114,7 @@ public class GestioneMenu {
                 } catch (InputMismatchException e) {
                     System.out.println("Errore: inserire un numero valido. \n");
                     scanner.nextLine();
+                    valido = false;
                 }
             } while (!valido);
             switch (scelta) {
@@ -135,7 +137,7 @@ public class GestioneMenu {
         do {
             System.out.println("1. Aggiungi ristorante di proprieta\' (esistenti nel database)");
             System.out.println("2. Ricerca ristoranti");
-            System.out.println("3. Visualizza media valutazioni");
+            System.out.println("3. Visualizza media e il numero di valutazioni");
             System.out.println("4. Rispondi alle recensioni");
             System.out.println("5. Visualizza i tuoi ristoranti");
             System.out.println("0. Esci");
@@ -158,6 +160,7 @@ public class GestioneMenu {
                     break;
                 case 3:
                     recensioneUI.mediaStelle(utente);
+                    recensioneUI.numeroRecensioni(utente);
                     break;
                 case 4:
                     rispostaRecensioniUI.add(utente);
@@ -196,6 +199,7 @@ public class GestioneMenu {
                 } catch (RuntimeException e) {
                     System.out.println("Errore: inserire un numero valido. \n");
                     scanner.nextLine();
+                    valido = false;
                 }
             } while (!valido);
 

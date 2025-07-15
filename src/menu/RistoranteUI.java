@@ -18,8 +18,9 @@ import java.util.NoSuchElementException;
 import repository.RecensioneService;
 
 /**
- * Gestisce l'interfaccia utente per la ricerca e la visualizzazione dei ristoranti,
- * offrendo diversi criteri di filtraggio.
+ * Gestisce l'interfaccia utente per la ricerca e la visualizzazione dei
+ * ristoranti, offrendo diversi criteri di filtraggio.
+ *
  * @author armuh
  */
 public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
@@ -169,10 +170,12 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             System.out.println("Media stelle: " + map.get(r) + "\n\n");
         }
     }
-/**
- * Mostra un menu all'utente per scegliere un criterio di ricerca per i ristoranti
- * (es. per locazione, cucina, prezzo) e avvia la ricerca corrispondente.
- */
+
+    /**
+     * Mostra un menu all'utente per scegliere un criterio di ricerca per i
+     * ristoranti (es. per locazione, cucina, prezzo) e avvia la ricerca
+     * corrispondente.
+     */
     public void cerca() {
         int scelta;
         System.out.println("Inserire 1 per cercare un ristorante per locazione");
@@ -219,6 +222,14 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             default:
                 System.out.println("Scegliere l'opzione corretta");
                 break;
+        }
+        System.out.println("Per vedere le recensioni di un ristorante, scrivere il il nome ");
+        System.out.println("Oppure inserire 0 per uscire");
+        String nomeRistorante = scanner.nextLine();
+        if (nomeRistorante.charAt(0) != '0') {
+            System.out.println(recensioneServ.mediaStelle(nomeRistorante));
+            RecensioneUI recensioneUI = new RecensioneUI(scanner, recensioneServ, ristoranteServ);
+            recensioneUI.get(nomeRistorante);
         }
     }
 
@@ -360,9 +371,9 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
             String nomeRistorante = recensione.getRistoranteRecensito();
             Ristorante ristorante = ristoranteServ.get(nomeRistorante);
             if (!recensioniMediaMap.containsKey(ristorante)
-                    && recensioneServ.mediaStelle(ristorante) > media - 0.5
-                    && recensioneServ.mediaStelle(ristorante) < media + 0.5) {
-                recensioniMediaMap.put(ristorante, recensioneServ.mediaStelle(ristorante));
+                    && recensioneServ.mediaStelle(ristorante.getNome()) > media - 0.5
+                    && recensioneServ.mediaStelle(ristorante.getNome()) < media + 0.5) {
+                recensioniMediaMap.put(ristorante, recensioneServ.mediaStelle(ristorante.getNome()));
             }
         }
         return recensioniMediaMap;
@@ -472,8 +483,7 @@ public class RistoranteUI implements ComandiUISenzaParametri<Ristorante> {
 
     @Override
     public void visualizza(Ristorante valore) {
-        List<Ristorante> ristoranteList = new ArrayList<>();
-        ristoranteList.add(valore);
+        System.out.println("Nome: " + valore.getNome());
     }
 
 }
