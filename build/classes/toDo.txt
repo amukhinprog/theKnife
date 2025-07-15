@@ -1,0 +1,10 @@
+1) gestione degli errori in input. Per esempio quando l'utente preme ctrl+c viene lanciata l'eccezione NoSuchElement.
+Verificare anche per altri input non corretti. Fare una interfaccia utente migliore (capibile per una nonna).
+2) Realizzare la javadoc
+3) Ricerca dei ristoranti per combinazione dei criteri di ricerca (slide specifiche progetto pag. 9)
+4) Visualizzare i ristoranti che un gestore/utente ha.
+5) Utilizzare un linguaggio coerente nel manuale utente. Utilizzare uno standard per la scrittura dei manuali (cosa relativa)
+6) rimozione file e cartelle non utili per pulizia
+7) dare la possibilità all'utente di uscire premendo "0" in qualsiasi momento
+8)fare in modo che se l'utente in fase di registrazione usa un username già presente possa passare direttamente al login (opzionale)
+9) controllare le recensioni dei clienti
