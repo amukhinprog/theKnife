@@ -8,6 +8,7 @@ package menu;
 /**
  *
  * @author armuh
+ * @param <V>
  */
 public interface ComandiUISenzaParametri<V> extends ComandiBaseUI<V> {
 
